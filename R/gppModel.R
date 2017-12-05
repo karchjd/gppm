@@ -193,3 +193,11 @@ gppModel <- function(meanFunction,covFunction,myData){
   class(gpModel) <- 'GPPM'
   return(gpModel)
 }
+
+#' @export
+gppSetStart <- function(model,labels,values){
+  stopifnot(class(model)=="GPPM")
+  model$startParas[labels] <- values
+  model$omx <- omxSetParameters(model$omx,labels=paste0('GPPM.',labels,'[1,1]'),values=values)
+  return(model)
+}

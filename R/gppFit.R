@@ -1,9 +1,9 @@
 #' @export
-gppFit <- function(gpModel){
+gppFit <- function(gpModel,...){
   stopifnot(class(gpModel)=='GPPM')
   #fit
   fittedModel <- gpModel
-  fittedModel$omx <- mxRun(gpModel$omx,silent=TRUE)
+  fittedModel$omx <- mxRun(gpModel$omx,silent=TRUE,...)
 
   #get ML pars out
   omxParas <- omxGetParameters(fittedModel$omx)

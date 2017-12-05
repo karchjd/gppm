@@ -2,7 +2,7 @@ require(gppmr)
 
 
 ##settings
-nT <- 20 #number of time points
+nT <- 100 #number of time points
 
 ##define autoregressive model using SEM software
 arModel <- generateAR(nT)
