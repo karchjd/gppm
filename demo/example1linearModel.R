@@ -30,3 +30,4 @@ gpModel <- gppFit(gpModel)
 coefSame <- all.equal(parasLM[1:2],gpModel$mlParas[1:2],check.attributes = FALSE,tolerance = 0.0001)
 message(sprintf('Coefficients of linear model are the same: %s',coefSame))
 #residual variances, i.e. parasLM[3] and parasGPPM[3] are not the same  because GPPM uses ML for parameter estimation and lm OLS
+

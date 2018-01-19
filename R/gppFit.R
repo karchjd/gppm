@@ -3,7 +3,8 @@ gppFit <- function(gpModel,...){
   stopifnot(class(gpModel)=='GPPM')
   #fit
   fittedModel <- gpModel
-  fittedModel$omx <- mxRun(gpModel$omx,silent=TRUE,unsafe=TRUE,...)
+  fittedModel$omx <- mxModel(fittedModel$omx,mxCI(names(c(omxGetParameters(fittedModel$omx)))))
+  fittedModel$omx <- mxRun(fittedModel$omx,silent=TRUE,unsafe=TRUE,intervals = TRUE,...)
 
   #get ML pars out
   omxParas <- omxGetParameters(fittedModel$omx)
@@ -12,3 +13,4 @@ gppFit <- function(gpModel,...){
   fittedModel$mll <- summary(fittedModel$omx)$Minus2LogLikelihood
   return(fittedModel)
 }
+

@@ -109,7 +109,6 @@ generateCov <- function(sIndex,tIndex,covFunction,covVars){
 #' @import OpenMx
 gppModel <- function(meanFunction,covFunction,myData){
   ##create empty open mx model
-  N <- nrow(data)
   yColsOrig <- names(myData)[grep("Y[[:digit:]]+",names(myData))]
   yCols <- gsub('Y','',yColsOrig)
   yCols <- as.double(yCols)
@@ -188,7 +187,7 @@ gppModel <- function(meanFunction,covFunction,myData){
   #init gpModel object
   startParas <- c(startMean,startCov)
   names(startParas) <- c(parsedModel$meanPars,parsedModel$covPars)
-  gpModel <- list(omx=model,mf=meanFunction,cf=covFunction,data=myData,startParas=startParas,mlParas=startParas,mll=NULL)
+  gpModel <- list(omx=model,mf=meanFunction,cf=covFunction,data=myData,startParas=startParas,mlParas=startParas,mll=NULL,parsedModel=parsedModel,data=myData)
   gpModel$mlParas[1:length(gpModel$mlParas)] <-NA
   class(gpModel) <- 'GPPM'
   return(gpModel)

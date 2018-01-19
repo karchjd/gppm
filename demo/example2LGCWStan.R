@@ -24,6 +24,8 @@ require(MASS)
   gpModel <- gppModel('muI+muS*t','varI+covIS*(t+t!)+varS*t*t!+omxApproxEquals(t,t!,0.0001)*sigma',myData)
   gpModelFit <- gppFit(gpModel)
 
+  #fit data using STAN
+
   ##compare results
   lgcmSame <- all.equal(gpModelFit$mlParas,omxGetParameters(semModel)[names(gpModelFit$mlParas)],check.attributes=FALSE,tolerance=0.0001)
   message(sprintf('Estimated parameters for the LGCM model are the same: %s',lgcmSame))

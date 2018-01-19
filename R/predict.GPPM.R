@@ -1,27 +1,43 @@
-#
-# getObsMoments <- function(model,i){
-#   mxGetExpected(model$omx,c('means','covariance'),defvar.row = i)
-# }
-#
-# predict.GPPM<- function(model,i,myData){
-#   ##get mean and covariance matrices
-#   #auto covariance observed
-#
-#   #covariance observed
-#   tmp <- getObsMoments(model,i)
-#   covObs <- tmp$covariances
-#
-#   #mean observed
-#   meanObs <- tmp$means
-#
-#   #auto covariance new
-#   covNew <- getCovNew(model,myData,mode='auto')
-#   #mean new
-#   meanNew <- getMeanNew(model,myData)
-#
-#   #cross covariance
-#   covObsNew <- getCovNew(model,myData,mode='cross')
-#
-#
-#   ##get predictions
-# }
+# preds <- predict.GPPM(gpModel,1,newData)
+#' @export
+predictGPPM<- function(gpModel,i,newData){
+  #update model
+  dataUpdate <- cbind(gpModel$data[i,],newData)
+  newModel <- gppModel(gpModel$mf,gpModel$cf,dataUpdate)
+  newModel <- gppSetStart(newModel,names(gpModel$mlParas),gpModel$mlParas)
+  newModel<- gppFit(newModel,useOptimizer=FALSE)
+
+  ##get mean and covariance matrices
+  Ysel <- rep(FALSE,ncol(gpModel$data))
+  Ysel[grep("Y[[:digit:]]+",names(gpModel$data))] <- TRUE #mark Y cols
+  availOldYs <- Ysel & !is.na(gpModel$data[i,]) #mark non na Y cols
+  oldYs <- names(gpModel$data)[availOldYs]
+  newYs <- names(newData)[grep("Y[[:digit:]]+",names(newData))]
+
+  #mean old
+  meanCov <- mxGetExpected(newModel$omx,c('means','covariance'),defvar.row = i)
+  browser()
+  fullMean <- meanCov$means
+  fullCov <- meanCov$covariance
+
+  mOld <- t(t(fullMean[1,oldYs]))
+  mNew <- t(t(fullMean[1,newYs]))
+
+  cOld <- fullCov[oldYs,oldYs]
+  cNew <- fullCov[newYs,newYs]
+
+  cOldInv <- solve(cOld)
+
+  crossNewOld <- fullCov[newYs,oldYs]
+  crossOldNew <- fullCov[oldYs,newYs]
+  browser()
+  stopifnot(identical(crossNewOld,t(crossOldNew)))
+
+  y <- t(gpModel$data[i,oldYs])
+  #calculate
+  predMean <- mNew + crossNewOld %*% cOldInv %*% (y-mOld)
+  predCov <- cNew + crossNewOld %*% cOldInv %*% crossOldNew
+  resList <- list(predMean=predMean,predCov=predCov)
+  class(resList) <- 'GPPM.pred'
+  return(resList)
+}
