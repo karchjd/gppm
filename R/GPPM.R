@@ -1,0 +1,46 @@
+new_GPPM <- function(mFormula,kFormula,myData){
+  stopifnot(is.character(mFormula))
+  stopifnot(is.character(kFormula))
+  stopifnot(is.data.frame(myData))
+
+  structure(list(
+    mFormula=mFormula, #formula for the mean
+    kFormula=kFormula, #formula for the covariance
+    data=myData,       #data must be a data frame
+    parsedModel=NA,    #model in a parsed format
+    dataForStan=NA,    #data as used for stan
+    stanCode=NA,       #generated stan code
+    stanOut =NA,       #stan output
+    fitRes=NA          #all the fitting results
+  ),class='GPPM')
+}
+
+
+
+parseModel <- function()
+
+
+convertData <- function()
+#' @export
+#' @import rstan
+gppModel <- function(meanFunction,covFunction,myData){
+  theModel <- new_GPPModel(meanFunction,covFunction,myData)
+
+  theModel$dataForStan <-
+
+  theModel$parsedModel <- parseModel(theModel$meanFunction,theModel$covFunction,theModel$data)
+
+  stuffForStan <- toStan(theModel$parsedModel,theModel$data)
+
+  theModel$stanCode <- stuffForStan$stanCode
+
+
+  theModel$stanOut <- fitStan(theModel$stanCode,theModel$dataForStan)
+
+  theModel$fitRes <- fromStan(theModel$stanOut)
+
+  return(theModel)
+}
+
+
+

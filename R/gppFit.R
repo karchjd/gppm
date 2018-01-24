@@ -1,6 +1,6 @@
 #' @export
 gppFit <- function(gpModel,...){
-  stopifnot(class(gpModel)=='GPPM')
+  stopifnot(class(gpModel)=='GPPMOld')
   #fit
   fittedModel <- gpModel
   fittedModel$omx <- mxModel(fittedModel$omx,mxCI(names(c(omxGetParameters(fittedModel$omx)))))
