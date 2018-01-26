@@ -10,7 +10,7 @@ convertFromWide <- function(myData){
       counter <- counter + 1
       }
     }
-    return(res)
+    structure(res,class=c('longData',class(myData)),ID='ID',DV='Y')
 }
 
 require(gppmr)
@@ -37,7 +37,7 @@ require(MASS)
 
   ##fit data using GPPMOld
   gpModel <- gppModelOld('muI+muS*t','varI+covIS*(t+t!)+varS*t*t!+omxApproxEquals(t,t!,0.0001)*sigma',myData)
-  gpModelFit <- gppFit(gpModel)
+  # gpModelFit <- gppFit(gpModel)
 
   ##fit data using GPPMNew
   longData <- convertFromWide(myData)
@@ -45,5 +45,5 @@ require(MASS)
   gpModel <- gppModel('muI+IQ+muS*t','varI+covIS*(t+t!)+varS*t*t!+(t==t!)*sigma',longData)
 
   ##compare results
-  lgcmSame <- all.equal(gpModelFit$mlParas,omxGetParameters(semModel)[names(gpModelFit$mlParas)],check.attributes=FALSE,tolerance=0.0001)
-  message(sprintf('Estimated parameters for the LGCM model are the same: %s',lgcmSame))
+  # lgcmSame <- all.equal(gpModelFit$mlParas,omxGetParameters(semModel)[names(gpModelFit$mlParas)],check.attributes=FALSE,tolerance=0.0001)
+  # message(sprintf('Estimated parameters for the LGCM model are the same: %s',lgcmSame))

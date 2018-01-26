@@ -15,29 +15,21 @@ new_GPPM <- function(mFormula,kFormula,myData){
   ),class='GPPM')
 }
 
-
-
-parseModel <- function()
-
-
-convertData <- function()
 #' @export
 #' @import rstan
 gppModel <- function(meanFunction,covFunction,myData){
-  theModel <- new_GPPModel(meanFunction,covFunction,myData)
-
-  theModel$dataForStan <-
-
-  theModel$parsedModel <- parseModel(theModel$meanFunction,theModel$covFunction,theModel$data)
-
-  stuffForStan <- toStan(theModel$parsedModel,theModel$data)
-
-  theModel$stanCode <- stuffForStan$stanCode
-
-
-  theModel$stanOut <- fitStan(theModel$stanCode,theModel$dataForStan)
-
-  theModel$fitRes <- fromStan(theModel$stanOut)
+  theModel <- new_GPPM(meanFunction,covFunction,myData)
+  theModel$dataForStan <- as_StanData(myData)
+  # theModel$parsedModel <- parseModel(theModel$meanFunction,theModel$covFunction,theModel$data)
+  #
+  # stuffForStan <- toStan(theModel$parsedModel,theModel$data)
+  #
+  # theModel$stanCode <- stuffForStan$stanCode
+  #
+  #
+  # theModel$stanOut <- fitStan(theModel$stanCode,theModel$dataForStan)
+  #
+  # theModel$fitRes <- fromStan(theModel$stanOut)
 
   return(theModel)
 }
