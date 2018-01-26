@@ -9,14 +9,7 @@ newSeq <- function(from,to){
 
 #returns  the names of the parameters as string vectors and adds dollars to all stuff the needs to be replace, that is stuff in the data
 
-betterRegMatches <- function(modString,resGreg,value=' '){
-  stopifnot(length(resGreg)==1)
-  resGreg <- resGreg[[1]]
-  for (i in 1:length(resGreg)){
-    substr(modString,resGreg[i],resGreg[i]+attributes(resGreg)$match.length[i]-1) <- paste0(rep(value,attributes(resGreg)$match.length[i]),collapse = '')
-  }
-  return(modString)
-}
+
 
 mParse <- function(meanFunction,myData){
   specialChar <- '!'
@@ -67,7 +60,7 @@ mParse <- function(meanFunction,myData){
   return(list(params=params,modelF=meanReturn,vars=vars))
 }
 
-parseModel <- function(meanFunction,covFunction,myData){
+parseModelOld <- function(meanFunction,covFunction,myData){
   #parse kernel function
   covRes <- mParse(covFunction,myData)
 
@@ -121,7 +114,7 @@ gppModelOld <- function(meanFunction,covFunction,myData){
                    mxData(myData,type="raw"))
 
   #parse the model strings
-  parsedModel <- parseModel(meanFunction,covFunction,myData)
+  parsedModel <- parseModelOld(meanFunction,covFunction,myData)
   #add matrices to openmx model, so that data can be accessed from within algebras
   for (cVar in union(parsedModel$meanVars,parsedModel$covVars)){
     model <- mxModel(model,mxMatrix(type='Full',nrow=1,ncol=maxColNumber,labels=paste0("data.",cVar,1:maxColNumber),name=cVar))

@@ -17,10 +17,10 @@ new_GPPM <- function(mFormula,kFormula,myData){
 
 #' @export
 #' @import rstan
-gppModel <- function(meanFunction,covFunction,myData){
-  theModel <- new_GPPM(meanFunction,covFunction,myData)
+gppModel <- function(mFormula,kFormula,myData){
+  theModel <- new_GPPM(mFormula,kFormula,myData)
   theModel$dataForStan <- as_StanData(myData)
-  # theModel$parsedModel <- parseModel(theModel$meanFunction,theModel$covFunction,theModel$data)
+  theModel$parsedModel <- parseModel(theModel$mFormula,theModel$kFormula,theModel$dataForStan)
   #
   # stuffForStan <- toStan(theModel$parsedModel,theModel$data)
   #

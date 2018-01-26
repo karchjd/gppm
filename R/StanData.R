@@ -51,6 +51,7 @@ as_StanData.longData <- function(myData, ...) {
   maxTime <- max(nTime)
   nPreds <- ncol(myData)-2
 
+
   ##real data out
   #init
   xMatrices <- matrix(data=fakeData,nrow=maxTime,ncol=nPreds)
