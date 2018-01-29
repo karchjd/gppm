@@ -8,7 +8,7 @@ data{
 }
 
 parameters{
-  real paras;
+  <parameters>
 }
 
 transformed parameters{
@@ -16,18 +16,18 @@ transformed parameters{
   matrix[maxTime,maxTime] Sigma[nPer];
   matrix[maxTime,maxTime] cholSigma[nPer];
   for (i in 1:nPer){
-    mu[i] = <meanfunction>;
     for(j in 1:nTime[i]){
+          mu[i,j] = <meanfunction>;
       for(k in 1:nTime[i]){
         Sigma[i,j,k] = <covfunction>;
       }
     }
-    L[i,1:nTime[i],1:nTime[i]] = cholesky_decompose(Sigma[i,1:nTime[i],1:nTime[i]]);
+    cholSigma[i,1:nTime[i],1:nTime[i]] = cholesky_decompose(Sigma[i,1:nTime[i],1:nTime[i]]);
   }
 }
 
 model{
   for (i in 1:nPer){
-    Y[i,1:nTime[i]] ~  multi_normal_cholesky(mu[i,1:nTime[i]], L[i,1:nTime[i],1:nTime[i]]);
+    Y[i,1:nTime[i]] ~  multi_normal_cholesky(mu[i,1:nTime[i]], cholSigma[i,1:nTime[i],1:nTime[i]]);
   }
 }

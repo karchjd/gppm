@@ -81,6 +81,7 @@ extractStuff <- function(stanRes,name,index){
      dataForStan <- list(X=newLists$Xlist,Y=newLists$Ylist,N=nrow(yMatrix),P=newLists$measuresPerPerson,maxP=max(newLists$measuresPerPerson))
      tic()
      stanRes <- optimizing(theModel,dataForStan,hessian = TRUE)
+     browser()
      stanCov <- solve(-stanRes$hessian)
      stanRes$data <- dataForStan
      toc()

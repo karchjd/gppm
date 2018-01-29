@@ -11,7 +11,7 @@ new_ParsedModel <- function(params,mFormula,kFormula){
   )
 }
 
-validate_input <- function(mFormula,kFormula,myData){
+validate_parseModel <- function(mFormula,kFormula,myData){
   stopifnot(is.character(mFormula)&&length(kFormula)==1) #string containing the mean function
   stopifnot(is.character(mFormula)&&length(kFormula)==1) #string containing the covariance function
   stopifnot(class(myData)=='StanData') #data set
@@ -110,7 +110,7 @@ parseFormula <- function(myFormula,myData){
 }
 
 parseModel <- function(mFormula,kFormula,myData){
-  validate_input(mFormula,kFormula,myData)
+  validate_parseModel(mFormula,kFormula,myData)
   meanRes <- parseFormula(mFormula,myData)
   covRes <- parseFormula(kFormula,myData)
   allParams <- union(meanRes$params,covRes$params)
