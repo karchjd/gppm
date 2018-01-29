@@ -1,4 +1,0 @@
-
-parameterEstimates <- function(gpFit){
-
-}

@@ -43,7 +43,7 @@ require(MASS)
   longData <- convertFromWide(myData)
   longData$IQ <- 0
   gpModel <- gppModel('muI+IQ+muS*t','varI+covIS*(t+t!)+varS*t*t!+(t==t!)*sigma',longData)
-  fit(gpModel)
+  fitted <- fit(gpModel)
 
   ##compare results
   # lgcmSame <- all.equal(gpModelFit$mlParas,omxGetParameters(semModel)[names(gpModelFit$mlParas)],check.attributes=FALSE,tolerance=0.0001)

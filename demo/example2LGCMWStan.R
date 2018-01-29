@@ -14,23 +14,7 @@ padLists <- function(Xlist,Ylist){
   return(list(Xlist=Xlist,Ylist=Ylist,measuresPerPerson=measuresPerPerson))
 }
 
-extractStuff <- function(stanRes,name,index){
-  P <- stanRes$data$P[index]
-  switch(name,
-          Sigma={
-            res <- matrix(nrow=P,ncol=P)
-            for (i in 1:P){
-              for (j in 1:P){
 
-              }
-            }
-          },
-         {
-           error()
-         }
-  )
-  return(res)
-}
  require(gppmr)
  require(OpenMx)
  require(MASS)

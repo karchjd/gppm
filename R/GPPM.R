@@ -1,4 +1,3 @@
-#TODO rethink constructor, where to check what
 new_GPPM <- function(mFormula,kFormula,myData){
   stopifnot(is.character(mFormula))
   stopifnot(is.character(kFormula))
@@ -34,7 +33,7 @@ fit <-  function(theModel) {
 #' @export
 fit.GPPM <-  function(theModel) {
   theModel$stanOut <- optimizing(theModel$stanModel,theModel$dataForStan,hessian = TRUE)
-  #ML, StdErrors,
-  theModel$fitRes <-
+  theModel$fitRes <- extractFitRes(theModel$stanOut,theModel$parsedModel,theModel$dataForStan[c('nPer','nTime','maxTime')])
+  theModel
 }
 
