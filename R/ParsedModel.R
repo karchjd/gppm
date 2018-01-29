@@ -14,7 +14,7 @@ new_ParsedModel <- function(params,mFormula,kFormula){
 validate_input <- function(mFormula,kFormula,myData){
   stopifnot(is.character(mFormula)&&length(kFormula)==1) #string containing the mean function
   stopifnot(is.character(mFormula)&&length(kFormula)==1) #string containing the covariance function
-  stopifnot(class(myData)=='StanData') #string containing the covariance function
+  stopifnot(class(myData)=='StanData') #data set
 }
 
 betterRegMatches <- function(modString,resGreg,value=' '){
@@ -23,13 +23,13 @@ betterRegMatches <- function(modString,resGreg,value=' '){
   for (i in 1:length(resGreg)){
     substr(modString,resGreg[i],resGreg[i]+attributes(resGreg)$match.length[i]-1) <- paste0(rep(value,attributes(resGreg)$match.length[i]),collapse = '')
   }
-  return(modString)
+  modString
 }
 
 extractParamsPreds <- function(myFormula,myData){
   ##constants
   specialChar <- '!'
-  splitters <- c('\\^','%\\^%','\\+','-','%\\*%','\\*','/','%x%','%&%','\\(','\\)',',','[[:alnum:]]*\\(')
+  splitters <- c('\\^','%\\^%','\\+','-','%\\*%','\\*','/','%x%','%&%','\\(','\\)',',','[[:alnum:]]*\\(,','==')
 
   ##detect and remove reserved characters used for functions, operators etc.
   #detect
@@ -69,29 +69,50 @@ extractParamsPreds <- function(myFormula,myData){
   list(params=params,preds=grepRes[[1]])
 }
 
-createFormula <- function(preds,myData){
+createStanFormula <- function(preds,myFormula,myData){
+  #constants
+  replaceTemplate <- 'X[i,timeIndex,predIndex]'
+  secondTimePointChar <- '!'
 
   toReplace <- preds
-  meanReturn <- meanFunction
-  dollarPosition <- c(toReplace,toReplace+attributes(toReplace)$capture.length)
-  dollarPosition <- sort(dollarPosition)
-  for (i in 1:length(dollarPosition)){
-    meanReturn <- paste0(substr(meanReturn,1,dollarPosition[i]-1),'$',substr(meanReturn,dollarPosition[i],nchar(meanReturn)),collapse='')
-    dollarPosition <- dollarPosition+1
+  forReplacing <- preds
+  newFormula <- myFormula
+  for (i in 1:length(toReplace)){
+    thePred <- substr(myFormula,toReplace[i],toReplace[i]+attr(toReplace,'capture.length')[i]-1)
+
+
+    #find correct time indexn
+    isSecond <- grepl(secondTimePointChar,thePred)
+    if (isSecond){
+      timeIndex <- 'k'
+      thePredRaw <- gsub(secondTimePointChar,"",thePred)
+    }else{
+      timeIndex <- 'j'
+      thePredRaw <- thePred
+    }
+
+    #find correct predictor index
+    predIndex <- which(colnames(myData$X[[1]])==thePredRaw)
+
+    #replace stuff
+    replacer <- gsub('timeIndex',timeIndex,replaceTemplate)
+    replacer <- gsub('predIndex',predIndex,replacer)
+    newFormula <- paste0(substr(newFormula,1,forReplacing[i]-1),replacer,substr(newFormula,forReplacing[i]+attr(forReplacing,'capture.length')[i],nchar(newFormula)))
+    forReplacing <- forReplacing+nchar(replacer)-attr(forReplacing,'capture.length')[i]
   }
-  return(list(params=params,modelF=meanReturn,vars=vars))
+  newFormula
 }
 
 parseFormula <- function(myFormula,myData){
   paramsPreds <- extractParamsPreds(myFormula,myData)
-  newFormula <- createFormula(paramsPreds$preds,myData)
+  newFormula <- createStanFormula(paramsPreds$preds,myFormula,myData)
+  list(params=paramsPreds$params,preds=paramsPreds$preds,newFormula=newFormula)
 }
-
-
 
 parseModel <- function(mFormula,kFormula,myData){
   validate_input(mFormula,kFormula,myData)
-  parseFormula(mFormula,myData)
-  parseFormula(kFormula,myData)
-  #constants
+  meanRes <- parseFormula(mFormula,myData)
+  covRes <- parseFormula(kFormula,myData)
+  allParams <- union(meanRes$params,covRes$params)
+  new_ParsedModel(allParams,meanRes$newFormula,covRes$newFormula)
 }

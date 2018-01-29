@@ -21,6 +21,7 @@ gppModel <- function(mFormula,kFormula,myData){
   theModel <- new_GPPM(mFormula,kFormula,myData)
   theModel$dataForStan <- as_StanData(myData)
   theModel$parsedModel <- parseModel(theModel$mFormula,theModel$kFormula,theModel$dataForStan)
+  browser()
   #
   # stuffForStan <- toStan(theModel$parsedModel,theModel$data)
   #
