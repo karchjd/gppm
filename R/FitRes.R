@@ -26,14 +26,14 @@ extractMoments <- function(stanOutParas,dataStats){
   mu <- rep(list(numeric(dataStats$maxTime)),dataStats$nPer)
   Sigma <- rep(list(matrix(nrow=dataStats$maxTime,ncol = dataStats$maxTime)),dataStats$nPer)
   for (iPer in 1:dataStats$nPer){
-    for (iTime1 in 1:dataStats$nTime[i]){
-      mu[[i]][iTime1] <- stanRes$par[sprintf('mu[%i,%i]',iPer,iTime1)]
-      for (iTime2 in 1:dataStats$nTime[i]){
-        Sigma[[i]][iTime1,iTime2] <- stanRes$par[sprintf('Sigma[%i,%i,%i]',iPer,iTime1,iTime2)]
+    for (iTime1 in 1:dataStats$nTime[iPer]){
+      mu[[iPer]][iTime1] <- stanOutParas[sprintf('mu[%i,%i]',iPer,iTime1)]
+      for (iTime2 in 1:dataStats$nTime[iPer]){
+        Sigma[[iPer]][iTime1,iTime2] <- stanOutParas[sprintf('Sigma[%i,%i,%i]',iPer,iTime1,iTime2)]
       }
     }
-    mu[[i]] <- mu[[i]][1:dataStats$nTime[i]]
-    Sigma[[i]] <- Sigma[[i]][1:dataStats$nTime[i],1:dataStats$nTime[i]]
+    mu[[iPer]] <- mu[[iPer]][1:dataStats$nTime[iPer]]
+    Sigma[[iPer]] <- Sigma[[iPer]][1:dataStats$nTime[iPer],1:dataStats$nTime[iPer]]
   }
   list(mu=mu,Sigma=Sigma)
 }
@@ -46,7 +46,7 @@ extractFitRes <- function(stanOut,parsedModel,dataStats){
   nPar <- length(parsedModel$params)
   AIC <- minus2LL+nPar
   BIC <- minus2LL+log(dataStats$nPer)*nPar
-  meanCov <- extractMoments(stanOut$params,dataStats)
+  meanCov <- extractMoments(stanOut$par,dataStats)
   mu=meanCov$mu
   Sigma=meanCov$Sigma
   new_FitRes(paraEsts,vcov,minus2LL,nPar,AIC,BIC,mu,Sigma)
