@@ -25,7 +25,7 @@ require(MASS)
   trueModel <- omxSetParameters(lgcModel,labels=c('muI','muS','varI','varS','covIS','sigma'),values=c(10,3,4,10,0.5,10))
 
   ##simulate data
-  yMatrix <- simulateData(trueModel,N=nP)
+  yMatrix <- gppmr::simulateData(trueModel,N=nP)
   tMatrix <- matrix(rep(0:(nT-1),each=nP),nrow = nP,ncol = nT)
 
 
@@ -43,7 +43,7 @@ require(MASS)
   longData <- convertFromWide(myData)
   longData$IQ <- 0
   gpModel <- gppModel('muI+IQ+muS*t','varI+covIS*(t+t!)+varS*t*t!+(t==t!)*sigma',longData)
-  fitted <- fit(gpModel)
+  fittedModel <- fit(gpModel)
 
   ##compare results
   # lgcmSame <- all.equal(gpModelFit$mlParas,omxGetParameters(semModel)[names(gpModelFit$mlParas)],check.attributes=FALSE,tolerance=0.0001)
