@@ -1,11 +1,11 @@
-Package: gppmr
+Package: gppm
 Title: Preliminary Implementation of GPPM
 Version: 0.0.0.9000
 Authors@R: c(person(c("Julian", "D."), "Karch", email="karch@mpib-berlin.mpg.de", role=c("aut", "cre", "cph")))
 Description: Preliminary Implementation of Gaussian Process Panel Modeling.
 Depends:
     R (>= 3.3.1),
-    OpenMx (>= 2.6.9)
+    Rcpp
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

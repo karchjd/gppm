@@ -72,7 +72,7 @@ logLik.GPPM <- function(object){
 
 #' @export
 fitted.GPPM <- function(object,..){
-  list(mean=object$fitRes$mu,cov=object$fitRes$Sigma)
+  list(mean=object$fitRes$mu,cov=object$fitRes$Sigma,IDs=attr(object$dataForStan,'IDs'))
 }
 
 

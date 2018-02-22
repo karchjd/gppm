@@ -10,14 +10,14 @@ convertFromWide <- function(myData){
       counter <- counter + 1
       }
     }
-    structure(res,class=c('longData',class(myData)),ID='ID',DV='Y')
+    res
 }
 
-require(gppmr)
+require(gppm)
 require(OpenMx)
 require(MASS)
   ##settings
-  nP <- 300
+  nP <- 30
   nT <- 10
 
   ##define latent growth curve model using SEM software
@@ -25,25 +25,27 @@ require(MASS)
   trueModel <- omxSetParameters(lgcModel,labels=c('muI','muS','varI','varS','covIS','sigma'),values=c(10,3,4,10,0.5,10))
 
   ##simulate data
-  yMatrix <- gppmr::simulateData(trueModel,N=nP)
+  yMatrix <- gppm::simulateData(trueModel,N=nP)
   tMatrix <- matrix(rep(0:(nT-1),each=nP),nrow = nP,ncol = nT)
-
-
-  ##fit data using SEM
-  semModel <- mxModel(lgcModel,mxData(yMatrix,type = "raw"))
-  semModel <- mxRun(semModel,silent = TRUE)
   colnames(tMatrix) <- paste0('t',1:nT)
   myData <- as.data.frame(cbind(tMatrix,yMatrix))
 
-  ##fit data using GPPMOld
-  gpModel <- gppModelOld('muI+muS*t','varI+covIS*(t+t!)+varS*t*t!+omxApproxEquals(t,t!,0.0001)*sigma',myData)
-  # gpModelFit <- gppFit(gpModel)
+  ##fit data using SEM
+  # semModel <- mxModel(lgcModel,mxData(yMatrix,type = "raw"))
+  # semModel <- mxRun(semModel,silent = TRUE)
+
+
 
   ##fit data using GPPMNew
   longData <- convertFromWide(myData)
   longData$IQ <- 0
-  gpModel <- gppModel('muI+IQ+muS*t','varI+covIS*(t+t!)+varS*t*t!+(t==t!)*sigma',longData)
+  longDataTrain <- longData[1:295,]
+  longDataTest <- longData[296:nrow(longData),]
+  gpModel <- gppModel('muI+IQ+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',longDataTrain,ID='ID',DV='Y')
   fittedModel <- fit(gpModel)
+  predict(fittedModel,longDataTest)
+
+
 
   ##compare results
   # lgcmSame <- all.equal(gpModelFit$mlParas,omxGetParameters(semModel)[names(gpModelFit$mlParas)],check.attributes=FALSE,tolerance=0.0001)

@@ -31,7 +31,7 @@ extractMoments <- function(stanOutParas,dataStats){
     mu[[iPer]] <- mu[[iPer]][1:dataStats$nTime[iPer]]
     Sigma[[iPer]] <- Sigma[[iPer]][1:dataStats$nTime[iPer],1:dataStats$nTime[iPer]]
   }
-  res <- list(mu=mu,Sigma=Sigma)
+  res <- list(mu=mu,Sigma=Sigma,IDs=attr(dataStats,'IDs'))
 }
 
 extractFitRes <- function(stanOut,parsedModel,dataStats){

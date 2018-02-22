@@ -1,4 +1,4 @@
-new_StanData <- function(X,Y,nPer,nTime,maxTime,nPreds){
+new_StanData <- function(X,Y,nPer,nTime,maxTime,nPreds,IDs){
   stopifnot(is.list(X)) #X list of length nPer, contains maxTime x nPreds matrices
   stopifnot(is.list(Y)) #Y list of length nPer, contains maxTime vectors
   stopifnot(is.numeric(nPer) && length(nPer)==1) #number of persons scalar
@@ -14,7 +14,8 @@ new_StanData <- function(X,Y,nPer,nTime,maxTime,nPreds){
     maxTime=maxTime,
     nPreds=nPreds
   ),
-    class='StanData'
+    class='StanData',
+    IDs=IDs
   )
 }
 
@@ -26,8 +27,8 @@ validate_StanData <- function(myStanData){
   myStanData
 }
 
-StanData <- function(X,Y,nPer,nTime,maxTime,nPreds){
-  validate_StanData(new_StanData(X,Y,nPer,nTime,maxTime,nPreds))
+StanData <- function(X,Y,nPer,nTime,maxTime,nPreds,IDs){
+  validate_StanData(new_StanData(X,Y,nPer,nTime,maxTime,nPreds,IDs))
 }
 
 as_StanData <-  function(myData, ...) {
@@ -61,7 +62,6 @@ as_StanData.longData <- function(myData, ...) {
   timeCounter <- rep(1,nPer)
   names(timeCounter) <- paste0('ID',uniqueIDs)
 
-
   #calc
   for (i in 1:nrow(myData)){
     #helper vars
@@ -74,9 +74,9 @@ as_StanData.longData <- function(myData, ...) {
     Y[[personI]][timeI] <- as.numeric(myData[i,YField])
 
     #update helper
-    timeCounter[myData[i,IDField]] <- timeCounter[timeCounterIndex]+1
+    timeCounter[timeCounterIndex] <- timeCounter[timeCounterIndex]+1
   }
-  StanData(X,Y,nPer,nTime,maxTime,nPreds)
+  StanData(X,Y,nPer,nTime,maxTime,nPreds,uniqueIDs)
 }
 
 as_StanData.default <- function(x, ...) {

@@ -1,11 +1,11 @@
-new_GPPM <- function(mFormula,kFormula,myData){
+new_GPPM <- function(mFormula,cFormula,myData){
   stopifnot(is.character(mFormula))
-  stopifnot(is.character(kFormula))
+  stopifnot(is.character(cFormula))
   stopifnot(is.data.frame(myData))
 
   structure(list(
     mFormula=mFormula, #formula for the mean
-    kFormula=kFormula, #formula for the covariance
+    cFormula=cFormula, #formula for the covariance
     data=myData,       #data must be a data frame
     parsedModel=NA,    #model in a parsed format
     dataForStan=NA,    #data as used for stan
@@ -15,18 +15,45 @@ new_GPPM <- function(mFormula,kFormula,myData){
   ),class='GPPM')
 }
 
-#' @export
+#' Define a Gaussian process panel model
+#'
+#' This function is used to specify a Gaussian process panel model,
+#' which can then be fit using \code{\link{fit}}.
+#'
+#' @param mFormula character string. Contains the specification of the mean function. See details for more information.
+#'
+#' @param cFormula character string. Contains the specification of the covariance function. See details for more information.
+#'
+#' @param myData data frame. Contains the data to which the model is fitted. Must be in the long-format.
+#'
+#' @param ID character string. Contains the column label in myData which describes the subject ID.
+#'
+#' @param DV character string. Contains the column label in myData which contains the to be modeled variable.
+#'
+#' @return a (unfitted) Gaussian process panel model, that is an object of class 'GPPM'
+#' @seealso \code{\link{fit.GPPM}} for how to fit a GPPM
+#' @examples
+#' # Defintion of a latent growth curve model
+#' data("demoLGCM")
+#' lgcm <- gppModel('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','x')
 #' @import rstan
-gppModel <- function(mFormula,kFormula,myData){
-  theModel <- new_GPPM(mFormula,kFormula,myData)
+#' @import Rcpp
+#' @export
+gppModel <- function(mFormula,cFormula,myData,ID,DV){
+  if (!"longData" %in% class(myData)){
+    myData <- structure(myData,class=c('longData',class(myData)),ID=ID,DV=DV)
+  }
+
+  theModel <- new_GPPM(mFormula,cFormula,myData)
   theModel$dataForStan <- as_StanData(myData)
-  theModel$parsedModel <- parseModel(theModel$mFormula,theModel$kFormula,theModel$dataForStan)
+  theModel$parsedModel <- parseModel(theModel$mFormula,theModel$cFormula,theModel$dataForStan)
   theModel$stanModel <- toStan(theModel$parsedModel,theModel$dataForStan)
   return(theModel)
 }
 
 #' @export
-fit <-  function(theModel) {
+fit <-  function(theModel,...) {
   UseMethod("fit")
 }
 
@@ -37,7 +64,7 @@ fit.GPPM <-  function(theModel,init='random',useOptimizer=TRUE) {
   else{
     iter <- 0
   }
-  theModel$stanOut <- optimizing(theModel$stanModel,theModel$dataForStan,hessian = TRUE,init=init,iter=iter)
+  theModel$stanOut <- rstan::optimizing(theModel$stanModel,theModel$dataForStan,hessian = TRUE,iter=iter,init=init)
   theModel$fitRes <- extractFitRes(theModel$stanOut,theModel$parsedModel,theModel$dataForStan[c('nPer','nTime','maxTime')])
   theModel
 }

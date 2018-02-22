@@ -28,8 +28,8 @@ betterRegMatches <- function(modString,resGreg,value=' '){
 
 extractParamsPreds <- function(myFormula,myData){
   ##constants
-  specialChar <- '!'
-  splitters <- c('\\^','%\\^%','\\+','-','%\\*%','\\*','/','%x%','%&%','\\(','\\)',',','[[:alnum:]]*\\(,','==')
+  specialChar <- '#'
+  splitters <- c('[[:alnum:]]*\\(','\\(','\\)', '\\+','\\-','\\*','/','%','<','<=','>','>=','==','!=','!','&&','||','\\^')
 
   ##detect and remove reserved characters used for functions, operators etc.
   #detect
@@ -72,7 +72,7 @@ extractParamsPreds <- function(myFormula,myData){
 createStanFormula <- function(preds,myFormula,myData){
   #constants
   replaceTemplate <- 'X[i,timeIndex,predIndex]'
-  secondTimePointChar <- '!'
+  secondTimePointChar <- '#'
 
   toReplace <- preds
   forReplacing <- preds

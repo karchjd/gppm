@@ -6,7 +6,7 @@ validate_toStan <- function(parsedModel,myData){
 
 toStan <-function(parsedModel,myData){
   ##constants
-  templateLocation <- '~/mystuff/projects/GPPMSoftware/R/gppmr/R/stanTemplate.stan'
+  templateLocation <- '~/mystuff/projects/GPPMSoftware/R/gppm/R/stanTemplate.stan'
 
   validate_toStan(parsedModel,myData)
 
