@@ -1,10 +1,10 @@
 library(devtools)
 
-trueMuI <- 15;
-trueMuS <- -1;
-trueVarI <- 3;
-trueVarS <- 5;
-trueErrVar <- 2
+trueMuI <- 10;
+trueMuS <- 3;
+trueVarI <- 4;
+trueVarS <- 10;
+trueErrVar <- 10
 
 numberPersons <- 250
 timePointsPerPerson <- function(){round(rnorm(1,mean=3,sd=1))}

@@ -29,3 +29,4 @@ expect_equal(test$meanVars,c('t'))
 
 
 
+

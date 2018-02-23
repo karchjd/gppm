@@ -4,7 +4,7 @@ validate_toStan <- function(parsedModel,myData){
 }
 
 
-toStan <-function(parsedModel,myData){
+toStan <-function(parsedModel,myData,control){
   ##constants
   templateLocation <- '~/mystuff/projects/GPPMSoftware/R/gppm/R/stanTemplate.stan'
 
@@ -21,7 +21,9 @@ toStan <-function(parsedModel,myData){
   theCode <- gsub('<parameters>',paramSect,theCode)
   theCode <- gsub('<meanfunction>',parsedModel$mFormula,theCode)
   theCode <- gsub('<covfunction>',parsedModel$kFormula,theCode)
-  theModel <- stan_model(model_code = theCode)
+  if(control$stanModel){
+    theModel <- stan_model(model_code = theCode)
+  }
 }
 
 

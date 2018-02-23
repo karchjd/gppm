@@ -14,19 +14,6 @@ names(yVector) <- paste0('Y',1:nTime)
 myData <- as.data.frame(t(c(tVector,yVector))) #force R to make dataframe with one row
 
 
-test_that("linear regression", {
-  gpModel <- gppModel('b0+b1*t','omxApproxEquals(t,t!,0.0001)*sigma',myData)
-  gpModel <- gppFit(gpModel)
-})
 
-test_that("Bayesian Linear regression", {
-  gpModel <- gppModel('0','(t*t!+1)*sigmab+omxApproxEquals(t,t!,0.0001)*sigma',myData)
-  gpModel <- gppFit(gpModel)
-})
-
-test_that("squared exponential", {
-  gpModel <- gppModel('c','sigmaf*exp(-(t-t!)^2/rho)+omxApproxEquals(t,t!,0.0001)*sigma',myData)
-  gpModel <- gppFit(gpModel)
-})
 
 

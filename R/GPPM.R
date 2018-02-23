@@ -1,12 +1,14 @@
-new_GPPM <- function(mFormula,cFormula,myData){
+new_GPPM <- function(mFormula,cFormula,myData,control){
   stopifnot(is.character(mFormula))
   stopifnot(is.character(cFormula))
   stopifnot(is.data.frame(myData))
+  stopifnot(class(controls)=='GPPMControl')
 
   structure(list(
     mFormula=mFormula, #formula for the mean
     cFormula=cFormula, #formula for the covariance
     data=myData,       #data must be a data frame
+    control=control,    #list of controls
     parsedModel=NA,    #model in a parsed format
     dataForStan=NA,    #data as used for stan
     stanModel=NA,      #generated stan Model
@@ -15,10 +17,11 @@ new_GPPM <- function(mFormula,cFormula,myData){
   ),class='GPPM')
 }
 
+
 #' Define a Gaussian process panel model
 #'
 #' This function is used to specify a Gaussian process panel model,
-#' which can then be fit using \code{\link{fit}}.
+#' which can then be fit using \code{\link{fit.GPPM}}.
 #'
 #' @param mFormula character string. Contains the specification of the mean function. See details for more information.
 #'
@@ -30,7 +33,26 @@ new_GPPM <- function(mFormula,cFormula,myData){
 #'
 #' @param DV character string. Contains the column label in myData which contains the to be modeled variable.
 #'
-#' @return a (unfitted) Gaussian process panel model, that is an object of class 'GPPM'
+#' @return a (unfitted) Gaussian process panel model, which is an object of class 'GPPM'
+#' @details
+#' mFormula and cFormula contain the specification of the mean and the kernel function respectively.
+#' These formulas are defined using character strings. Within these strings there are four basic elements:
+#'  \itemize{
+#'   \item Parameters
+#'   \item Functions and operators
+#'   \item References to observed variables in the data frame myData
+#'    \item Mathematical constants
+#' }
+#' The ggpModel function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
+#'
+#' Parameters: Parameters may not have the same name as any of the columns in myData to avoid confusing them with a reference to an observed variable.
+#'  Furthermore, to avoid confusing them with functions, operators, or constants, parameter labels must always begin with a lower case letter and only contain letters and digits.
+#'
+#' Functions and operators: All functions and operators that are supported by stan can be used; see \url{http://mc-stan.org/users/documentation/} for a full list. In general, all basic operators and functions are supported.
+#'
+#' References: A reference must be the same as one of the elements of the output of names(myData). For references, the same rules apply as for parameters. That is, the column names of myData may only contain letters and digits and must start with a letter.
+#'
+#' Constants: Again, all constants that are supported by stan can be used and in general the constants are available by their usual name.
 #' @seealso \code{\link{fit.GPPM}} for how to fit a GPPM
 #' @examples
 #' # Defintion of a latent growth curve model
@@ -40,7 +62,8 @@ new_GPPM <- function(mFormula,cFormula,myData){
 #' @import rstan
 #' @import Rcpp
 #' @export
-gppModel <- function(mFormula,cFormula,myData,ID,DV){
+gppm <- function(mFormula,cFormula,myData,ID,DV,control=gppmControl()){
+  validate_gppModelIn(mFormula,cFormula,myData,ID,DV,control)
   if (!"longData" %in% class(myData)){
     myData <- structure(myData,class=c('longData',class(myData)),ID=ID,DV=DV)
   }
@@ -48,7 +71,7 @@ gppModel <- function(mFormula,cFormula,myData,ID,DV){
   theModel <- new_GPPM(mFormula,cFormula,myData)
   theModel$dataForStan <- as_StanData(myData)
   theModel$parsedModel <- parseModel(theModel$mFormula,theModel$cFormula,theModel$dataForStan)
-  theModel$stanModel <- toStan(theModel$parsedModel,theModel$dataForStan)
+  theModel$stanModel <- toStan(theModel$parsedModel,theModel$dataForStan,control)
   return(theModel)
 }
 
@@ -67,6 +90,25 @@ fit.GPPM <-  function(theModel,init='random',useOptimizer=TRUE) {
   theModel$stanOut <- rstan::optimizing(theModel$stanModel,theModel$dataForStan,hessian = TRUE,iter=iter,init=init)
   theModel$fitRes <- extractFitRes(theModel$stanOut,theModel$parsedModel,theModel$dataForStan[c('nPer','nTime','maxTime')])
   theModel
+}
+
+validate_gppModelIn <- function(mFormula,cFormula,myData,ID,DV){
+  varNames <- names(myData)
+  if (!"longData" %in% class(myData)){
+    if (!ID %in% names(myData)){
+      stop(sprintf('ID variable %s not in data frame',ID))
+    }
+
+    if (!DV %in% names(myData)){
+      stop(sprintf('DV variable %s not in data frame',DV))
+    }
+  }
+
+
+  allValid <- grepl("^[A-Za-z]+[0-9A-Za-z]*$",varNames)
+  if (any(!allValid)){
+    stop(sprintf('Invalid variable name %s in your data frame. See ?gppModel for naming conventions\n',varNames[!allValid]))
+  }
 }
 
 #' @export

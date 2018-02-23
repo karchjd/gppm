@@ -168,3 +168,14 @@ covf <-  function(theModel) {
 covf.GPPM <- function (x, ...) {
   x$kFormula
 }
+
+#' @export
+getIntern <- function (theModel, value, ...) {
+  UseMethod("getIntern")
+}
+
+#' @export
+getIntern.GPPM <- function (theModel, value, ...) {
+  switch(value,data=theModel$data,parsedmFormula=theModel$parsedModel$mFormula,parsedcFormula=theModel$parsedModel$kFormula,stanData=theModel$dataForStan,
+         stanModel=theModel$stanModel,stanOut=theModel$stanOut)
+}

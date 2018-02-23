@@ -21,10 +21,10 @@ new_FitRes <- function(paraEsts,vcov,minus2LL,nPar,mu,Sigma){
 extractMoments <- function(stanOutParas,dataStats){
   mu <- rep(list(numeric(dataStats$maxTime)),dataStats$nPer)
   Sigma <- rep(list(matrix(nrow=dataStats$maxTime,ncol = dataStats$maxTime)),dataStats$nPer)
-  for (iPer in 1:dataStats$nPer){
-    for (iTime1 in 1:dataStats$nTime[iPer]){
+  for (iPer in seq_len(dataStats$nPer)){
+    for (iTime1 in seq_len(dataStats$nTime[iPer])){
       mu[[iPer]][iTime1] <- stanOutParas[sprintf('mu[%i,%i]',iPer,iTime1)]
-      for (iTime2 in 1:dataStats$nTime[iPer]){
+      for (iTime2 in seq_len(dataStats$nTime[iPer])){
         Sigma[[iPer]][iTime1,iTime2] <- stanOutParas[sprintf('Sigma[%i,%i,%i]',iPer,iTime1,iTime2)]
       }
     }

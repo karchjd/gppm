@@ -5,7 +5,8 @@ Authors@R: c(person(c("Julian", "D."), "Karch", email="karch@mpib-berlin.mpg.de"
 Description: Preliminary Implementation of Gaussian Process Panel Modeling.
 Depends:
     R (>= 3.3.1),
-    Rcpp
+    Rcpp,
+    rstan
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

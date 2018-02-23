@@ -1,4 +1,4 @@
 library(testthat)
-library(gppmr)
+library(gppm)
 
-test_check("gppmr")
+test_check("gppm")

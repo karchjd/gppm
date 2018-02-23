@@ -20,7 +20,7 @@ validate_parseModel <- function(mFormula,kFormula,myData){
 betterRegMatches <- function(modString,resGreg,value=' '){
   stopifnot(length(resGreg)==1)
   resGreg <- resGreg[[1]]
-  for (i in 1:length(resGreg)){
+  for (i in seq_len(length(resGreg))){
     substr(modString,resGreg[i],resGreg[i]+attributes(resGreg)$match.length[i]-1) <- paste0(rep(value,attributes(resGreg)$match.length[i]),collapse = '')
   }
   modString
@@ -66,7 +66,12 @@ extractParamsPreds <- function(myFormula,myData){
   isnotNumber <- suppressWarnings(is.na(as.double(params)))
   params <- params[isnotNumber]
   params <- unique(params)
-  list(params=params,preds=grepRes[[1]])
+  if (grepRes[[1]][1]==-1){
+    preds <- c()
+  }else{
+    preds <- grepRes[[1]]
+  }
+  list(params=params,preds=preds)
 }
 
 createStanFormula <- function(preds,myFormula,myData){
@@ -77,7 +82,7 @@ createStanFormula <- function(preds,myFormula,myData){
   toReplace <- preds
   forReplacing <- preds
   newFormula <- myFormula
-  for (i in 1:length(toReplace)){
+  for (i in seq_len(length(toReplace))){
     thePred <- substr(myFormula,toReplace[i],toReplace[i]+attr(toReplace,'capture.length')[i]-1)
 
 

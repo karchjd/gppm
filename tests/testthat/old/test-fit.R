@@ -1,5 +1,5 @@
-context("gppModel")
-test_that("gppModel runs", {
+context('fit')
+test_that("linear regression", {
   #generate data according to the linear change model
   b0 <- 3
   b1 <- 2
@@ -15,15 +15,14 @@ test_that("gppModel runs", {
   parasLM[3] <-summary(fittedLM)$sigma
   names(parasLM) <- c("LM.b0",'LM.b1','LM.sigma')
 
-  #wide data format for GPPM
-  names(tVector) <- paste0('t',1:nTime)
-  names(yVector) <- paste0('Y',1:nTime)
-  myData <- as.data.frame(t(c(tVector,yVector))) #force R to make dataframe with one row
-
+  #data format for GPPM
+  myData <- as.data.frame(list(tVector,yVector,rep(1,3)))
+  names(myData) <- c('t','Y','ID')
+  print(names(myData))
   #get results using GPPM
-  gpModel <- gppModel('b0+b1*t','omxApproxEquals(t,t!,0.0001)*sigma',myData)
-  gpModel <- gppFit(gpModel)
+  gpModel <- gppModel('b0+b1*t','(t==t#)*sigma',myData,ID='ID',DV='Y')
+  gpModel <- fit(gpModel)
 
   #compare results
-  expect_equal(parasLM[1:2],gpModel$mlParas[1:2],check.attributes = FALSE,tolerance = 0.0001)
+  expect_equal(parasLM[1:2],coef(gpModel)[1:2],check.attributes = FALSE,tolerance = 0.0001)
 })

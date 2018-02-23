@@ -63,7 +63,7 @@ as_StanData.longData <- function(myData, ...) {
   names(timeCounter) <- paste0('ID',uniqueIDs)
 
   #calc
-  for (i in 1:nrow(myData)){
+  for (i in seq_len(nrow(myData))){
     #helper vars
     timeCounterIndex <- names(timeCounter) == paste0('ID',myData[i,IDField])
     personI <- which(myData[i,IDField]==uniqueIDs) #which is not stupidity but necessary
