@@ -35,7 +35,7 @@ as_StanData <-  function(myData, ...) {
   UseMethod("as_StanData")
 }
 
-as_StanData.longData <- function(myData, ...) {
+as_StanData.LongData <- function(myData, ...) {
   ##constants
   fakeData <- 10^100
 
@@ -82,7 +82,7 @@ as_StanData.longData <- function(myData, ...) {
 as_StanData.default <- function(x, ...) {
     stop(
       "Don't know how to coerce object of class ",
-      paste(class(x), collapse = "/"), " into a factor",
+      paste(class(x), collapse = "/"), " into Stan Data",
       call. = FALSE
     )
   }

@@ -1,10 +1,12 @@
-new_ParsedModel <- function(params,mFormula,kFormula){
+new_ParsedModel <- function(params,preds,mFormula,kFormula){
   stopifnot(is.character(params)) # character vector of parameters
+  stopifnot(is.character(preds)) # character vector of predictors
   stopifnot(is.character(mFormula)&&length(mFormula)==1) #string containing the mean function
   stopifnot(is.character(kFormula)&&length(kFormula)==1) #string containing the covariance function
 
   structure(list(
     params=params,
+    preds=preds,
     mFormula=mFormula,
     kFormula=kFormula),
   class='ParsedModel'
@@ -50,14 +52,14 @@ extractParamsPreds <- function(myFormula,myData){
   regExp <- paste0(dataNames,'|',collapse = '') #looking for all chars
   regExp <- substr(regExp,1,nchar(regExp)-1)
   regExp <- paste0('(?<=^| )(',regExp,')(?=$| )',collapse = '') #only look for stuff with whitespace before and after
-  grepRes <- gregexpr(regExp,newFormula,perl = TRUE)
-  vars <- regmatches(newFormula,grepRes)[[1]]
+  predPos <- gregexpr(regExp,newFormula,perl = TRUE)
+  preds <- regmatches(newFormula,predPos)[[1]]
 
   #remove
-  if (length(vars)>0){
-    vars <- gsub(specialChar,'',vars)
-    vars <- unique(vars)
-    newFormula <- betterRegMatches(newFormula, grepRes)
+  if (length(preds)>0){
+    preds <- gsub(specialChar,'',preds)
+    preds <- unique(preds)
+    newFormula <- betterRegMatches(newFormula, predPos)
   }
 
   ##extract parameters
@@ -66,12 +68,13 @@ extractParamsPreds <- function(myFormula,myData){
   isnotNumber <- suppressWarnings(is.na(as.double(params)))
   params <- params[isnotNumber]
   params <- unique(params)
-  if (grepRes[[1]][1]==-1){
-    preds <- c()
+
+  if (predPos[[1]][1]==-1){
+    predPos <- c()
   }else{
-    preds <- grepRes[[1]]
+    predPos <- predPos[[1]]
   }
-  list(params=params,preds=preds)
+  list(params=params,preds=preds,predPos=predPos)
 }
 
 createStanFormula <- function(preds,myFormula,myData){
@@ -110,7 +113,7 @@ createStanFormula <- function(preds,myFormula,myData){
 
 parseFormula <- function(myFormula,myData){
   paramsPreds <- extractParamsPreds(myFormula,myData)
-  newFormula <- createStanFormula(paramsPreds$preds,myFormula,myData)
+  newFormula <- createStanFormula(paramsPreds$predPos,myFormula,myData)
   list(params=paramsPreds$params,preds=paramsPreds$preds,newFormula=newFormula)
 }
 
@@ -119,5 +122,6 @@ parseModel <- function(mFormula,kFormula,myData){
   meanRes <- parseFormula(mFormula,myData)
   covRes <- parseFormula(kFormula,myData)
   allParams <- union(meanRes$params,covRes$params)
-  new_ParsedModel(allParams,meanRes$newFormula,covRes$newFormula)
+  allPreds <- union(meanRes$preds,covRes$preds)
+  new_ParsedModel(allParams,allPreds,meanRes$newFormula,covRes$newFormula)
 }

@@ -88,7 +88,7 @@ npar <-  function(theModel) {
 
 #' @export
 npar.GPPM <- function (x, ...) {
-  x$fitRes$nPar
+  length(x$parsedModel$params)
 }
 
 #' @export
@@ -117,6 +117,16 @@ npred <-  function(theModel) {
 }
 
 #' @export
+preds <-  function(theModel) {
+  UseMethod("preds")
+}
+
+
+#' @export
+preds.GPPM <-  function(theModel) {
+  theModel$parsedModel$preds
+}
+#' @export
 npred.GPPM <- function (x, ...) {
   x$dataForStan$nPreds
 }
@@ -132,8 +142,14 @@ variable.names.GPPM <- function (object, ...) {
 }
 
 #' @export
+variable.names.GPPM <- function (object, ...) {
+  object$parsedModel$params
+}
+
+#' @export
 parameterEsts <- function (object, level=.95) {
   stopifnot(level<=1 & level>0)
+  stopifnot(isFitted(object))
   res <- as.data.frame(matrix(nrow=object$fitRes$nPar,ncol=5))
   a <- (1 - level)/2
   a <- c(a, 1 - a)
@@ -166,7 +182,7 @@ covf <-  function(theModel) {
 
 #' @export
 covf.GPPM <- function (x, ...) {
-  x$kFormula
+  x$cFormula
 }
 
 #' @export
@@ -178,4 +194,15 @@ getIntern <- function (theModel, value, ...) {
 getIntern.GPPM <- function (theModel, value, ...) {
   switch(value,data=theModel$data,parsedmFormula=theModel$parsedModel$mFormula,parsedcFormula=theModel$parsedModel$kFormula,stanData=theModel$dataForStan,
          stanModel=theModel$stanModel,stanOut=theModel$stanOut)
+}
+
+#' @export
+isFitted <-  function(theModel) {
+  UseMethod("isFitted")
+}
+
+
+#' @export
+isFitted.GPPM <-  function(theModel) {
+  class(theModel$fitRes)=="StanData"
 }
