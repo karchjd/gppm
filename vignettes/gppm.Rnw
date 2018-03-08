@@ -110,13 +110,22 @@ The long-format is is typically used by mixed effects packages; most notably \pk
 
 
 \subsection{Model specification}
-For model specification, the \fct{gppm} function is used. The \fct{gppm} function always requires 5 arguments: \code{mFormula}, \code{cFormula}, \code{myData}, \code{ID}, and \code{DV}. The last three arguments are trivial. \code{myData} is simply the data frame contain the relevant data in the long-format. \code{ID} is the label of the variable in \code{myData} that contains the subject IDs. \code{DV} is also a variable label and points to the to bo model variable.
+For model specification, the \fct{gppm} function is used. Besides the control argument, which should be left at the default by most users, the \fct{gppm} function requires 5 arguments: \code{mFormula}, \code{cFormula}, \code{myData}, \code{ID}, and \code{DV}. The last three arguments are trivial. \code{myData} is simply the data frame containing the relevant data in the long-format. \code{ID} is the label of the variable in \code{myData} that contains the subject IDs. \code{DV} is also a variable label and points to the to be modeled variable.
 
-The two essential arguments are \code{mFormula} and \code{cFormula}, which specify the mean and the covariance function. The mean and covariance function are specified using strings that describe the respective formulas. The parser formula parser is quite advanced. As an example, the latent growth curve model is specified like this
+The two essential arguments are \code{mFormula} and \code{cFormula}, which specify the mean and the covariance function. This is done using strings that describe the respective formulas. As an example, the latent growth curve model is specified like this
 <<specify LGCM, echo=TRUE>>=
-gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t!+(t==t#)*sigma',demoLGCM,'x')
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',demoLGCM,'ID','x')
 @
-The parsers automatically recognizes that \emph{muI} refers to a parameter, \emph{t} to an observed value in the data frame, and \emph{+} to a mathematical operator. Thus, the parameters are defined implicetely via the mean and the covariance functions, and there is no need for specifying them implicetly. For the parser to be guanranteed to work some parameter and variable naming conventions must be adhered too. They can be found in the help file of \fct{gppModel}  and match with common best practices in R. In terms of supported functions and operators all functions that are supported by STAN are supported (see STAN manual part VII) %TODO write help, write tests,
+The parser automatically recognizes that \emph{muI} refers to a parameter, \emph{t} to an observed value in the data frame, and \emph{+} to a mathematical operator. Thus, the parameters are defined implicitly via the mean and the covariance functions, and there is no need for specifying them implicitly. For the parser to be guaranteed to work, some parameter and variable naming conventions must be adhered too. They can be found in the help file of \fct{gppm}  and match with common best practices in R. In terms of supported functions and operators all functions that are supported by STAN are supported (see STAN manual part VII). Especially, all basic arithmetric operators are supported.
+
+To check whether the parser worked as expected, we recommend to use the \fct{summary} function.
+<<check LGCM, echo=TRUE>>=
+summary(lgcm)
+@
+Here, we see that the parser directly recognized the latent growth curve model parameters and the predictor $t$.
+
+To check whether the mathematic model corresponds with the substantive model, we recommend simulating from the unfitted model. This can be done as follows:
+
 \subsection{Model fitting}
 \subsection{Extracting results}
 

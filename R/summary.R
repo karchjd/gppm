@@ -41,7 +41,16 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
   class='summary.GPPM'
   )
 }
-
+#' Summarize a GPPM object
+#'
+#' @param object GPPM object to summarise
+#' @param ... other arguments ignored (for compatibility with generic)
+#' @method summary ggplot
+#' @examples
+#' data("demoLGCM")
+# lgcm <- gppModel('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'                 demoLGCM,'ID','x')
+#' summary(lgcm)
 #' @export
 summary.GPPM <- function (x, ...) {
     modelSpecification <- new_ModelSpecification(meanf(x),covf(x),npar(x),variable.names(x),npred(x),preds(x))

@@ -141,10 +141,6 @@ variable.names.GPPM <- function (object, ...) {
     object$parsedModel$params
 }
 
-#' @export
-variable.names.GPPM <- function (object, ...) {
-  object$parsedModel$params
-}
 
 #' @export
 parameterEsts <- function (object, level=.95) {

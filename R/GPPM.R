@@ -33,6 +33,8 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #'
 #' @param DV character string. Contains the column label in myData which contains the to be modeled variable.
 #'
+#' @param control object of class GPPMControl. Used for storing technical settings. Default should only be changed by advanced users. Generated via \code{\link{gppmControl}}.
+#'
 #' @return a (unfitted) Gaussian process panel model, which is an object of class 'GPPM'
 #' @details
 #' mFormula and cFormula contain the specification of the mean and the kernel function respectively.
@@ -57,7 +59,7 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #' @examples
 #' # Defintion of a latent growth curve model
 #' data("demoLGCM")
-#' lgcm <- gppModel('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','x')
 #' @import rstan
 #' @import Rcpp
@@ -73,22 +75,6 @@ gppm <- function(mFormula,cFormula,myData,ID,DV,control=gppmControl()){
   return(theModel)
 }
 
-#' @export
-fit <-  function(theModel,...) {
-  UseMethod("fit")
-}
-
-#' @export
-fit.GPPM <-  function(theModel,init='random',useOptimizer=TRUE) {
-  if (useOptimizer)
-    iter<- 10000
-  else{
-    iter <- 0
-  }
-  theModel$stanOut <- rstan::optimizing(theModel$stanModel,theModel$dataForStan,hessian = TRUE,iter=iter,init=init)
-  theModel$fitRes <- extractFitRes(theModel$stanOut,theModel$parsedModel,theModel$dataForStan[c('nPer','nTime','maxTime')])
-  theModel
-}
 
 
 
@@ -141,60 +127,7 @@ validate_gppm <- function(mFormula,cFormula,myData,control){
       stop(sprintf('DV variable %s not in data frame',DV))
     }
   }
-
-
-
 }
 
-#' @export
-# TODO, idea without input simulate data for predictors as in data (easy)
-# with new input simulate data for that input (probably hard)
-simulate.GPPM <- function (object, nsim = 1, seed = NULL, ...)
-{
-  if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
-    runif(1)
-  if (is.null(seed))
-    RNGstate <- get(".Random.seed", envir = .GlobalEnv)
-  else {
-    R.seed <- get(".Random.seed", envir = .GlobalEnv)
-    set.seed(seed)
-    RNGstate <- structure(seed, kind = as.list(RNGkind()))
-    on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
-  }
-  fam <- if (inherits(object, "glm"))
-    object$family$family
-  else "gaussian"
-  ftd <- fitted(object)
-  isMlm <- identical(fam, "gaussian") && is.matrix(ftd)
-  nm <- if (isMlm)
-    dimnames(ftd)
-  else names(ftd)
-  if (isMlm)
-    stop("simulate() is not yet implemented for multivariate lm()")
-  n <- length(ftd)
-  ntot <- n * nsim
-  val <- switch(fam, gaussian = {
-    vars <- deviance(object)/df.residual(object)
-    if (isMlm) {
-    } else {
-      if (!is.null(object$weights)) vars <- vars/object$weights
-      ftd + rnorm(ntot, sd = sqrt(vars))
-    }
-  }, if (!is.null(object$family$simulate)) object$family$simulate(object,
-                                                                  nsim) else stop(gettextf("family '%s' not implemented",
-                                                                                           fam), domain = NA))
-  if (isMlm) {
-  }
-  else if (!is.list(val)) {
-    dim(val) <- c(n, nsim)
-    val <- as.data.frame(val)
-  }
-  else class(val) <- "data.frame"
-  names(val) <- paste0("sim_", seq_len(nsim))
-  if (!is.null(nm))
-    row.names(val) <- nm
-  attr(val, "seed") <- RNGstate
-  val
-}
 
 
