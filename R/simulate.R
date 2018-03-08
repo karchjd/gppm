@@ -1,4 +1,15 @@
-#' XXXX
+#' Simulate from a Gaussian process panel model
+#'
+#' This function is used to simulate from a Gaussian process panel model,
+#' which has been specified fit using \code{\link{gppm}}.
+#'
+#' @param gpModel object of class GPPM. The Gaussian proces spanel model from which to simulate
+#'
+#' @param parameterValues numeric vector. Used to specify the values for the parameters.  Which value belongs to which parameter is determined by the names attribute of parameterValues. See also the example.
+#'
+#' @param seed numeric. Random seed to be used.
+#'
+#' @return a simulate data set, which is an object of class 'LongData'
 #' @examples
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',

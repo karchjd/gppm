@@ -27,8 +27,6 @@ fit <-  function(theModel,...) {
 #' names(startVals) <- c('muI','muS','sigma')
 #' linearChangeFake <- fit(linearChange,init=startVals,useOptimizer=FALSE)
 #' stopifnot(identical(startVals,coef(linearChangeFake)))
-#' @import rstan
-#' @import Rcpp
 #' @export
 fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE) {
   if (useOptimizer){
