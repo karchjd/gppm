@@ -6,3 +6,5 @@ inst/doc
 README.html
 .DS_Store
 NAMESPACE
+*.pdf
+*.tex
