@@ -48,7 +48,7 @@ as_StanData.LongData <- function(myData, ...) {
 
   ##helper output
   nPer <- length(uniqueIDs)
-  nTime <- table(IDs)
+  nTime <- table(IDs)[uniqueIDs]
   maxTime <- max(nTime)
   nPreds <- ncol(myData)-2
 

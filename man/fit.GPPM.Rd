@@ -11,7 +11,7 @@
 
 \item{init}{string or named numeric vector. Used to specify the starting values for the parameters. Can either be the string 'random' (default) or a numeric vector startVal of starting values. Which value belongs to which parameter is determined by the names attribute of startVal. See also the example.}
 
-\item{useOptimizer}{boolean. Should the optimizer be used or not? For false the (possibly) random starting values are returned as the maximum likelihood values.}
+\item{useOptimizer}{boolean. Should the optimizer be used or not? For false the (possibly random) starting values are returned as the maximum likelihood values.}
 }
 \value{
 a fitted Gaussian process panel model, which is an object of class 'GPPM'

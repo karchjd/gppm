@@ -26,7 +26,6 @@ simulate.GPPM <- function (gpModel, parameterValues, seed = NULL){
 
     ##core
     gpModel <- fit(gpModel,useOptimizer=FALSE,init=parameterValues)
-    browser()
     meansAndCovs <- fitted(gpModel)
     IDs <- meansAndCovs$IDs
     simData <- getIntern(gpModel,'data')
