@@ -37,7 +37,11 @@ fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE) {
     iter <- 0
     algorithm <- 'Newton'#because for some reason LBFSGS still does an iteration even if iter==0
   }
-  gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = TRUE,iter=iter,init=as.list(init),algorithm=algorithm)
+  if (!init=='random'){
+    validate_simulate(gpModel,init)
+    init = as.list(init)
+  }
+  gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = TRUE,iter=iter,init=init,algorithm=algorithm)
   gpModel$fitRes <- extractFitRes(gpModel$stanOut,gpModel$parsedModel,gpModel$dataForStan[c('nPer','nTime','maxTime')])
   gpModel
 }

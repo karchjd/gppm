@@ -6,3 +6,13 @@ test_that("useOptimizerFalse", {
   gpModel <- fit(gpModel,useOptimizer=FALSE,init=startValues)
   coef(gpModel)
 })
+
+test_that("useOptimizerTrue", {
+  data("demoLGCM")
+  lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+               demoLGCM,'ID','x')
+  lgcm <- fit(lgcm)
+})
+
+
+

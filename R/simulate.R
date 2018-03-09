@@ -20,7 +20,7 @@
 #' simData <- simulate(lgcm,parameterValues)
 #' @import MASS
 #' @export
-simulate.GPPM <- function (gpModel, parameterValues, seed = NULL){
+simulate.GPPM <- function (gpModel, parameterValues, seed = NULL,nsim=1){
     validate_simulate(gpModel,parameterValues)
 
     ##set seed
@@ -42,14 +42,21 @@ simulate.GPPM <- function (gpModel, parameterValues, seed = NULL){
     simData <- getIntern(gpModel,'data')
     idCol <- attr(simData,'ID')
     dvCol <- attr(simData,'DV')
-    simData[,dvCol] <- NA
-    for (i in seq_len(length(IDs))){
-      cMu <- meansAndCovs$mean[[i]]
-      cCov <- meansAndCovs$cov[[i]]
-      simulated <- MASS::mvrnorm(mu=cMu,Sigma=cCov)
-      simData[simData[,idCol]==IDs[i],dvCol] <- simulated
+    res <- rep(list(simData),nsim)
+    for (j in 1:nsim){
+      simData[,dvCol] <- NA
+      for (i in seq_len(length(IDs))){
+        cMu <- meansAndCovs$mean[[i]]
+        cCov <- meansAndCovs$cov[[i]]
+        simulated <- MASS::mvrnorm(mu=cMu,Sigma=cCov)
+        simData[simData[,idCol]==IDs[i],dvCol] <- simulated
+      }
+      res[[j]] <- simData
     }
-    simData
+    if (j==1){
+      res <- res[[1]]
+    }
+    res
 }
 
 validate_simulate <- function (gpModel, parameterValues){

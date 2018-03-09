@@ -2,12 +2,23 @@
 % Please edit documentation in R/simulate.R
 \name{simulate.GPPM}
 \alias{simulate.GPPM}
-\title{XXXX}
+\title{Simulate from a Gaussian process panel model}
 \usage{
-\method{simulate}{GPPM}(gpModel, parameterValues, seed = NULL)
+\method{simulate}{GPPM}(gpModel, parameterValues, seed = NULL, nsim = 1)
+}
+\arguments{
+\item{gpModel}{object of class GPPM. The Gaussian proces spanel model from which to simulate}
+
+\item{parameterValues}{numeric vector. Used to specify the values for the parameters.  Which value belongs to which parameter is determined by the names attribute of parameterValues. See also the example.}
+
+\item{seed}{numeric. Random seed to be used.}
+}
+\value{
+a simulate data set, which is an object of class 'LongData'
 }
 \description{
-XXXX
+This function is used to simulate from a Gaussian process panel model,
+which has been specified fit using \code{\link{gppm}}.
 }
 \examples{
 data("demoLGCM")
