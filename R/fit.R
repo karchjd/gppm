@@ -42,11 +42,11 @@ fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=TRUE) {
     init = as.list(init)
   }
   if(verbose){
-    outf <- eval
+
   }else{
-    outf <- capture.output
+    capture.output(gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = TRUE,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE))
+
   }
-  outf(gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = TRUE,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE))
   gpModel$fitRes <- extractFitRes(gpModel$stanOut,gpModel$parsedModel,gpModel$dataForStan[c('nPer','nTime','maxTime')])
   gpModel
 }
