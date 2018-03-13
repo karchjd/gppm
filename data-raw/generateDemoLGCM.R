@@ -21,8 +21,8 @@ for (i in 1:numberPersons){
 meanf <- 'muI+muS*t'
 covf <- 'varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma'
 lgcm <- gppm(meanf,covf,demoLGCM,'ID','x')
-parameterValues <- c(58,-1,258,0.4,0, 10)
-names(parameterValues) <-c('muI','muS','varI','varS','covIS','sigma')
-demoLGCM <- simulate(lgcm,parameterValues)
-devtools::use_data(demoLGCM,overwrite = TRUE)
+trueParas <- c(58,-1,258,0.4,0, 10)
+names(trueParas) <-c('muI','muS','varI','varS','covIS','sigma')
+demoLGCM <- simulate(lgcm,trueParas)
+devtools::use_data(demoLGCM,trueParas,overwrite = TRUE)
 
