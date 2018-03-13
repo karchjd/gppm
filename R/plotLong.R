@@ -1,3 +1,4 @@
+#' @import cowplot
 #' @export
 plotLong <- function(myData,plotIds,by,id,dv){
   myData <- as_LongData(myData,id,dv)
@@ -6,19 +7,15 @@ plotLong <- function(myData,plotIds,by,id,dv){
   if(missing(plotIds)){
     plotIds <- sample(unique(myData[,idCol]),3)
   }
-
-  colors <- c('red','blue','brown')
-  counter <- 1
-  nP <- 1
-  for(cId in plotIds){
-    cData <- myData[myData[,idCol]==cId,]
-    forPlot <- data.frame(x=rep(NA,nrow(cData)),y=rep(NA,nrow(cData)))
-    for (i in 1:nrow(cData)){
-      cData[i,'x'] <- cData[i,by]
-      cData[i,'y'] <- cData[i,dv]
-    }
-    plot(cData$x,cData$y,type='b',add=TRUE,col=colors[nP])
-    nP <- nP + 1
-  }
+  plotData <- myData[myData[,idCol] %in% plotIds,]
+  plotData[,idCol] <- as.factor(plotData[,idCol])
+  toPlot <- ggplot(plotData,aes_string(x=by,y=dvCol,colour=idCol)) + geom_line()
+  print(toPlot)
   return(plotIds)
 }
+
+
+# return(ggplot(simDataLong,aes(x=Time,y=value,colour=variable)) + geom_line(size=2)
+#        + ylab('Value') + labs(colour = "Person")
+#        + theme(axis.text = element_text(size=20),axis.title = element_text(size=22),
+#                legend.text = element_text(size=20), legend.title= element_text(size=22)))
