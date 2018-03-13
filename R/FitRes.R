@@ -22,22 +22,18 @@ extractMoments <- function(stanOutParas,dataStats){
   mu <- rep(list(numeric(dataStats$maxTime)),dataStats$nPer)
   Sigma <- rep(list(matrix(nrow=dataStats$maxTime,ncol = dataStats$maxTime)),dataStats$nPer)
   for (iPer in seq_len(dataStats$nPer)){
-    for (iTime1 in seq_len(dataStats$nTime[iPer])){
-      mu[[iPer]][iTime1] <- stanOutParas[sprintf('mu[%i,%i]',iPer,iTime1)]
-      for (iTime2 in seq_len(dataStats$nTime[iPer])){
-        Sigma[[iPer]][iTime1,iTime2] <- stanOutParas[sprintf('Sigma[%i,%i,%i]',iPer,iTime1,iTime2)]
-      }
-    }
-    mu[[iPer]] <- mu[[iPer]][1:dataStats$nTime[iPer]]
-    Sigma[[iPer]] <- Sigma[[iPer]][1:dataStats$nTime[iPer],1:dataStats$nTime[iPer]]
+    mu[[iPer]] <- stanOutParas$mu[iPer,1:dataStats$nTime[iPer]]
+    Sigma[[iPer]] <- stanOutParas$Sigma[iPer,1:dataStats$nTime[iPer],1:dataStats$nTime[iPer]]
   }
   res <- list(mu=mu,Sigma=Sigma,IDs=attr(dataStats,'IDs'))
 }
 
 extractFitRes <- function(stanOut,parsedModel,dataStats){
   paraEsts <- stanOut$par[parsedModel$params]
+  theNames <- names(paraEsts)
+  paraEsts <- as.numeric(paraEsts)
+  names(paraEsts) <- theNames
   vcov <- solve(-stanOut$hessian)
-
   minus2LL <- stanOut$value
   nPar <- length(parsedModel$params)
   meanCov <- extractMoments(stanOut$par,dataStats)

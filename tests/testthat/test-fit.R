@@ -8,10 +8,10 @@ test_that("useOptimizerFalse", {
 })
 
 test_that("useOptimizerTrue", {
-  data("demoLGCM")
-  lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-               demoLGCM,'ID','x')
-  lgcm <- fit(lgcm)
+  # data("demoLGCM")
+  # lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+  #              demoLGCM,'ID','x')
+  # lgcm <- fit(lgcm)
 })
 
 

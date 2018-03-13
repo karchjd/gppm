@@ -1,2 +1,2 @@
-data('demoLGCM')
-plotLong(demoLGCM,by='t',id='ID',dv=y)
+# data('demoLGCM')
+# plotLong(demoLGCM,by='t',id='ID',dv=y)

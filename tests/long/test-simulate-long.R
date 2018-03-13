@@ -3,7 +3,7 @@ demoLGCM <- demoLGCM[sample(1:nrow(demoLGCM),nrow(demoLGCM)),]
 meanf <- 'muI+muS*t'
 covf <- 'varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma'
 lgcm <- gppm(meanf,covf,demoLGCM,'ID','x')
-parameterValues <- c(1,-1,1,0,0, 0.5)
+parameterValues <- c(58,-1,258,0.4,0, 10)
 names(parameterValues) <-c('muI','muS','varI','varS','covIS','sigma')
 simData <- simulate(lgcm,parameterValues,nsim=100)
 
@@ -13,7 +13,7 @@ N <- 100
 res <- list()
 for (i in seq_len(N)){
   tryCatch({
-    lgcmFake <- gppm(meanf,covf,simData[[iCounter]])
+    lgcmFake <- gppm(meanf,covf,simData[[i]])
     lgcmFake <- fit(lgcmFake)
     res[[i]] <- confints <- confint(lgcmFake)
   }, error = function(e) {
