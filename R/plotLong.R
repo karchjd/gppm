@@ -1,6 +1,9 @@
 #' @import cowplot
 #' @export
 plotLong <- function(myData,plotIds,by,id,dv){
+  if (!is.null(attr(myData,'preds')) && missing(by)){
+    by <- attr(myData,'preds')
+  }
   myData <- as_LongData(myData,id,dv)
   idCol <- attr(myData,'ID')
   dvCol <- attr(myData,'DV')
@@ -11,7 +14,6 @@ plotLong <- function(myData,plotIds,by,id,dv){
   plotData[,idCol] <- as.factor(plotData[,idCol])
   toPlot <- ggplot(plotData,aes_string(x=by,y=dvCol,colour=idCol)) + geom_line()
   print(toPlot)
-  return(plotIds)
 }
 
 

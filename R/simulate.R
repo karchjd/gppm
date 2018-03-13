@@ -42,6 +42,7 @@ simulate.GPPM <- function (gpModel, parameterValues, seed = NULL,nsim=1){
     simData <- getIntern(gpModel,'data')
     idCol <- attr(simData,'ID')
     dvCol <- attr(simData,'DV')
+    attr(simData,'preds') <- preds(gpModel)
     res <- rep(list(simData),nsim)
     for (j in 1:nsim){
       simData[,dvCol] <- NA

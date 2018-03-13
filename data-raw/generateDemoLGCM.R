@@ -1,7 +1,4 @@
 library(devtools)
-
-
-
 numberPersons <- 250
 timePointsPerPerson <- function(){round(rnorm(1,mean=8,sd=1))}
 getTime <- function(timePoint){rnorm(1,mean=timePoint,sd=0.5)}
