@@ -8,3 +8,5 @@ README.html
 NAMESPACE
 *.pdf
 *.tex
+vignettes/cache
+vignettes/gppm.bbl

@@ -11,9 +11,10 @@
 \newcommand{\fct}[1]{\code{#1()}}
 
 
-<<preliminaries, echo=FALSE>>=
-opts_chunk$set( warning = FALSE, fig.align = 'center', width.cutoff = 80, fig.show = 'hold', eval = TRUE, echo = TRUE, message = FALSE, background = "white", prompt = TRUE, highlight = FALSE, comment = NA, tidy = FALSE, out.truncate = 80)
+<<setup, include = FALSE, cache = FALSE, echo = FALSE>>=
+opts_chunk$set( warning = FALSE, fig.align = 'center', width.cutoff = 80, fig.show = 'hold', eval = TRUE, echo = FALSE, message = FALSE, background = "white", prompt = TRUE, highlight = FALSE, comment = NA, tidy = FALSE, out.truncate = 80)
 options(replace.assign = TRUE, width = 80, prompt = "R> ", scipen = 12, digits = 3,crop=TRUE)
+set.seed(22)
 require(gppm)
 @
 
@@ -79,6 +80,26 @@ TODO
 
 \section{Introduction} \label{sec:intro}
 
+
+
+Longitudinal (panel) data sets are among the most common types of data collected for psychological research. They essentially contain multiple time series; each stemming from one person. The majority of longitudinal data analyses are carried out using the general linear model \citep{cohen_multiple_1968}, multilevel modeling \citep{raudenbush_hierarchical_2001}, time series methods \citep{hamilton_time_1994}, or structural equation modeling \citep{bollen_structural_1989}. These established methods have the advantage that specification and interpretation of the resulting models is relatively straightforward. However, the price to pay for that is to be limited to a relatively strong set assumptions, which might be inappropriate for the more complex data sets that are often encountered in psychology \citep{lee_maximum_2002}. In these situations more flexible model specification approaches are needed for formulating a correctly specified model.
+
+To address this issue, we have recently developed Gaussian process panel (GPPM) modeling, as a novel approach for modeling longitudinal data \citep{karch_machine_2016}. The defining features of GPPM are that it offers great flexibility in model specification, facilitates both parametric and nonparametric modeling approaches, appreciates the continuous-time nature of the data, and offers a modular system that allows specifying models by combing simple base models.
+
+In this paper, we describe the R package \pkg{gppm}, which is the implementation of GPPM in R.
+
+GPPM is closely related to Gaussian process regression, as used in machine learning. Both use mean and covariance functions for model specification. However, while in Gaussian process regression, they are used for specifying nonlinear regression models, GPPM uses them for specifying models for longitudinal panel data. We will introduce mean and covariance functions  in more detail in the next section but essentially they are generalizations of the mean vector and the covariance matrix. While the mean vector and covariance matrix describe the distribution of a finite-dimensional Gaussian random vector, the mean and the covariance function describe the distribution of an infinite-dimensional Gaussian process.
+
+
+GPPMs flexibility is a direct result of using the same specification language as a nonlinear machine learning method. Indeed, most existing methods for longitudinal panel data can be considered special cases of GPPM. This not only includes structural equation modeling and hierarchical linear modeling, but also state-space modeling in its time-discrete and its time-continuous variant, as well as generalized additive models. We provide proofs of this in \citet{karch_machine_2016}. However, in short, all models described by these existing specification language canbe completely translated into mean and covariance functions.
+
+However, GPPM does not only provide an alternative specification language for most existing models. It is also able to represent novel models that cannot be specified by any of traditional methods. Exemplarily, we will demonstrate the ability of GPPM to specify a highly nonlinear model in Section XXX. The model is specified by combining elements from the Gaussian process regression, structural equation modeling, and continuous-time state-space modeling traditions.
+
+Currently, the \pkg{gppm} package is the only available implementation of \pkg{gppm}. However, as was already mentioned, GPPM is related to Gaussian process regression. There are many packages available for Gaussian process regression (see www.gaussianprocess.org/\#code, for an updated overview). While not specifically build for that, these Gaussian process regression packages can also be used for time series analysis ($N=1$). But, in contrast to \pkg{gppm}, the Gaussian process regression packages do not provide frequentist inference procedures. The Gaussian process regression packages cannot be used for analyzing of panel data ($N>1$). Also, model specification in the Gaussian process regression packages is typically limited to combining from a set of predetermined mean and covariance functions. In contrast to that, in the \pkg{gppm} the user has complete freedom in model specification as mean and covariance function are specified using a flexible symbolic algebra system. From the \pkg{gppm} perspective, Gaussian process regression is simply time-series analysis. Thus, the \pkg{gppm} package can also be misappropriated for Gaussian process regression, with the mentioned advantage that it is easier to specify custom mean and covariance functions (see Appendix X). This comes at the price of speed. Using \pkg{gppm} for Gaussian process regression, should be much slower then any of the tailor-made packages. Also \pkg{gppm} does currently not support Bayesian inference for all steps, which is supported by some Gaussian process regression packages.
+
+The remainder of this article is structured as follows. In Section 2, we provide a brief introduction to GPPM. In Section 3, we will explain how to use the \pkg{gppm} in detail. In Section 4, we will showcase XXX. We end this paper with a discussion of current limitations and future directions.
+
+
 %% -- Manuscript ---------------------------------------------------------------
 
 %% - In principle "as usual" again.
@@ -91,30 +112,50 @@ TODO
 %%   (For executed code see the next section.)
 
 \section{Gaussian Process Panel Modeling} \label{sec:GPPM}
-\section{gppm Package} \label{sec:GPPM}
+In this section, we will provide a brief introduction to GPPM. For more elaborate introductions please see \citet{karch_machine_2016}, XXX.
+
+We will in troduce the mean and the kernel function model specification approach by translating one of the simplest, and most popular longitudinal models to it: the latent growth curve model (LGCM). A simple variant of the LGCM can be written as a multilevel model with the following levels
+
+\begin{equations}
+Y_it = I_i + S_i t + \epsilon_i(t)
+\epsilon_i(t) \sim \mathcal{N}(0,\sigma_\epsilon^2)
+I_i \sim \mathcal{N}(\mu_I,\sigma_I^2)
+S_i \sim \mathcal{N}(\mu_S,\sigma_S^2)
+\end{equations}
+
 
 <<load example data, echo=FALSE>>=
 data("demoLGCM")
 @
+$Y_it$ is a random variable whose realization is the observation for person $i$ and time point $t$. $I_i$ is the person-specific intercept for person $i$ and $S_i$ the person-specific slope. $\epsilon_i(t)$ represent the measurement error. In R this model can for example by specified using the \fct{lmer} function from the \pkg{lme4}:
+TODO
+
+
+
+
+\section{gppm Package} \label{sec:GPPM}
+
+
 
 \subsection{Data format}
-The \pkg{gppm} requires data frames as input. The data frames need to be in the long-format.In the long-format each row in the data frame describes the data for one person at one time point. Thus, there are typically multiple rows for each person. An example for a data frame in the long-format can be found in the demo file demoLGCM. The first 6 rows of demoLGCM look like this:
+The \pkg{gppm} package requires the data to be stored in a data frame. The data frame needs to be in the long-format. In the long-format each row  the data for one person at one time point. Thus, there are typically multiple rows for each person. An example for a data frame in the long-format can be found in the demo file demoLGCM. The first 6 rows of demoLGCM look like this:
 
 <<show demoLGCM, echo=FALSE>>=
 print(head(demoLGCM))
 @
 
-Thus, the first row describes person \Sexpr{demoLGCM[1,'ID']} the first measurement took place at time point \Sexpr{demoLGCM[1,'t']} and was \Sexpr{demoLGCM[1,'x']}.
+Thus, the contains one measurement occasion from person \Sexpr{demoLGCM[1,'ID']}. It took place at time point \Sexpr{demoLGCM[1,'t']} and was \Sexpr{demoLGCM[1,'x']}.
 
 The long-format is is typically used by mixed effects packages; most notably \pkg{nlme}, and \pkg{lme4} whereas the wide format is typically used by structural equation modeling packages; such as \pkg{lavaan}, \pkg{sem}, and \pkg{OpenMx}. Nevertheless, we do not support the wide-format as it is not well suited for differing numbers of time points per person. %TODO: convert?
 
 
 \subsection{Model specification}
-For model specification, the \fct{gppm} function is used. Besides the control argument, which should be left at the default by most users, the \fct{gppm} function requires 5 arguments: \code{mFormula}, \code{cFormula}, \code{myData}, \code{ID}, and \code{DV}. The last three arguments are trivial. \code{myData} is simply the data frame containing the relevant data in the long-format. \code{ID} is the label of the variable in \code{myData} that contains the subject IDs. \code{DV} is also a variable label and points to the to be modeled variable.
+For model specification, the \fct{gppm} function is used. The \fct{gppm} function requires 5 arguments: \code{mFormula}, \code{cFormula}, \code{myData}, \code{ID}, and \code{DV}. The last three arguments are straightforward. \code{myData} is simply the data frame containing the relevant data in the long-format. \code{ID} is the label of the variable in \code{myData} that contains the subject IDs. \code{DV} is also a variable label and points to the to be modeled variable.
 
 The two essential arguments are \code{mFormula} and \code{cFormula}, which specify the mean and the covariance function. This is done using strings that describe the respective formulas. As an example, the latent growth curve model is specified like this
-<<specify LGCM, echo=TRUE>>=
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',demoLGCM,'ID','x')
+<<specify LGCM, echo=TRUE, cache=TRUE>>=
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+             demoLGCM,'ID','x')
 @
 The parser automatically recognizes that \emph{muI} refers to a parameter, \emph{t} to an observed value in the data frame, and \emph{+} to a mathematical operator. Thus, the parameters are defined implicitly via the mean and the covariance functions, and there is no need for specifying them implicitly. For the parser to be guaranteed to work, some parameter and variable naming conventions must be adhered too. They can be found in the help file of \fct{gppm}  and match with common best practices in R. In terms of supported functions and operators all functions that are supported by STAN are supported (see STAN manual part VII). Especially, all basic arithmetric operators are supported.
 
@@ -122,14 +163,45 @@ To check whether the parser worked as expected, we recommend to use the \fct{sum
 <<check LGCM, echo=TRUE>>=
 summary(lgcm)
 @
-Here, we see that the parser directly recognized the latent growth curve model parameters and the predictor $t$.
 
-To check whether the mathematic model corresponds with the substantive model, we recommend simulating from the unfitted model. This can be done as follows:
+Here, we see that the parser correctly distinguished between the latent growth curve model parameters $muI, muS, varI, covIS, varS, sigma$ and the predictor $t$.
+
+To check whether the mathematic model corresponds with the substantive model, we recommend simulating from the model and then plotting the simulated data. For simulating, the \fct{simulate} function can be used. The only mandatory input, besides the model to simulate from, are the parameter values used the simulation. For picking the parameter values we recommend to pick values that are complex enought to check all properties of the model but at the same to easy enough to nonambgiously check whether the data could have been generated by those values. An example, of a set of parameter values that does not allow to check all properties of the model would be to set all all variance parameters to zero. By doing that the property of the LGCM to allow for between person variance in intercepts and slopes cannot be checked. An example, of a set of parameters that does allow to nonambigiously check whether the data could have been generated by those parameter values would be to set sigma, the error variance to a high value. The structure imposed by the model would become invisible due to the high noise imposend on it. As a good inbetween point, we choose $muI=1000, muS=3, varI=9, covIS=2, varS=1, sigma=0.1$
+
+<<simulate LGCM, echo=TRUE, cache=TRUE>>=
+paraNames <- variable.names(lgcm)
+print(paraNames)
+paraValues <- c(1000,3,9,2,1,0.01)
+names(paraValues) <- paraNames
+simData <- simulate(lgcm,paraValues)
+plot(simData)
+@
+
+The simulated data is in accordance with the model and the parameter values. The model implies straight line for every persons and each person pontially has there own line. We can also see the relatively high covariance between the starting point (muI) and the slope (muS) of the lines (covIS).
 
 \subsection{Model fitting}
+Once the model has been specified and checked for correctness, model fitting is straightforward:
+<<fit LGCM, echo=TRUE>>=
+lgcmFitted <- fit(lgcm)
+@
+
+The fitting algorithm essentially computes point as well as interval estimates for all parameters. Currently, only frequentist estimation has been implementend. Thus, the fitting algorithm computes maximum likelihood point estimates and confidence intervals.
+
+As most similar programms, gppm uses numerical optimization for fitting the model. Numerical optimization algorithms typically require starting values and the algorithms potentially return different results for different starting values. Per default the fit algorithm uses an automatic procedure to shield the user from this rather technical detail. However, for more advanced users the option to specify a set of starting values is providid via the init arguments of the \fct{fit} function.
+
+
 \subsection{Extracting results}
+After fitting the model, many different aspects of the model can be extracted using different functions. To get an overview of all functions avaiable for extracting information from a fitted GPPM run extractors('GPPM').
 
+One of the extractor functions is the summary function. As typical, the summary function tries to provide the most commonly requested aspects of a model.
+<<summary LGCM, echo=TRUE>>=
+summary(lgcmFitted)
+@
 
+The summary function returns 4 different types of information. The first is about the model specification and last about the data set, which are also provided for an unfitted model and have already been discussed in the model specificaiton section. The 2 sections about the model fitting results are "Parameter Estimates" and "Model Fit". "Parameter Estimates" displays the point estimates, as well as the corresponding standard errors, and the results $95\%$ confidence intervals "Model Fit" provides information about the fit of the model to the data. Currently,the popular model fit measures AIC and BIC as well as the log-likelihood of the parameter estimates is reported.
+
+c(58,-1,5,1,0, 0.01)
+The example data we used was simulated with the following parameter values: $muI=58, muS=-1, varI=5, varS=1,covIS=0, sigma=0.01$. Thus, the returned $95\%$ confidence intervals all return the respective true parameter value, as expected.
 
 
 %% -- Illustrations ------------------------------------------------------------

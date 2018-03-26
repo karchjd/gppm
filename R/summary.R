@@ -47,7 +47,7 @@ summary.GPPM <- function (x, ...) {
     modelSpecification <- new_ModelSpecification(meanf(x),covf(x),npar(x),variable.names(x),npred(x),preds(x))
     dataStats <- new_DataStats(nobs(x),maxtime(x),nstime(x))
   if (isFitted(x)){
-    parameterEstimates <- parameterEsts(x)
+    parameterEstimates <- paramEsts(x)
     modelfit <- new_ModelFit(AIC(x),BIC(x),logLik(x))
   }else{
     parameterEstimates <- modelfit <- NA
@@ -60,7 +60,7 @@ roundForPrint <- function(x){
   rf <- function(x){round(x,2)}
 
   if(is.data.frame(x)){
-    sel <- vapply(tmp,is.numeric,FUN.VALUE=TRUE)
+    sel <- vapply(x,is.numeric,FUN.VALUE=TRUE)
     x[,sel] <- rf(x[,sel])
   }else{
     x <- rf(x)

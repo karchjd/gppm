@@ -4,7 +4,8 @@
 \alias{fit.GPPM}
 \title{Fit a Gaussian process panel model}
 \usage{
-\method{fit}{GPPM}(gpModel, init = "random", useOptimizer = TRUE)
+\method{fit}{GPPM}(gpModel, init = "random", useOptimizer = TRUE,
+  verbose = TRUE)
 }
 \arguments{
 \item{gpModel}{object of class GPPM. The Gaussian proces spanel model to be fitted.}

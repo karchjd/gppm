@@ -1,49 +1,42 @@
+#' Extract point estimates from a Gaussian process panel model
+#'
 #' @export
-coef.GPPM <- function (object, ...){
-  if (is.null(object$fitRes$paraEsts)){
+coef.GPPM <- function (model, ...){
+  if (is.null(model$fitRes$paraEsts)){
     stop('Fit the model first using fit()')
   }else{
-    object$fitRes$paraEsts
+    model$fitRes$paraEsts
   }
 }
 
 #' @export
-coef.GPPM <- function (object, ...){
-  if (is.null(object$fitRes$paraEsts)){
-    stop('Fit the model first using fit()')
-  }else{
-    object$fitRes$paraEsts
-  }
-}
-
-#' @export
-vcov.GPPM <- function (object, ...)
+vcov.GPPM <- function (model, ...)
 {
-  object$fitRes$vcov
-}
-
-#' @export
-vcov.GPPM <- function (object, ...)
-{
-  object$fitRes$vcov
+  model$fitRes$vcov
 }
 
 
 #' @export
-SE <- function (object, ...){
+SE <- function (model, ...){
   UseMethod("SE")
 }
 
 #' @export
-SE.default <- function (object, ...)
+SE.default <- function (model, ...)
 {
-  sqrt(diag(vcov(object, ...)))
+  sqrt(diag(vcov(model, ...)))
 }
 
 #' @export
-confint.GPPM <- function (object, parm, level = 0.95, ...)
+SE.GPPM <- function (model, ...)
 {
-  cf <- coef(object)
+  SE.default(model, ...) #here to have SE appear in extractors('GPPM') output
+}
+
+#' @export
+confint.GPPM <- function (model, parm, level = 0.95, ...)
+{
+  cf <- coef(model)
   pnames <- names(cf)
   if (missing(parm))
     parm <- pnames
@@ -55,24 +48,24 @@ confint.GPPM <- function (object, parm, level = 0.95, ...)
   pct <- stats:::format.perc(a, 3)
   ci <- array(NA, dim = c(length(parm), 2L), dimnames = list(parm,
                                                              pct))
-  ses <- sqrt(diag(vcov(object)))[parm]
+  ses <- sqrt(diag(vcov(model)))[parm]
   ci[] <- cf[parm] + ses %o% fac
   ci
 }
 
 
 #' @export
-logLik.GPPM <- function(object){
-  val <- -2*object$fitRes$minus2LL
-  attr(val, "nobs") <- object$dataForStan$nPer
-  attr(val, "df") <- object$fitRes$nPar
+logLik.GPPM <- function(model){
+  val <- -2*model$fitRes$minus2LL
+  attr(val, "nobs") <- model$dataForStan$nPer
+  attr(val, "df") <- model$fitRes$nPar
   class(val) <- "logLik"
   val
 }
 
 #' @export
-fitted.GPPM <- function(object,..){
-  list(mean=object$fitRes$mu,cov=object$fitRes$Sigma,IDs=attr(object$dataForStan,'IDs'))
+fitted.GPPM <- function(model,..){
+  list(mean=model$fitRes$mu,cov=model$fitRes$Sigma,IDs=attr(model$dataForStan,'IDs'))
 }
 
 
@@ -82,7 +75,7 @@ nobs.GPPM <- function (x, ...) {
 }
 
 #' @export
-npar <-  function(theModel) {
+npar <-  function(model) {
   UseMethod("npar")
 }
 
@@ -92,7 +85,7 @@ npar.GPPM <- function (x, ...) {
 }
 
 #' @export
-maxtime <-  function(theModel) {
+maxtime <-  function(model) {
   UseMethod("maxtime")
 }
 
@@ -102,7 +95,7 @@ maxtime.GPPM <- function (x, ...) {
 }
 
 #' @export
-nstime <-  function(theModel) {
+nstime <-  function(model) {
   UseMethod("nstime")
 }
 
@@ -112,19 +105,19 @@ nstime.GPPM <- function (x, ...) {
 }
 
 #' @export
-npred <-  function(theModel) {
+npred <-  function(model) {
   UseMethod("npred")
 }
 
 #' @export
-preds <-  function(theModel) {
+preds <-  function(model) {
   UseMethod("preds")
 }
 
 
 #' @export
-preds.GPPM <-  function(theModel) {
-  theModel$parsedModel$preds
+preds.GPPM <-  function(model) {
+  model$parsedModel$preds
 }
 #' @export
 npred.GPPM <- function (x, ...) {
@@ -137,32 +130,37 @@ case.names.GPPM <- function (x, ...) {
 }
 
 #' @export
-variable.names.GPPM <- function (object, ...) {
-    object$parsedModel$params
+variable.names.GPPM <- function (model, ...) {
+    model$parsedModel$params
+}
+
+#' @export
+paramEsts <- function (model, level=.95) {
+  UseMethod("paramEsts")
 }
 
 
 #' @export
-parameterEsts <- function (object, level=.95) {
+paramEsts.GPPM <- function (model, level=.95) {
   stopifnot(level<=1 & level>0)
-  stopifnot(isFitted(object))
-  res <- as.data.frame(matrix(nrow=object$fitRes$nPar,ncol=5))
+  stopifnot(isFitted(model))
+  res <- as.data.frame(matrix(nrow=model$fitRes$nPar,ncol=5))
   a <- (1 - level)/2
   a <- c(a, 1 - a)
   pct <- stats:::format.perc(a, 3)
   names(res) <- c('Param','Est','SE',pct)
-  paraNames <- variable.names(object)
-  confInters <- confint(object)
+  paraNames <- variable.names(model)
+  confInters <- confint(model)
   res[['Param']] <- paraNames
-  res[['Est']] <- coef(object)[paraNames]
-  res[['SE']] <- SE(object)[paraNames]
+  res[['Est']] <- coef(model)[paraNames]
+  res[['SE']] <- SE(model)[paraNames]
   res[[4]] <- confInters[,1][paraNames]
   res[[5]] <- confInters[,2][paraNames]
   res
 }
 
 #' @export
-meanf <-  function(theModel) {
+meanf <-  function(model) {
   UseMethod("meanf")
 }
 
@@ -172,7 +170,7 @@ meanf.GPPM <- function (x, ...) {
 }
 
 #' @export
-covf <-  function(theModel) {
+covf <-  function(model) {
   UseMethod("covf")
 }
 
@@ -182,23 +180,49 @@ covf.GPPM <- function (x, ...) {
 }
 
 #' @export
-getIntern <- function (theModel, value, ...) {
+getIntern <- function (model, value, ...) {
   UseMethod("getIntern")
 }
 
 #' @export
-getIntern.GPPM <- function (theModel, value, ...) {
-  switch(value,data=theModel$data,parsedmFormula=theModel$parsedModel$mFormula,parsedcFormula=theModel$parsedModel$kFormula,stanData=theModel$dataForStan,
-         stanModel=theModel$stanModel,stanOut=theModel$stanOut)
+getIntern.GPPM <- function (model, value, ...) {
+  switch(value,data=model$data,parsedmFormula=model$parsedModel$mFormula,parsedcFormula=model$parsedModel$kFormula,stanData=model$dataForStan,
+         stanModel=model$stanModel,stanOut=model$stanOut)
 }
 
 #' @export
-isFitted <-  function(theModel) {
+getData <- function (model) {
+  UseMethod("getData")
+}
+
+#' @export
+getData.GPPM <- function (model) {
+  model$data
+}
+
+#' @export
+getIntern.GPPM <- function (model, value, ...) {
+  switch(value,data=model$data,parsedmFormula=model$parsedModel$mFormula,parsedcFormula=model$parsedModel$kFormula,stanData=model$dataForStan,
+         stanModel=model$stanModel,stanOut=model$stanOut)
+}
+
+#' @export
+isFitted <-  function(model) {
   UseMethod("isFitted")
 }
 
 
 #' @export
-isFitted.GPPM <-  function(theModel) {
-  class(theModel$fitRes)=="StanData"
+isFitted.GPPM <-  function(model) {
+  class(model$fitRes)=="StanData"
 }
+
+
+#' @export
+extractors <-  function(class) {
+  theMethods <- methods(class=class)
+  for (i in 1:length(theMethods)){
+
+  }
+}
+
