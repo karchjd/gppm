@@ -5,19 +5,13 @@ validate_toStan <- function(parsedModel,myData){
 
 
 toStan <-function(parsedModel,myData,control){
-  ##constants
-  templateLocation <- '~/mystuff/projects/GPPMSoftware/R/gppm/R/stanTemplate.stan'
-
   validate_toStan(parsedModel,myData)
 
-
-  ##
+  templateLocation <- file.path(system.file(package = 'gppm'),'stanTemplate.stan')
   theTemplate <- readChar(templateLocation, file.info(templateLocation)$size)
 
-
-  paramSect <- paste0('real ', parsedModel$params,';',collapse = '\n ')
-
   theCode <- theTemplate;
+  paramSect <- paste0('real ', parsedModel$params,';',collapse = '\n ')
   theCode <- gsub('<parameters>',paramSect,theCode)
   theCode <- gsub('<meanfunction>',parsedModel$mFormula,theCode)
   theCode <- gsub('<covfunction>',parsedModel$kFormula,theCode)
