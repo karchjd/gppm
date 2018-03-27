@@ -2,9 +2,9 @@
 % Please edit documentation in R/extractors.R
 \name{confint.GPPM}
 \alias{confint.GPPM}
-\title{Confidence Intervals for GPPM Parameters}
+\title{Confidence Intervals}
 \usage{
-\method{confint}{GPPM}(gpModel, parm, level = 0.95, ...)
+\method{confint}{GPPM}(gpModel, parm, level = 0.95)
 }
 \arguments{
 \item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
@@ -25,4 +25,16 @@ simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
 simpleModel <- fit(simpleModel)
 paraEsts <- confint(simpleModel)
+}
+\seealso{
+Other functions to extract from a GPPM: \code{\link{SE}},
+  \code{\link{coef.GPPM}}, \code{\link{covf}},
+  \code{\link{datas}}, \code{\link{fitted.GPPM}},
+  \code{\link{getIntern}}, \code{\link{logLik.GPPM}},
+  \code{\link{maxntime}}, \code{\link{meanf}},
+  \code{\link{nobs.GPPM}}, \code{\link{npar}},
+  \code{\link{npred}}, \code{\link{nstime}},
+  \code{\link{paramEsts}}, \code{\link{preds}},
+  \code{\link{variable.names.GPPM}},
+  \code{\link{vcov.GPPM}}
 }

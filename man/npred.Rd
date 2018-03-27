@@ -2,19 +2,34 @@
 % Please edit documentation in R/extractors.R
 \name{npred}
 \alias{npred}
-\title{Extract the Number of Predictors}
+\title{Number of Predictors}
 \usage{
-npred(object)
+npred(gpModel)
 }
 \arguments{
-\item{object}{a  model}
+\item{gpModel}{object of class GPPM.}
 }
 \value{
 Number of predictors as numeric.
 }
 \description{
-Extracts the number of predictors from a model.
+Extracts the number of predictors from a GPPM.
+}
+\examples{
+data("demoLGCM")
+simpleModel <- gppm('grandMean','(t==t#)*sigma',
+        demoLGCM,'ID','y')
+nPreds <- npred(simpleModel)
 }
 \seealso{
-\code{\link{npred.GPPM}}
+Other functions to extract from a GPPM: \code{\link{SE}},
+  \code{\link{coef.GPPM}}, \code{\link{confint.GPPM}},
+  \code{\link{covf}}, \code{\link{datas}},
+  \code{\link{fitted.GPPM}}, \code{\link{getIntern}},
+  \code{\link{logLik.GPPM}}, \code{\link{maxntime}},
+  \code{\link{meanf}}, \code{\link{nobs.GPPM}},
+  \code{\link{npar}}, \code{\link{nstime}},
+  \code{\link{paramEsts}}, \code{\link{preds}},
+  \code{\link{variable.names.GPPM}},
+  \code{\link{vcov.GPPM}}
 }

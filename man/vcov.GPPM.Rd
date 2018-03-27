@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractors.R
 \name{vcov.GPPM}
 \alias{vcov.GPPM}
-\title{Calculate Variance-Covariance Matrix for a GPPM}
+\title{Variance-Covariance Matrix}
 \usage{
 \method{vcov}{GPPM}(gpModel)
 }
@@ -21,4 +21,15 @@ simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
 simpleModel <- fit(simpleModel)
 paraEsts <- vcov(simpleModel)
+}
+\seealso{
+Other functions to extract from a GPPM: \code{\link{SE}},
+  \code{\link{coef.GPPM}}, \code{\link{confint.GPPM}},
+  \code{\link{covf}}, \code{\link{datas}},
+  \code{\link{fitted.GPPM}}, \code{\link{getIntern}},
+  \code{\link{logLik.GPPM}}, \code{\link{maxntime}},
+  \code{\link{meanf}}, \code{\link{nobs.GPPM}},
+  \code{\link{npar}}, \code{\link{npred}},
+  \code{\link{nstime}}, \code{\link{paramEsts}},
+  \code{\link{preds}}, \code{\link{variable.names.GPPM}}
 }

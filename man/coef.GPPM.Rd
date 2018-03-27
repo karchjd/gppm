@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractors.R
 \name{coef.GPPM}
 \alias{coef.GPPM}
-\title{Extract GPPM Point Estimates}
+\title{Point Estimates}
 \usage{
 \method{coef}{GPPM}(gpModel)
 }
@@ -21,4 +21,16 @@ simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
 simpleModel <- fit(simpleModel)
 paraEsts <- coef(simpleModel)
+}
+\seealso{
+Other functions to extract from a GPPM: \code{\link{SE}},
+  \code{\link{confint.GPPM}}, \code{\link{covf}},
+  \code{\link{datas}}, \code{\link{fitted.GPPM}},
+  \code{\link{getIntern}}, \code{\link{logLik.GPPM}},
+  \code{\link{maxntime}}, \code{\link{meanf}},
+  \code{\link{nobs.GPPM}}, \code{\link{npar}},
+  \code{\link{npred}}, \code{\link{nstime}},
+  \code{\link{paramEsts}}, \code{\link{preds}},
+  \code{\link{variable.names.GPPM}},
+  \code{\link{vcov.GPPM}}
 }

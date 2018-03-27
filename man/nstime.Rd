@@ -2,19 +2,35 @@
 % Please edit documentation in R/extractors.R
 \name{nstime}
 \alias{nstime}
-\title{Extract the Number of Observations from a Longitudinal Model}
+\title{Number of Observations}
 \usage{
-nstime(object)
+nstime(gpModel)
 }
 \arguments{
-\item{object}{a longitudinal model}
+\item{gpModel}{object of class GPPM.}
 }
 \value{
-Number of observations for each person as a numeric vector.
+Number of observations for each person as a numeric vector. The corresponding IDs are in the IDs attribute.
 }
 \description{
-Extracts the number of observations for each person from a longitudinal model.
+Extracts the number of observations for each person from a GPPM.
+}
+\examples{
+data("demoLGCM")
+simpleModel <- gppm('grandMean','(t==t#)*sigma',
+        demoLGCM,'ID','y')
+numberTimePoints <- nstime(simpleModel)
+
 }
 \seealso{
-\code{\link{nstime.GPPM}}
+Other functions to extract from a GPPM: \code{\link{SE}},
+  \code{\link{coef.GPPM}}, \code{\link{confint.GPPM}},
+  \code{\link{covf}}, \code{\link{datas}},
+  \code{\link{fitted.GPPM}}, \code{\link{getIntern}},
+  \code{\link{logLik.GPPM}}, \code{\link{maxntime}},
+  \code{\link{meanf}}, \code{\link{nobs.GPPM}},
+  \code{\link{npar}}, \code{\link{npred}},
+  \code{\link{paramEsts}}, \code{\link{preds}},
+  \code{\link{variable.names.GPPM}},
+  \code{\link{vcov.GPPM}}
 }

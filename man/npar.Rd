@@ -2,16 +2,34 @@
 % Please edit documentation in R/extractors.R
 \name{npar}
 \alias{npar}
-\title{Extract Number of Parameters from a Model}
+\title{Number of Parameters}
 \usage{
-npar(object)
+npar(gpModel)
 }
 \arguments{
-\item{object}{a statistical model}
+\item{gpModel}{object of class GPPM.}
 }
 \value{
 Number of parameters as a numeric.
 }
 \description{
-Extracts the number of parameters from a model.
+Extracts the number of parameters from a GPPM.
+}
+\examples{
+data("demoLGCM")
+simpleModel <- gppm('grandMean','(t==t#)*sigma',
+        demoLGCM,'ID','y')
+numberParas <- npar(simpleModel)
+}
+\seealso{
+Other functions to extract from a GPPM: \code{\link{SE}},
+  \code{\link{coef.GPPM}}, \code{\link{confint.GPPM}},
+  \code{\link{covf}}, \code{\link{datas}},
+  \code{\link{fitted.GPPM}}, \code{\link{getIntern}},
+  \code{\link{logLik.GPPM}}, \code{\link{maxntime}},
+  \code{\link{meanf}}, \code{\link{nobs.GPPM}},
+  \code{\link{npred}}, \code{\link{nstime}},
+  \code{\link{paramEsts}}, \code{\link{preds}},
+  \code{\link{variable.names.GPPM}},
+  \code{\link{vcov.GPPM}}
 }

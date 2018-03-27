@@ -2,16 +2,39 @@
 % Please edit documentation in R/extractors.R
 \name{paramEsts}
 \alias{paramEsts}
-\title{Extract the Essential Parameter Estimation Results}
+\title{Essential Parameter Estimation Results}
 \usage{
-paramEsts(object, ...)
+paramEsts(gpModel, level = 0.95)
 }
 \arguments{
-\item{object}{statistical model.}
+\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+
+\item{level}{The confidence level required.}
 }
 \value{
-Essential parameter estimation results.
+The names of the parameters
+
+A data.frame containing the estimated parameters, standard errorsm and the lower and upper bounds of the confidence intervals.
 }
 \description{
-Extracts the essential parameter estimation results for a model
+Extracts the essential parameter estimation results for a GPPM.
+}
+\examples{
+data("demoLGCM")
+simpleModel <- gppm('grandMean','(t==t#)*sigma',
+        demoLGCM,'ID','y')
+parameters <- variable.names(simpleModel)
+
+}
+\seealso{
+Other functions to extract from a GPPM: \code{\link{SE}},
+  \code{\link{coef.GPPM}}, \code{\link{confint.GPPM}},
+  \code{\link{covf}}, \code{\link{datas}},
+  \code{\link{fitted.GPPM}}, \code{\link{getIntern}},
+  \code{\link{logLik.GPPM}}, \code{\link{maxntime}},
+  \code{\link{meanf}}, \code{\link{nobs.GPPM}},
+  \code{\link{npar}}, \code{\link{npred}},
+  \code{\link{nstime}}, \code{\link{preds}},
+  \code{\link{variable.names.GPPM}},
+  \code{\link{vcov.GPPM}}
 }

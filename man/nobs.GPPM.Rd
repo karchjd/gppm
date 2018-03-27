@@ -2,9 +2,9 @@
 % Please edit documentation in R/extractors.R
 \name{nobs.GPPM}
 \alias{nobs.GPPM}
-\title{Extract the Number of persons from a GPPM}
+\title{Number of persons}
 \usage{
-\method{nobs}{GPPM}(gpModel, ...)
+\method{nobs}{GPPM}(gpModel)
 }
 \arguments{
 \item{gpModel}{object of class GPPM.}
@@ -21,4 +21,16 @@ simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
 simpleModel <- fit(simpleModel)
 numberPersons <- nobs(simpleModel)
+}
+\seealso{
+Other functions to extract from a GPPM: \code{\link{SE}},
+  \code{\link{coef.GPPM}}, \code{\link{confint.GPPM}},
+  \code{\link{covf}}, \code{\link{datas}},
+  \code{\link{fitted.GPPM}}, \code{\link{getIntern}},
+  \code{\link{logLik.GPPM}}, \code{\link{maxntime}},
+  \code{\link{meanf}}, \code{\link{npar}},
+  \code{\link{npred}}, \code{\link{nstime}},
+  \code{\link{paramEsts}}, \code{\link{preds}},
+  \code{\link{variable.names.GPPM}},
+  \code{\link{vcov.GPPM}}
 }

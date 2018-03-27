@@ -2,16 +2,35 @@
 % Please edit documentation in R/extractors.R
 \name{SE}
 \alias{SE}
-\title{Calculate Standard Errors}
+\title{Standard Errors}
 \usage{
-SE(object)
+SE(gpModel)
 }
 \arguments{
-\item{object}{a fitted model object.}
+\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
 }
 \value{
 Standard errors for all parameters as a named numeric vector.
 }
 \description{
-Returns the standard errors of the main parameters of a fitted model object.
+Returns the standard errors of the parameters of a fitted GPPM.
+}
+\examples{
+data("demoLGCM")
+simpleModel <- gppm('grandMean','(t==t#)*sigma',
+        demoLGCM,'ID','y')
+simpleModel <- fit(simpleModel)
+paraEsts <- SE(simpleModel)
+}
+\seealso{
+Other functions to extract from a GPPM: \code{\link{coef.GPPM}},
+  \code{\link{confint.GPPM}}, \code{\link{covf}},
+  \code{\link{datas}}, \code{\link{fitted.GPPM}},
+  \code{\link{getIntern}}, \code{\link{logLik.GPPM}},
+  \code{\link{maxntime}}, \code{\link{meanf}},
+  \code{\link{nobs.GPPM}}, \code{\link{npar}},
+  \code{\link{npred}}, \code{\link{nstime}},
+  \code{\link{paramEsts}}, \code{\link{preds}},
+  \code{\link{variable.names.GPPM}},
+  \code{\link{vcov.GPPM}}
 }
