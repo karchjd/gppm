@@ -10,8 +10,6 @@
 \item{gpModel}{object of class GPPM.}
 }
 \value{
-The names of the parameters.
-
 The names of the paramters
 }
 \description{

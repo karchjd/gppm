@@ -14,7 +14,7 @@ paramEsts(gpModel, level = 0.95)
 \value{
 The names of the parameters
 
-A data.frame containing the estimated parameters, standard errorsm and the lower and upper bounds of the confidence intervals.
+A data.frame containing the estimated parameters, standard errors, and the lower and upper bounds of the confidence intervals.
 }
 \description{
 Extracts the essential parameter estimation results for a GPPM.
@@ -23,7 +23,7 @@ Extracts the essential parameter estimation results for a GPPM.
 data("demoLGCM")
 simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
-parameters <- variable.names(simpleModel)
+paramEssentials <- paramEsts(simpleModel)
 
 }
 \seealso{

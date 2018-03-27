@@ -14,7 +14,7 @@
 #' @export
 coef.GPPM <- function (gpModel){
   checkFitted(gpModel)
-  model$fitRes$paraEsts
+  gpModel$fitRes$paraEsts
 }
 
 #' Variance-Covariance Matrix
@@ -395,7 +395,7 @@ getIntern <- function (gpModel, quantity) {
     checkFitted(gpModel)
   }
   switch(quantity,parsedmFormula=gpModel$parsedModel$mFormula,parsedcFormula=gpModel$parsedModel$kFormula,stanData=gpModel$dataForStan,
-         stanModel=gpModel$stanModel,stanOut=gpModel$stanOut)
+         stanModel=gpModel$stanModel,stanOut=gpModel$stanOut,stop(sprintf('Unkown quantity %s',quantity)))
 }
 
 isFitted <-  function(gpModel) {
