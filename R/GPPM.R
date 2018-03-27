@@ -60,7 +60,7 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #' # Defintion of a latent growth curve model
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','x')
+#'         demoLGCM,'ID','y')
 #' @import rstan
 #' @import Rcpp
 #' @export

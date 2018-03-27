@@ -38,7 +38,7 @@ simulate.GPPM <- function (gpModel, parameterValues, seed = NULL,nsim=1){
     ##core
     gpModel <- fit(gpModel,useOptimizer=FALSE,init=parameterValues)
     meansAndCovs <- fitted(gpModel)
-    IDs <- meansAndCovs$IDs
+    IDs <- meansAndCovs$ID
     simData <- getIntern(gpModel,'data')
     idCol <- attr(simData,'ID')
     dvCol <- attr(simData,'DV')

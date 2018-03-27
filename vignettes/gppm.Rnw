@@ -6,13 +6,17 @@
 \usepackage{thumbpdf,lmodern}
 \usepackage{framed}
 
+%% my packages
+\usepackage{amsmath}
+
+
 %% new custom commands
 \newcommand{\class}[1]{`\code{#1}'}
 \newcommand{\fct}[1]{\code{#1()}}
 
 
 <<setup, include = FALSE, cache = FALSE, echo = FALSE>>=
-opts_chunk$set( warning = FALSE, fig.align = 'center', width.cutoff = 80, fig.show = 'hold', eval = TRUE, echo = FALSE, message = FALSE, background = "white", prompt = TRUE, highlight = FALSE, comment = NA, tidy = FALSE, out.truncate = 80)
+knitr::opts_chunk$set( warning = FALSE, fig.align = 'center', width.cutoff = 80, fig.show = 'hold', eval = TRUE, echo = FALSE, message = FALSE, background = "white", prompt = TRUE, highlight = FALSE, comment = NA, tidy = FALSE, out.truncate = 80)
 options(replace.assign = TRUE, width = 80, prompt = "R> ", scipen = 12, digits = 3,crop=TRUE)
 set.seed(22)
 require(gppm)
@@ -116,12 +120,12 @@ In this section, we will provide a brief introduction to GPPM. For more elaborat
 
 We will in troduce the mean and the kernel function model specification approach by translating one of the simplest, and most popular longitudinal models to it: the latent growth curve model (LGCM). A simple variant of the LGCM can be written as a multilevel model with the following levels
 
-\begin{equations}
-Y_it = I_i + S_i t + \epsilon_i(t)
-\epsilon_i(t) \sim \mathcal{N}(0,\sigma_\epsilon^2)
-I_i \sim \mathcal{N}(\mu_I,\sigma_I^2)
-S_i \sim \mathcal{N}(\mu_S,\sigma_S^2)
-\end{equations}
+\begin{align*}
+Y_it = I_i  + S_i t + \epsilon_i(t) \\
+\epsilon_i(t) \sim \mathcal{N}(0,\sigma_\epsilon^2) \\
+I_i \sim \mathcal{N}(\mu_I,\sigma_I^2) \\
+S_i \sim \mathcal{N}(\mu_S,\sigma_S^2) \\
+\end{align*}
 
 
 <<load example data, echo=FALSE>>=

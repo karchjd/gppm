@@ -8,7 +8,7 @@
 \describe{
   \item{ID}{Subject ID}
   \item{t}{Time index}
-  \item{x}{Generic measurement}
+  \item{y}{Generic measurement}
 }}
 \usage{
 demoLGCM
