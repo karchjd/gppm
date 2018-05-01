@@ -20,7 +20,11 @@
 #' simData <- simulate(lgcm,parameterValues)
 #' @import MASS
 #' @export
-simulate.GPPM <- function (gpModel, parameterValues, seed = NULL,nsim=1){
+simulate.GPPM <- function (gpModel, parameterValues=NULL, seed = NULL,nsim=1,verbose=FALSE){
+
+  if (is.null(parameterValues)){
+    parameterValues <- coef(gpModel)
+  }
     validate_simulate(gpModel,parameterValues)
 
     ##set seed
@@ -35,11 +39,12 @@ simulate.GPPM <- function (gpModel, parameterValues, seed = NULL,nsim=1){
       on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
     }
 
+
     ##core
-    gpModel <- fit(gpModel,useOptimizer=FALSE,init=parameterValues)
+    gpModel <- fit(gpModel,useOptimizer=FALSE,init=parameterValues,verbose=verbose,hessian=FALSE)
     meansAndCovs <- fitted(gpModel)
     IDs <- meansAndCovs$ID
-    simData <- getIntern(gpModel,'data')
+    simData <- datas(gpModel)
     idCol <- attr(simData,'ID')
     dvCol <- attr(simData,'DV')
     attr(simData,'preds') <- preds(gpModel)

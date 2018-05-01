@@ -1,3 +1,4 @@
+
 #' Point Estimates
 #'
 #' Extracts point estimates for all parameters from a fitted GPPM.
@@ -112,7 +113,7 @@ confint.GPPM <- function(gpModel, parm, level = 0.95)
 #' @export
 logLik.GPPM <- function(gpModel){
   checkFitted(gpModel)
-  val <- -2*gpModel$fitRes$minus2LL
+  val <- gpModel$fitRes$LL
   attr(val, "nobs") <- gpModel$dataForStan$nPer
   attr(val, "df") <- gpModel$fitRes$nPar
   class(val) <- "logLik"
@@ -191,7 +192,7 @@ npar <- function (gpModel) {
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' numberTimePoints <- maxtime(simpleModel)
+#' numberTimePoints <- maxntime(simpleModel)
 #' @export
 maxntime <- function (gpModel){
   checkGPPM(gpModel)
@@ -215,7 +216,8 @@ maxntime <- function (gpModel){
 nstime <- function (gpModel) {
   checkGPPM(gpModel)
   result <- gpModel$dataForStan$nTime
-  attr(result) <- attr(gpModel$dataForStan,'IDs')
+  attr(result,'IDs') <- attr(gpModel$dataForStan,'IDs')
+  result
 }
 
 

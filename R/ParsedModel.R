@@ -31,7 +31,7 @@ betterRegMatches <- function(modString,resGreg,value=' '){
 extractParamsPreds <- function(myFormula,myData){
   ##constants
   specialChar <- '#'
-  splitters <- c('[[:alnum:]]*\\(','\\(','\\)', '\\+','\\-','\\*','/','%','<','<=','>','>=','==','!=','!','&&','||','\\^')
+  splitters <- c('[[:alnum:]]*\\(','\\(','\\)', '\\+','\\-','\\*','/','%','<','<=','>','>=','==','!=','!','&&','||','\\^',',')
 
   ##detect and remove reserved characters used for functions, operators etc.
   #detect

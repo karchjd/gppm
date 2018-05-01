@@ -8,10 +8,12 @@ plot.LongData <- function(myData,plotIds,by,id,dv){
   idCol <- attr(myData,'ID')
   dvCol <- attr(myData,'DV')
   if(missing(plotIds)){
-    plotIds <- sample(unique(myData[,idCol]),5)
+    Ids <- unique(myData[,idCol])
+    nIds <- length(Ids)
+    plotIds <- sample(Ids,min(5,nIds))
   }
   plotData <- myData[myData[,idCol] %in% plotIds,]
   plotData[,idCol] <- as.factor(plotData[,idCol])
   toPlot <- ggplot2::ggplot(plotData,aes_string(x=by,y=dvCol,colour=idCol)) + geom_line()
-  print(toPlot)
+  return(toPlot)
 }

@@ -4,8 +4,8 @@ new_ModelSpecification<- function(meanFormula,covFormula,nPars,params,nPreds,pre
     covFormula=covFormula,
     nPars=nPars,
     params=params,
-    preds=preds,
-    nPreds=nPreds
+    nPreds=nPreds,
+    preds=preds
   ),
   class='ModelSpecification'
   )
@@ -42,13 +42,29 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
   )
 }
 
+#' Summarizing GPPM
+#' @inheritParams nobs.GPPM
+#' \code{summary} method for class 'GPPM'
+#' @return An object of classs "summary.GPPM", which is a list with 4 entries:
+#' ' \itemize{
+#'   \item \code{modelSpecification} an object of class 'ModelSpecification' describing the model as a list with the following entries
+#'   \itemize{
+#'       \item \code{meanFormula} formula for the mean function; output of \code{\link{meanf}}
+#'       \item \code{covFormula} formula for the covariance function; output of \code{\link{covf}}
+#'       \item \code{nPars} number of parameters; output of \code{\link{npar}}
+#'       \item \code{params} parameter names; output of \code{\link{variable.names.GPPM}}
+#'       \item \code{nPreds} number of predictors; output of \code{\link{npred}}
+#'       \item \code{preds} predictors names; output of \code{\link{preds}}
+#'   }
+#'   \item Second item
+#' }
 #' @export
-summary.GPPM <- function (x, ...) {
-    modelSpecification <- new_ModelSpecification(meanf(x),covf(x),npar(x),variable.names(x),npred(x),preds(x))
-    dataStats <- new_DataStats(nobs(x),maxtime(x),nstime(x))
-  if (isFitted(x)){
-    parameterEstimates <- paramEsts(x)
-    modelfit <- new_ModelFit(AIC(x),BIC(x),logLik(x))
+summary.GPPM <- function (gpModel) {
+    modelSpecification <- new_ModelSpecification(meanf(gpModel),covf(gpModel),npar(gpModel),variable.names(gpModel),npred(gpModel),preds(gpModel))
+    dataStats <- new_DataStats(nobs(gpModel),maxntime(gpModel),nstime(gpModel))
+  if (isFitted(gpModel)){
+    parameterEstimates <- paramEsts(gpModel)
+    modelfit <- new_ModelFit(AIC(gpModel),BIC(gpModel),logLik(gpModel))
   }else{
     parameterEstimates <- modelfit <- NA
   }
@@ -68,6 +84,7 @@ roundForPrint <- function(x){
   x
 }
 
+#' @describeIn summary.GPPM
 #' @export
 print.summary.GPPM <- function (summaryObj, ...) {
 cat('Summary of Gaussian process panel model \n \n')

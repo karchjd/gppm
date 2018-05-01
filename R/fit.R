@@ -28,7 +28,7 @@ fit <-  function(theModel,...) {
 #' linearChangeFake <- fit(linearChange,init=startVals,useOptimizer=FALSE)
 #' stopifnot(identical(startVals,coef(linearChangeFake)))
 #' @export
-fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE) {
+fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE,hessian=TRUE) {
   if (useOptimizer){
     iter<- 10000
     algorithm <- 'LBFGS' #default
@@ -46,7 +46,7 @@ fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE) {
   }else{
     outf <- capture.output
   }
-  outf(gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = TRUE,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE))
-  gpModel$fitRes <- extractFitRes(gpModel$stanOut,gpModel$parsedModel,gpModel$dataForStan[c('nPer','nTime','maxTime')])
+  outf(gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = hessian,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE))
+  gpModel$fitRes <- extractFitRes(gpModel$stanOut,gpModel$parsedModel,gpModel$dataForStan[c('nPer','nTime','maxTime','Y')])
   gpModel
 }
