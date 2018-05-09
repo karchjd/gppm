@@ -111,7 +111,7 @@ validate_gppm <- function(mFormula,cFormula,myData,control){
   varNames <- names(myData)
   allValid <- grepl("^[A-Za-z]+[0-9A-Za-z]*$",varNames)
   if (any(!allValid)){
-    stop(sprintf('Invalid variable name %s in your data frame. See ?gppModel for naming conventions\n',varNames[!allValid]))
+    stop(sprintf('Invalid variable name %s in your data frame. See ?gppm for naming conventions\n',varNames[!allValid]))
   }
 
 
