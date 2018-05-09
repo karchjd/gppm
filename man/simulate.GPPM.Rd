@@ -4,8 +4,7 @@
 \alias{simulate.GPPM}
 \title{Simulate from a Gaussian process panel model}
 \usage{
-\method{simulate}{GPPM}(gpModel, parameterValues = NULL, seed = NULL,
-  nsim = 1, verbose = FALSE)
+\method{simulate}{GPPM}(gpModel, parameterValues, seed = NULL, nsim = 1)
 }
 \arguments{
 \item{gpModel}{object of class GPPM. The Gaussian proces spanel model from which to simulate}

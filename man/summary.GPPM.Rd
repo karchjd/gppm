@@ -9,7 +9,7 @@ summary.GPPM(gpModel)
 \value{
 An object of classs "summary.GPPM", which is a list with 4 entries:
 ' \itemize{
-  \item \code{modelSpecification} an object of class 'ModelSpecification' describing the model as a list with the following entries
+  \item \code{modelSpecification} an object of class 'ModelSpecification' describing the specified models as a list with 4 entries
   \itemize{
       \item \code{meanFormula} formula for the mean function; output of \code{\link{meanf}}
       \item \code{covFormula} formula for the covariance function; output of \code{\link{covf}}

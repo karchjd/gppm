@@ -7,4 +7,5 @@ ID <- 'ID'
 DV <- 'y'
 
 myDataLong <- structure(myData,class=c('LongData',class(myData)),ID=ID,DV=DV)
-controls <- gppmControl(stanModel = FALSE)
+# controls <- gppmControl(stanModel = FALSE)
+warning('All helpers disabled')

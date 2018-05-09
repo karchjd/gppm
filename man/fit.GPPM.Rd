@@ -5,7 +5,7 @@
 \title{Fit a Gaussian process panel model}
 \usage{
 \method{fit}{GPPM}(gpModel, init = "random", useOptimizer = TRUE,
-  verbose = FALSE, hessian = TRUE)
+  verbose = FALSE)
 }
 \arguments{
 \item{gpModel}{object of class GPPM. The Gaussian proces spanel model to be fitted.}
