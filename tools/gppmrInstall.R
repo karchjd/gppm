@@ -2,4 +2,4 @@
 if (!requireNamespace('devtools')){
   install.packages('devtools')
 }
-devtools::install_git('https://github.com/karchjd/gppmr')
+devtools::install_github('karchjd/gppmr@develop')
