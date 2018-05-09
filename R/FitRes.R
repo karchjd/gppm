@@ -33,7 +33,7 @@ extractLL <- function(meanCov,dataStats){
   Y <- dataStats$Y
   ll <- 0
   for (i in 1:length(Y)){
-    ll <- ll + mvtnorm::dmvnorm(Y[[i]][1:dataStats$nTime[i]],mean=meanCov$mu[[i]],sigma=meanCov$Sigma[[i]],log=TRUE)
+    ll <- ll + mvtnorm::dmvnorm(Y[[i]][1:dataStats$nTime[i]],mean=meanCov$mu[[i]],sigma=as.matrix(meanCov$Sigma[[i]]),log=TRUE)
   }
   ll
 }

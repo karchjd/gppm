@@ -35,7 +35,7 @@ newModel <- fit(newModel,useOptimizer=FALSE,init=coef(gpModel),...)
 meansAndCovs <- fitted(newModel)
 
 #calculate predictions
-res <- list(predMean=list(),predCov=list(),type=character(),preds=list())
+res <- list(predMean=list(),predCov=list(),type=character(),preds=list(),trueVals=list())
 res$ID <- meansAndCovs$ID
 means <- meansAndCovs$mean
 covs <- meansAndCovs$cov
@@ -47,7 +47,9 @@ for (i in seq_len(length(res$ID))){
 
   indexOld <- seq_len(borderOld)
   indexNew <- (borderOld+1):nTimePoints
-  res$preds[[i]] <- dataUpdate[indexNew,attr(oldData,'preds'),drop=FALSE]
+  onlyDataForPersonI <- dataUpdate[dataUpdate[,IDfield]==res$ID[i],]
+  res$preds[[i]] <- onlyDataForPersonI[indexNew,preds(gpModel),drop=FALSE]
+  res$trueVals[[i]] <- onlyDataForPersonI[indexNew,attr(oldData,'DV'),drop=FALSE]
   fullMean <- means[[i]]
   fullCov <- covs[[i]]
 
@@ -63,10 +65,10 @@ for (i in seq_len(length(res$ID))){
     crossOldNew <- fullCov[indexOld,indexNew,drop=FALSE]
     stopifnot(all.equal(crossNewOld,t(crossOldNew),tolerance=1e-10)) #TODO why identical fail
 
-    y <- as.matrix(getIntern(gpModel,'stanData')$Y[[i]][indexOld])
+    y <- as.matrix(getIntern(newModel,'stanData')$Y[[i]][indexOld])
     #calculate
     res$predMean[[i]] <- mNew + crossNewOld %*% cOldInv %*% (y-mOld)
-    res$predCov[[i]] <- cNew + crossNewOld %*% cOldInv %*% crossOldNew
+    res$predCov[[i]] <- cNew - crossNewOld %*% cOldInv %*% crossOldNew
     res$type[i] <- 'conditional'
   }else{
     res$predMean[[i]] <- mNew
@@ -76,6 +78,20 @@ for (i in seq_len(length(res$ID))){
 }
 class(res) <- 'GPPMPred'
 res
+}
+
+#' @export
+accuracy <- function(predRes){
+  nPers <- length(predRes$ID)
+  MSE <- c()
+  LL <- rep(NA,nPers)
+  for (i in 1:nPers){
+    MSE <- c(MSE,(predRes$predMean[i]-predRes$trueVals[[i]])^2)
+    LL[i] <- log(mvtnorm::dmvnorm(t(predRes$trueVals[[i]]),mean=as.vector(predRes$predMean[[i]]),sigma=predRes$predCov[[i]]))
+  }
+  mMSE <- mean(MSE)
+  sLL <- sum(LL)
+  return(list(MSE=mMSE,nLPP=-sLL))
 }
 
 
