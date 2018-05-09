@@ -4,7 +4,6 @@
 .Ruserdata
 README.html
 .DS_Store
-NAMESPACE
 *.pdf
 *.tex
 vignettes/cache
