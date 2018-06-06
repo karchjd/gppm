@@ -94,4 +94,30 @@ accuracy <- function(predRes){
   return(list(MSE=mMSE,nLPP=-sLL))
 }
 
+#' @export
+plot.GPPMPred <- function(predictions,plotId,trainingData=NULL){
+  require(ggthemes)
+  stopifnot(length(plotId)==1)
+  idIdx = plotId==predictions$ID
+  stopifnot(sum(idIdx)==1)
+  #only for one predictor
+  #mean
+  toPlot <- data.frame(mypreds=predictions$preds[[idIdx]],means=predictions$predMean[[idIdx]],var=diag(predictions$predCov[[idIdx]]),trueV=predictions$trueVals[[idIdx]])
+  thePlot <- ggplot2::ggplot(toPlot, ggplot2::aes_string(x=names(toPlot)[1], y='means')) +
+  ggplot2::geom_line(aes(y=means+1.96*var))+
+  ggplot2::geom_line(aes(y=means-1.96*var))+
+  geom_ribbon(aes( ymax=means+1.96*var, ymin=means-1.96*var), fill="grey", alpha=.5)+
+  ggplot2::geom_line(size=1)
+  if (!is.null(trainingData)){
+    idcol <- attr(trainingData,'ID')
+    trainingData <- trainingData[trainingData[,idcol]==plotId,]
+    dataPlot <- data.frame(mypreds=trainingData[,attr(trainingData,'preds')],trueV=trainingData[,attr(trainingData,'DV')])
+    thePlot <- thePlot + ggplot2::geom_point(data=dataPlot,mapping=aes(x=mypreds,y=trueV))
+  }
+  thePlot <- thePlot + ggthemes::theme_tufte()+xlab(paste0('Predictor ',names(toPlot)[1]))+ylab(paste0('Outcome ', attr(trainingData,'DV')))
+
+}
+
+
+
 

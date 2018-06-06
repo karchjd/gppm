@@ -14,6 +14,6 @@ plot.LongData <- function(myData,plotIds,by,id,dv){
   }
   plotData <- myData[myData[,idCol] %in% plotIds,]
   plotData[,idCol] <- as.factor(plotData[,idCol])
-  toPlot <- ggplot2::ggplot(plotData,aes_string(x=by,y=dvCol,colour=idCol)) + geom_line()
+  toPlot <- ggplot2::ggplot(plotData,aes_string(x=by,y=dvCol,colour=idCol)) + geom_line() + ggthemes::theme_tufte()
   return(toPlot)
 }
