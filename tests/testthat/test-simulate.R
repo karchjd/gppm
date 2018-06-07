@@ -2,7 +2,7 @@ context("simulate")
 test_that("working", {
    simData <- simulate(lgcm,parameterValues)
    yHat <- simData[,'t']*parameterValues[2]
-   expect_true(all.equal(yHat,simData[,3],tolerance=6/sqrt(nrow(simData)),scale=1))
+   expect_true(all.equal(yHat,simData[,'y'],tolerance=6,scale=1))
 })
 
 test_that("no GPPM model as input", {

@@ -18,3 +18,9 @@ as_LongData <- function(myData,ID,DV){
 }
 
 
+getID <- function(longData){
+  stopifnot("LongData" %in% class(longData))
+  return(attr(longData,'ID'))
+}
+
+

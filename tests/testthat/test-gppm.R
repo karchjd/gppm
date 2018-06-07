@@ -75,15 +75,6 @@ test_that("hard names", {
   expect_equal(cFormula,"(X[i,j,1]==X[i,k,1])*sigma")
 })
 
-test_that("typo", {
-  gpModel <- gppm('b0+b1*t2','(t==t#)*sigma',myDataLong,control=controls)
-
-  mFormula <- getIntern(gpModel,'parsedmFormula')
-  cFormula <- getIntern(gpModel,'parsedcFormula')
-
-
-})
-
 
 
 
