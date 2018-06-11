@@ -19,6 +19,7 @@ toStan <-function(parsedModel,myData,control){
     globalModel <<- stan_model(model_code = theCode,auto_write = TRUE)
     theModel <- globalModel
   }
+  return(theModel)
 }
 
 

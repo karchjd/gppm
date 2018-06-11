@@ -75,6 +75,13 @@ gppm <- function(mFormula,cFormula,myData,ID,DV,control=gppmControl()){
   return(theModel)
 }
 
+subsetData <- function(gpModel,rowIdxs){
+  newModel <- gpModel
+  newModel$data <- gpModel$data[rowIdxs,]
+  newModel$dataForStan <- as_StanData(newModel$data)
+  return(newModel)
+}
+
 validate_gppm <- function(mFormula,cFormula,myData,control){
   ID <- attr(myData,'ID')
   DV <- attr(myData,'DV')

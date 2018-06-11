@@ -34,3 +34,18 @@ createLeavePersonsOutFolds <- function(gpModel,k=10){
   }
   return(foldVectorLong)
 }
+
+##splitters
+#' @export
+crossvalidate(gpModel,foldVector,loss=){
+  nFolds <- max(folds)
+  theData <- datas(gpModel)
+  for (cFold in 1:nFolds){
+    trainRows <- foldVector != cFold
+    testRows <- foldVector == cFold
+    #train model
+    gpModel <- subsetData(gpModel,trainRows)
+    #get predictions
+    predict(gpModel,)
+  }
+}
