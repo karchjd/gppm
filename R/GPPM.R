@@ -71,7 +71,7 @@ gppm <- function(mFormula,cFormula,myData,ID,DV,control=gppmControl()){
   theModel <- new_GPPM(mFormula,cFormula,myData,control)
   theModel$dataForStan <- as_StanData(myData)
   theModel$parsedModel <- parseModel(theModel$mFormula,theModel$cFormula,theModel$dataForStan)
-  theModel$stanModel <- toStan(theModel$parsedModel,theModel$dataForStan,control)
+  theModel$stanModel <- toStan(theModel$parsedModel,control)
   return(theModel)
 }
 

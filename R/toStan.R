@@ -1,11 +1,10 @@
 validate_toStan <- function(parsedModel,myData){
   stopifnot(is(parsedModel,'ParsedModel'))
-  stopifnot(is(myData,'StanData'))
 }
 
 
-toStan <-function(parsedModel,myData,control){
-  validate_toStan(parsedModel,myData)
+toStan <-function(parsedModel,control){
+  validate_toStan(parsedModel)
 
   templateLocation <- file.path(system.file(package = 'gppm'),'stanTemplate.stan')
   theTemplate <- readChar(templateLocation, file.info(templateLocation)$size)
@@ -18,6 +17,8 @@ toStan <-function(parsedModel,myData,control){
   if(control$stanModel){
     globalModel <<- stan_model(model_code = theCode,auto_write = TRUE)
     theModel <- globalModel
+  }else{
+    theModel <- NA
   }
   return(theModel)
 }
