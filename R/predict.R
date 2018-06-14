@@ -1,4 +1,4 @@
-#' GPPM predictions
+ #' GPPM predictions
 #'
 #' Predict values based on a GPPM
 #'

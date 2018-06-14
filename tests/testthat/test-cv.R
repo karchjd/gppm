@@ -20,3 +20,9 @@ test_that("Folds roughly same size", {
   expect(all(proportion>0.09 & proportion<0.11))
 })
 
+
+test_that("full cv", {
+  theFolds <- createLeavePersonsOutFolds(lgcm,k=2)
+  cvRes <- crossvalidate(lgcm,theFolds,loss='lpp')
+})
+

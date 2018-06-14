@@ -1,6 +1,8 @@
 ##splitters
 #' @export
 createLeavePersonsOutFolds <- function(gpModel,k=10){
+  checkGPPM(gpModel)
+
   #get all person ids
   theData <- datas(gpModel)
   idCol <- getID(theData)
@@ -35,17 +37,45 @@ createLeavePersonsOutFolds <- function(gpModel,k=10){
   return(foldVectorLong)
 }
 
-##splitters
+validate_cross <- function(gpModel,foldVector,loss){
+  #gpModel
+  checkGPPM(gpModel)
+
+  #foldVector
+  n <- nrow(datas(gpModel))
+  if (length(foldVector)!=n){
+    stop('foldVector invalid length')
+  }
+  if (!identical(sort(unique(foldVector)),1:max(foldVector))){
+    stop('foldVector invalid format')
+  }
+
+  #loss
+  if (!(loss %in% c('lpp'))){
+    stop('Invalid loss function')
+  }
+}
+
 #' @export
-crossvalidate(gpModel,foldVector,loss=){
-  nFolds <- max(folds)
+crossvalidate <- function(gpModel,foldVector,loss='lpp'){
+  validate_cross(gpModel,foldVector,loss)
+
+
+  nFolds <- max(foldVector)
   theData <- datas(gpModel)
-  for (cFold in 1:nFolds){
+  rowsRes <- vector(mode='double',length=nrow(theData))
+  res <- 0
+  for (cFold in 1:1){
     trainRows <- foldVector != cFold
     testRows <- foldVector == cFold
     #train model
-    gpModel <- subsetData(gpModel,trainRows)
+    tmpModel <- subsetData(gpModel,trainRows)
+    tmpModel <- fit(tmpModel)
     #get predictions
-    predict(gpModel,)
+    thePreds <- predict(tmpModel,theData[testRows,])
+    res <- res + accuracy(thePreds)$nLPP
   }
+  return(res)
 }
+
+
