@@ -1,7 +1,7 @@
 #' Simulate from a Gaussian process panel model
 #'
 #' This function is used to simulate from a Gaussian process panel model,
-#' which has been specified fit using \code{\link{gppm}}.
+#' which has been specified using \code{\link{gppm}}.
 #'
 #' @param gpModel object of class GPPM. The Gaussian proces spanel model from which to simulate
 #'

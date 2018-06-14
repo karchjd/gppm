@@ -2,9 +2,15 @@
 % Please edit documentation in R/summary.R
 \name{summary.GPPM}
 \alias{summary.GPPM}
+\alias{print.summary.GPPM}
 \title{Summarizing GPPM}
 \usage{
 summary.GPPM(gpModel)
+
+\method{print}{summary.GPPM}(summaryObj, ...)
+}
+\arguments{
+\item{gpModel}{object of class GPPM.}
 }
 \value{
 An object of classs "summary.GPPM", which is a list with 4 entries:
@@ -18,9 +24,28 @@ An object of classs "summary.GPPM", which is a list with 4 entries:
       \item \code{nPreds} number of predictors; output of \code{\link{npred}}
       \item \code{preds} predictors names; output of \code{\link{preds}}
   }
-  \item Second item
+  \item \code{parameterEstimates} a data frame containing a summary of the parameter estimates; output of \code{\link{paramEsts}}
+  \item \code{modelfit} An object of class "ModelFit" describing the modelfit using a list with the following entries
+  \itemize{
+      \item \code{AIC} AIC of the model; output of \code{\link{AIC}}
+      \item \code{BIC} BIC of the model; output of \code{\link{BIC}}
+      \item \code{logLik} log-likelihood of the model; output of \code{\link{logLik}}
+  }
+  \item \code{dataStats} An object of class "DataStats" describing the data set using a list with the following entries
+     \itemize{
+
+     nPer=nPer, #number of persons
+      \item \code{nPer} number of persons; output of \code{\link{nobs}}
+      \item \code{maxTime} maximum number of observations per person; output of \code{\link{maxTime}}
+      \item \code{nTime} number of observations for each person; output of \code{\link{nTime}}
+  }
 }
 }
 \description{
-Summarizing GPPM
+\code{summary} method for class 'GPPM'.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{print}: Printing a summary.GPPM object
+}}
+

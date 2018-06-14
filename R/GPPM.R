@@ -45,7 +45,7 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #'   \item References to observed variables in the data frame myData
 #'    \item Mathematical constants
 #' }
-#' The ggpModel function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
+#' The gppm function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
 #'
 #' Parameters: Parameters may not have the same name as any of the columns in myData to avoid confusing them with a reference to an observed variable.
 #'  Furthermore, to avoid confusing them with functions, operators, or constants, parameter labels must always begin with a lower case letter and only contain letters and digits.
@@ -63,6 +63,7 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #'         demoLGCM,'ID','y')
 #' @import rstan
 #' @import Rcpp
+#' @import mvtnorm
 #' @export
 gppm <- function(mFormula,cFormula,myData,ID,DV,control=gppmControl()){
   myData <- as_LongData(myData,ID,DV)
@@ -87,7 +88,7 @@ validate_gppm <- function(mFormula,cFormula,myData,control){
   DV <- attr(myData,'DV')
   stopifnot(!is.null(ID))
   stopifnot(!is.null(DV))
-  #types check
+  #type checks
   if (!is.character(mFormula)){
     stop('mFormula must contain a string')
   } else if(length(mFormula)!=1){

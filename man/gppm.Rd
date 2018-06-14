@@ -35,7 +35,7 @@ These formulas are defined using character strings. Within these strings there a
   \item References to observed variables in the data frame myData
    \item Mathematical constants
 }
-The ggpModel function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
+The gppm function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
 
 Parameters: Parameters may not have the same name as any of the columns in myData to avoid confusing them with a reference to an observed variable.
  Furthermore, to avoid confusing them with functions, operators, or constants, parameter labels must always begin with a lower case letter and only contain letters and digits.

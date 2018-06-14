@@ -15,7 +15,7 @@ toStan <-function(parsedModel,control){
   theCode <- gsub('<meanfunction>',parsedModel$mFormula,theCode)
   theCode <- gsub('<covfunction>',parsedModel$kFormula,theCode)
   if(control$stanModel){
-    globalModel <<- stan_model(model_code = theCode,auto_write = TRUE)
+    globalModel <<- rstan::stan_model(model_code = theCode,auto_write = TRUE)
     theModel <- globalModel
   }else{
     theModel <- NA

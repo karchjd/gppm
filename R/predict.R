@@ -7,17 +7,17 @@
 #' @return Predictions of the dependent variable for all rows in newData. Conditional predictions for all persons in newData that are also present
 #' in the data used for fitting gpModel; unconditional predictions for others persons.
 #' See examples for format.
+#'
 #' @examples
-# data("demoLGCM")
-# #remove all measurements from person 1 and the first form person 2
-# predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
-# fitDemoLGCM <- demoLGCM[setdiff(1:nrow(demoLGCM),predIdx),]
-#
-# lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#              fitDemoLGCM,'ID','y')
-# lgcm <- fit(lgcm)
-# predictions <- predict(lgcm,demoLGCM[predIdx,])
-# predictions
+#'data("demoLGCM")
+#' #remove all measurements from person 1 and the first form person 2
+#' predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
+#' fitDemoLGCM <- demoLGCM[setdiff(1:nrow(demoLGCM),predIdx),]
+#'
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'              fitDemoLGCM,'ID','y')
+#' lgcm <- fit(lgcm)
+#' predictions <- predict(lgcm,demoLGCM[predIdx,])
 #' @export
 predict.GPPM <- function(gpModel,newData,...){
 checkFitted(gpModel)

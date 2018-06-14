@@ -43,8 +43,9 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
 }
 
 #' Summarizing GPPM
+#'
+#' \code{summary} method for class 'GPPM'.
 #' @inheritParams nobs.GPPM
-#' \code{summary} method for class 'GPPM'
 #' @return An object of classs "summary.GPPM", which is a list with 4 entries:
 #' ' \itemize{
 #'   \item \code{modelSpecification} an object of class 'ModelSpecification' describing the model as a list with the following entries
@@ -56,7 +57,19 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
 #'       \item \code{nPreds} number of predictors; output of \code{\link{npred}}
 #'       \item \code{preds} predictors names; output of \code{\link{preds}}
 #'   }
-#'   \item Second item
+#'   \item \code{parameterEstimates} a data frame containing a summary of the parameter estimates; output of \code{\link{paramEsts}}
+#'   \item \code{modelfit} An object of class "ModelFit" describing the modelfit using a list with the following entries
+#'   \itemize{
+#'       \item \code{AIC} AIC of the model; output of \code{\link{AIC}}
+#'       \item \code{BIC} BIC of the model; output of \code{\link{BIC}}
+#'       \item \code{logLik} log-likelihood of the model; output of \code{\link{logLik}}
+#'   }
+#'   \item \code{dataStats} An object of class "DataStats" describing the data set using a list with the following entries
+#'      \itemize{
+#'       \item \code{nPer} number of persons; output of \code{\link{nobs}}
+#'       \item \code{maxTime} maximum number of observations per person; output of \code{\link{maxTime}}
+#'       \item \code{nTime} number of observations for each person; output of \code{\link{nTime}}
+#'   }
 #' }
 #' @export
 summary.GPPM <- function (gpModel) {
@@ -84,7 +97,7 @@ roundForPrint <- function(x){
   x
 }
 
-#' @describeIn summary.GPPM
+#' @describeIn summary.GPPM Printing a summary.GPPM object
 #' @export
 print.summary.GPPM <- function (summaryObj, ...) {
 cat('Summary of Gaussian process panel model \n \n')

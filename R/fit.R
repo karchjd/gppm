@@ -8,7 +8,7 @@ fit <-  function(theModel,...) {
 #' This function is used to fit a Gaussian process panel model,
 #' which has been specified fit using \code{\link{gppm}}.
 #'
-#' @param gpModel object of class GPPM. The Gaussian proces spanel model to be fitted.
+#' @param gpModel object of class GPPM. The Gaussian process panel model to be fitted.
 #'
 #' @param init string or named numeric vector. Used to specify the starting values for the parameters. Can either be the string 'random' (default) or a numeric vector startVal of starting values. Which value belongs to which parameter is determined by the names attribute of startVal. See also the example.
 #'
