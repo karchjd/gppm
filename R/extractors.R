@@ -156,7 +156,7 @@ fitted.GPPM <- function(gpModel,..){
 #' simpleModel <- fit(simpleModel)
 #' numberPersons <- nobs(simpleModel)
 #' @export
-nobs.GPPM <- function (gpModel) {
+nPers <- function (gpModel) {
   gpModel$dataForStan$nPer
 }
 
@@ -166,7 +166,7 @@ nobs.GPPM <- function (gpModel) {
 #'
 #' Extracts the number of parameters from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @return Number of parameters as a numeric.
 #' @examples
@@ -175,7 +175,7 @@ nobs.GPPM <- function (gpModel) {
 #'         demoLGCM,'ID','y')
 #' numberParas <- npar(simpleModel)
 #' @export
-npar <- function (gpModel) {
+nPars <- function (gpModel) {
   checkGPPM(gpModel)
   length(gpModel$parsedModel$params)
 }
@@ -185,7 +185,7 @@ npar <- function (gpModel) {
 #'
 #' Extracts the maximum number of observations per person from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @return Maximum number of observations as a numeric.
 #' @examples
@@ -194,7 +194,7 @@ npar <- function (gpModel) {
 #'         demoLGCM,'ID','y')
 #' numberTimePoints <- maxntime(simpleModel)
 #' @export
-maxntime <- function (gpModel){
+maxnObs <- function (gpModel){
   checkGPPM(gpModel)
   gpModel$dataForStan$maxTime
 }
@@ -203,7 +203,7 @@ maxntime <- function (gpModel){
 #'
 #' Extracts the number of observations for each person from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @return Number of observations for each person as a numeric vector. The corresponding IDs are in the IDs attribute.
 #' @examples
@@ -213,7 +213,7 @@ maxntime <- function (gpModel){
 #' numberTimePoints <- nstime(simpleModel)
 #'
 #' @export
-nstime <- function (gpModel) {
+nObs <- function (gpModel) {
   checkGPPM(gpModel)
   result <- gpModel$dataForStan$nTime
   attr(result,'IDs') <- attr(gpModel$dataForStan,'IDs')
@@ -227,7 +227,7 @@ nstime <- function (gpModel) {
 #'
 #' Extracts the number of predictors from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @return Number of predictors as numeric.
 #' @examples
@@ -236,7 +236,7 @@ nstime <- function (gpModel) {
 #'         demoLGCM,'ID','y')
 #' nPreds <- npred(simpleModel)
 #' @export
-npred <- function (gpModel) {
+nPreds <- function (gpModel) {
   checkGPPM(gpModel)
   gpModel$dataForStan$nPreds
 }
@@ -245,7 +245,7 @@ npred <- function (gpModel) {
 #'
 #' Extracts the predictors from a GPPM
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @return The names of the predictors.
 #' @examples
@@ -264,16 +264,16 @@ preds <-  function(gpModel) {
 #'
 #' Extracts the parameter names from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @examples
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' parameters <- variable.names(simpleModel)
+#' parameters <- pars(simpleModel)
 #' @return The names of the paramters
 #' @export
-variable.names.GPPM <- function (gpModel) {
+pars <- function (gpModel) {
     gpModel$parsedModel$params
 }
 
@@ -290,11 +290,11 @@ variable.names.GPPM <- function (gpModel) {
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' paramEssentials <- paramEsts(simpleModel)
+#' paramEssentials <- parEsts(simpleModel)
 #'
 #' @return A data.frame containing the estimated parameters, standard errors, and the lower and upper bounds of the confidence intervals.
 #' @export
-paramEsts <- function (gpModel, level=.95) {
+parEsts <- function (gpModel, level=.95) {
   stopifnot(level<=1 & level>0)
   checkFitted(gpModel)
   res <- as.data.frame(matrix(nrow=gpModel$fitRes$nPar,ncol=5))
@@ -302,7 +302,7 @@ paramEsts <- function (gpModel, level=.95) {
   a <- c(a, 1 - a)
   pct <- stats:::format.perc(a, 3)
   names(res) <- c('Param','Est','SE',pct)
-  paraNames <- variable.names(gpModel)
+  paraNames <- pars(gpModel)
   confInters <- confint(gpModel)
   res[['Param']] <- paraNames
   res[['Est']] <- coef(gpModel)[paraNames]
@@ -317,7 +317,7 @@ paramEsts <- function (gpModel, level=.95) {
 #'
 #' Extracts the mean function from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @return The mean function as a string.
 #' @examples
@@ -336,7 +336,7 @@ meanf <- function (gpModel) {
 #'
 #' Extracts the covariance function from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @return The covariance function as a string.
 #' @examples
@@ -355,7 +355,7 @@ covf <- function (gpModel, ...) {
 #'
 #' Extracts the data set from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @return The data set associated with the GPPM
 #' @examples
@@ -374,7 +374,7 @@ datas <- function (gpModel) {
 #'
 #' Extracts internals from a GPPM.
 #'
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @param quantity name of the quanity to extract. Possible values are
 #'\itemize{
 #'   \item "parsedmFormula" for the parsed mean formula

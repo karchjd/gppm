@@ -83,6 +83,15 @@ subsetData <- function(gpModel,rowIdxs){
   return(newModel)
 }
 
+updateData <- function(gpModel,newData){
+  newModel <- gpModel
+  oldData <- datas(newModel)
+  stopifnot(identical(names(oldData),names(newData)))
+  newModel$data <- as_LongData(newData,getID(oldData),getDV(oldData))
+  newModel$dataForStan <- as_StanData(newModel$data)
+  return(newModel)
+}
+
 validate_gppm <- function(mFormula,cFormula,myData,control){
   ID <- attr(myData,'ID')
   DV <- attr(myData,'DV')

@@ -69,7 +69,7 @@ validate_simulate <- function (gpModel, parameterValues){
   stopifnot(class(gpModel)=='GPPM')
   stopifnot(is.numeric(parameterValues))
 
-  allParas <- variable.names(gpModel)
+  allParas <- pars(gpModel)
   specified <- names(parameterValues)
   specifiedInModel <- specified %in% allParas
   if (!(all(specifiedInModel))){

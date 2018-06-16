@@ -24,13 +24,13 @@ checkFitted(gpModel)
 
 #get relevant old data
 oldData <- datas(gpModel)
-IDfield <- attr(oldData,'ID')
+IDfield <- getID(oldData)
 predictionIDs <- unique(newData[,IDfield])
 oldData <- oldData[oldData[,IDfield] %in% predictionIDs,]
 dataUpdate <- rbind(oldData,newData)
 
 #get model implied mean and covariance matrices for all relevant persons
-newModel <- gppm(meanf(gpModel),covf(gpModel),dataUpdate)
+newModel <- updateData(gpModel,dataUpdate)
 newModel <- fit(newModel,useOptimizer=FALSE,init=coef(gpModel),...)
 meansAndCovs <- fitted(newModel)
 

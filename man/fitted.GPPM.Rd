@@ -31,10 +31,9 @@ Other functions to extract from a GPPM: \code{\link{SE}},
   \code{\link{coef.GPPM}}, \code{\link{confint.GPPM}},
   \code{\link{covf}}, \code{\link{datas}},
   \code{\link{getIntern}}, \code{\link{logLik.GPPM}},
-  \code{\link{maxntime}}, \code{\link{meanf}},
-  \code{\link{nobs.GPPM}}, \code{\link{npar}},
-  \code{\link{npred}}, \code{\link{nstime}},
-  \code{\link{paramEsts}}, \code{\link{preds}},
-  \code{\link{variable.names.GPPM}},
-  \code{\link{vcov.GPPM}}
+  \code{\link{maxnObs}}, \code{\link{meanf}},
+  \code{\link{nObs}}, \code{\link{nPars}},
+  \code{\link{nPers}}, \code{\link{nPreds}},
+  \code{\link{parEsts}}, \code{\link{pars}},
+  \code{\link{preds}}, \code{\link{vcov.GPPM}}
 }

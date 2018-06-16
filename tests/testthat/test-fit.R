@@ -9,12 +9,6 @@ test_that("useOptimizerFalse", {
 })
 
 test_that("useOptimizerTrue", {
-  data("demoLGCM")
-  data('trueParas')
-  lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-               demoLGCM,'ID','x')
-  try(lgcm <- fit(lgcm,verbose = FALSE),silent=TRUE)
-
   #for this seed all true paras are in data set
   confInters <- confint(lgcm)
   for (cPar in names(trueParas)){

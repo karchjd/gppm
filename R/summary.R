@@ -45,19 +45,19 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
 #' Summarizing GPPM
 #'
 #' \code{summary} method for class 'GPPM'.
-#' @inheritParams nobs.GPPM
+#' @inheritParams nPers
 #' @return An object of classs "summary.GPPM", which is a list with 4 entries:
 #' ' \itemize{
 #'   \item \code{modelSpecification} an object of class 'ModelSpecification' describing the model as a list with the following entries
 #'   \itemize{
 #'       \item \code{meanFormula} formula for the mean function; output of \code{\link{meanf}}
 #'       \item \code{covFormula} formula for the covariance function; output of \code{\link{covf}}
-#'       \item \code{nPars} number of parameters; output of \code{\link{npar}}
-#'       \item \code{params} parameter names; output of \code{\link{variable.names.GPPM}}
-#'       \item \code{nPreds} number of predictors; output of \code{\link{npred}}
+#'       \item \code{nPars} number of parameters; output of \code{\link{nPars}}
+#'       \item \code{params} parameter names; output of \code{\link{pars}}
+#'       \item \code{nPreds} number of predictors; output of \code{\link{nPreds}}
 #'       \item \code{preds} predictors names; output of \code{\link{preds}}
 #'   }
-#'   \item \code{parameterEstimates} a data frame containing a summary of the parameter estimates; output of \code{\link{paramEsts}}
+#'   \item \code{parameterEstimates} a data frame containing a summary of the parameter estimates; output of \code{\link{parEsts}}
 #'   \item \code{modelfit} An object of class "ModelFit" describing the modelfit using a list with the following entries
 #'   \itemize{
 #'       \item \code{AIC} AIC of the model; output of \code{\link{AIC}}
@@ -66,17 +66,17 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
 #'   }
 #'   \item \code{dataStats} An object of class "DataStats" describing the data set using a list with the following entries
 #'      \itemize{
-#'       \item \code{nPer} number of persons; output of \code{\link{nobs}}
-#'       \item \code{maxTime} maximum number of observations per person; output of \code{\link{maxTime}}
-#'       \item \code{nTime} number of observations for each person; output of \code{\link{nTime}}
+#'       \item \code{nPer} number of persons; output of \code{\link{nPers}}
+#'       \item \code{maxTime} maximum number of observations per person; output of \code{\link{maxnObs}}
+#'       \item \code{nTime} number of observations for each person; output of \code{\link{nObs}}
 #'   }
 #' }
 #' @export
 summary.GPPM <- function (gpModel) {
-    modelSpecification <- new_ModelSpecification(meanf(gpModel),covf(gpModel),npar(gpModel),variable.names(gpModel),npred(gpModel),preds(gpModel))
-    dataStats <- new_DataStats(nobs(gpModel),maxntime(gpModel),nstime(gpModel))
+    modelSpecification <- new_ModelSpecification(meanf(gpModel),covf(gpModel),nPars(gpModel),pars(gpModel),nPreds(gpModel),preds(gpModel))
+    dataStats <- new_DataStats(nobs(gpModel),maxnObs(gpModel),nObs(gpModel))
   if (isFitted(gpModel)){
-    parameterEstimates <- paramEsts(gpModel)
+    parameterEstimates <- parEsts(gpModel)
     modelfit <- new_ModelFit(AIC(gpModel),BIC(gpModel),logLik(gpModel))
   }else{
     parameterEstimates <- modelfit <- NA

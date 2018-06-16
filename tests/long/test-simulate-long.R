@@ -7,8 +7,8 @@ parameterValues <- c(58,-1,258,0.4,0, 10)
 names(parameterValues) <-c('muI','muS','varI','varS','covIS','sigma')
 simData <- simulate(lgcm,parameterValues,nsim=100)
 
-counter <- rep(0,length(variable.names(lgcm)))
-names(counter) <- variable.names(lgcm)
+counter <- rep(0,length(pars(lgcm)))
+names(counter) <- pars(lgcm)
 N <- 100
 res <- list()
 for (i in seq_len(N)){

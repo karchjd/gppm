@@ -19,7 +19,7 @@ a simulate data set, which is an object of class 'LongData'
 }
 \description{
 This function is used to simulate from a Gaussian process panel model,
-which has been specified fit using \code{\link{gppm}}.
+which has been specified using \code{\link{gppm}}.
 }
 \examples{
 data("demoLGCM")

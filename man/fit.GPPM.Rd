@@ -8,7 +8,7 @@
   verbose = FALSE, hessian = TRUE)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. The Gaussian proces spanel model to be fitted.}
+\item{gpModel}{object of class GPPM. The Gaussian process panel model to be fitted.}
 
 \item{init}{string or named numeric vector. Used to specify the starting values for the parameters. Can either be the string 'random' (default) or a numeric vector startVal of starting values. Which value belongs to which parameter is determined by the names attribute of startVal. See also the example.}
 
