@@ -1,19 +1,10 @@
-#' @import ggplot2
-#' @export
-plot.LongData <- function(myData,plotIds,by,ID,DV){
-  if (!is.null(attr(myData,'preds')) && missing(by)){
-    by <- attr(myData,'preds')
-  }
-  myData <- as_LongData(myData,ID,DV)
-  idCol <- attr(myData,'ID')
-  dvCol <- attr(myData,'DV')
-  if(missing(plotIds)){
-    Ids <- unique(myData[,idCol])
-    nIds <- length(Ids)
-    plotIds <- sample(Ids,min(5,nIds))
-  }
-  plotData <- myData[myData[,idCol] %in% plotIds,]
-  plotData[,idCol] <- as.factor(plotData[,idCol])
-  toPlot <- ggplot2::ggplot(plotData,aes_string(x=by,y=dvCol,colour=idCol)) + geom_line() + ggthemes::theme_tufte()
-  return(toPlot)
-}
+context("gppm-plotlong")
+test_that("simple", {
+  thePlot <- plot(demoLGCM)
+  expect_identical(class(thePlot),c('gg','ggplot'))
+})
+
+test_that("select all arguments", {
+  thePlot <- plot(demoLGCM,c(1,2,3),'t','ID','y')
+  expect_identical(class(thePlot),c('gg','ggplot'))
+})

@@ -91,11 +91,12 @@ accuracy <- function(predRes){
   }
   mMSE <- mean(MSE)
   sLL <- sum(LL)
-  return(list(MSE=mMSE,nLPP=-sLL))
+  sSE <- sum(MSE)
+  return(list(MSE=mMSE,nLPP=-sLL,sSE=sSE))
 }
 
 #' @export
-plot.GPPMPred <- function(predictions,plotId,trainingData=NULL){
+plot.GPPMPred <- function(predictions,plotIds,trainingData=NULL){
   require(ggthemes)
   stopifnot(length(plotId)==1)
   idIdx = plotId==predictions$ID

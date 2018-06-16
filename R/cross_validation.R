@@ -9,7 +9,6 @@ createLeavePersonsOutFolds <- function(gpModel,k=10){
   theIDs <- theData[,idCol]
   uniqueIDs <- sort(unique(theIDs))
   nPers <- length(uniqueIDs)
-
   #decide which person to put in which fold
   if(k<=nPers){
     min_reps <- nPers%/%k
@@ -37,7 +36,7 @@ createLeavePersonsOutFolds <- function(gpModel,k=10){
   return(foldVectorLong)
 }
 
-validate_cross <- function(gpModel,foldVector,loss){
+validate_cross <- function(gpModel,foldVector){
   #gpModel
   checkGPPM(gpModel)
 
@@ -50,22 +49,24 @@ validate_cross <- function(gpModel,foldVector,loss){
     stop('foldVector invalid format')
   }
 
-  #loss
-  if (!(loss %in% c('lpp'))){
-    stop('Invalid loss function')
+  if (max(foldVector)<2){
+    stop('foldVector invalid format')
   }
+
+
 }
 
 #' @export
-crossvalidate <- function(gpModel,foldVector,loss='lpp'){
-  validate_cross(gpModel,foldVector,loss)
+crossvalidate <- function(gpModel,foldVector){
+  validate_cross(gpModel,foldVector)
 
 
   nFolds <- max(foldVector)
   theData <- datas(gpModel)
   rowsRes <- vector(mode='double',length=nrow(theData))
-  res <- 0
-  for (cFold in 1:1){
+  resnLPP <- 0
+  resSE <- 0
+  for (cFold in 1:nFolds){
     trainRows <- foldVector != cFold
     testRows <- foldVector == cFold
     #train model
@@ -73,9 +74,12 @@ crossvalidate <- function(gpModel,foldVector,loss='lpp'){
     tmpModel <- fit(tmpModel)
     #get predictions
     thePreds <- predict(tmpModel,theData[testRows,])
-    res <- res + accuracy(thePreds)$nLPP
+    theAcc <- accuracy(thePreds)
+    resnLPP <- resnLPP + theAcc$nLPP
+    resSE <- resSE + theAcc$sSE
   }
-  return(res)
+  mse <- resSE/nrow(theData)
+  return(list(MSE=mse,nLPP=resnLPP))
 }
 
 

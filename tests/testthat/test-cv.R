@@ -22,7 +22,18 @@ test_that("Folds roughly same size", {
 
 
 test_that("full cv", {
-  theFolds <- createLeavePersonsOutFolds(lgcm,k=2)
-  cvRes <- crossvalidate(lgcm,theFolds,loss='lpp')
+  theT <- rnorm(10000)
+  theY <- theT+rnorm(10000)
+  fakeData <- data.frame(ID=rep(1:2500,4),t=theT,y=theY)
+  linearReg <- gppm('b*t','noise*(t==t#)',fakeData,ID='ID',DV='y')
+  theFolds <- createLeavePersonsOutFolds(linearReg,k=2)
+  cvRes <- crossvalidate(linearReg,theFolds)
+  expect_equal(cvRes$MSE/2,.5,tolerance=0.01)
+  sum <- 0
+  for (i in 1:10000){
+    sum <- sum + log(dnorm(rnorm(1)))
+  }
+  sum <- -sum
+  expect_equal(cvRes$nLPP/10000,sum/10000,tolerance=0.01)
 })
 
