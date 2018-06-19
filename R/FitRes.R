@@ -28,7 +28,7 @@ extractMoments <- function(stanOutParas,dataStats){
   res <- list(mu=mu,Sigma=Sigma,IDs=attr(dataStats,'IDs'))
 }
 
-#' @import mvtnorm
+
 extractLL <- function(meanCov,dataStats){
   Y <- dataStats$Y
   ll <- 0

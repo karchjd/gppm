@@ -9,7 +9,7 @@ crossvalidate(gpModel, foldVector)
 \arguments{
 \item{gpModel}{object of class GPPM.}
 
-\item{foldVector.}{A vector describing the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}}
+\item{foldVector}{interger vector. Describes the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}.}
 }
 \value{
 Cross-validation estimates of the mean squared error (MSE) and the negative log-predictive probability (nLPP)
@@ -18,12 +18,14 @@ Cross-validation estimates of the mean squared error (MSE) and the negative log-
 Performs cross-validation of a Gaussian process panel model.
 }
 \details{
-The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If foldVector[i]=j, then data point i is assigned to fold j.
+The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
 }
 \examples{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')
 theFolds <- createLeavePersonsOutFolds(lgcm)
-crossvalidate(lgcm,theFolds)
+crosRes <- crossvalidate(lgcm,theFolds)
+crosRes$MSE #mean squared error
+crosRes$nLPP #negative log-predictive probability
 }

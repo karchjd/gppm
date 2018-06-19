@@ -10,7 +10,7 @@ meanf(gpModel)
 \item{gpModel}{object of class GPPM.}
 }
 \value{
-The mean function as a string.
+The mean function as a character string.
 }
 \description{
 Extracts the mean function from a GPPM.

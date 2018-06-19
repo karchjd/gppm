@@ -4,20 +4,22 @@
 \alias{predict.GPPM}
 \title{GPPM predictions}
 \usage{
-\method{predict}{GPPM}(gpModel, newData, ...)
+\method{predict}{GPPM}(object, newData, ...)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+\item{object}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
 
-\item{newData}{a data frame with the same column names as the data frame used for generating \code{gpModel} with \code{\link{gppm}}}
+\item{newData}{a data frame with the same column names as the data frame used for generating \code{gpModel} with \code{\link{gppm}}. May only contain new data, that is, data that was not used for fitting.}
+
+\item{...}{additional arguments (currently not used).}
 }
 \value{
-predictions of the dependent variable for all rows in newData. Conditional predictions for all persons in newData that are also present
+Predictions of the dependent variable for all rows in newData. Conditional predictions for all persons in newData that are also present
 in the data used for fitting gpModel; unconditional predictions for others persons.
 See examples for format.
 }
 \description{
-Predict values based on a GPPM
+Obtain person-specific predictions.
 }
 \examples{
 data("demoLGCM")

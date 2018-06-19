@@ -13,15 +13,13 @@ validate_predict <- function(gpModel,newData){
 }
 
 
-
-
 #' GPPM predictions
 #'
-#' Predict values based on a GPPM
+#' Obtain person-specific predictions.
 #'
 #' @inheritParams coef.GPPM
-#' @param newData a data frame with the same column names as the data frame used for generating \code{gpModel} with \code{\link{gppm}}
-#' @return predictions of the dependent variable for all rows in newData. Conditional predictions for all persons in newData that are also present
+#' @param newData a data frame with the same column names as the data frame used for generating \code{gpModel} with \code{\link{gppm}}. May only contain new data, that is, data that was not used for fitting.
+#' @return Predictions of the dependent variable for all rows in newData. Conditional predictions for all persons in newData that are also present
 #' in the data used for fitting gpModel; unconditional predictions for others persons.
 #' See examples for format.
 #'
@@ -36,20 +34,20 @@ validate_predict <- function(gpModel,newData){
 #' lgcm <- fit(lgcm)
 #' predRes <- predict(lgcm,demoLGCM[predIdx,])
 #' @export
-predict.GPPM <- function(gpModel,newData,...){
-validate_predict(gpModel,newData)
-checkFitted(gpModel)
+predict.GPPM <- function(object,newData,...){
+validate_predict(object,newData)
+checkFitted(object)
 
 #get relevant old data
-oldData <- datas(gpModel)
+oldData <- datas(object)
 IDfield <- getID(oldData)
 predictionIDs <- unique(newData[,IDfield])
 oldData <- oldData[oldData[,IDfield] %in% predictionIDs,]
 dataUpdate <- rbind(oldData,newData)
 
 #get model implied mean and covariance matrices for all relevant persons
-newModel <- updateData(gpModel,dataUpdate)
-newModel <- fit(newModel,useOptimizer=FALSE,init=coef(gpModel),...)
+newModel <- updateData(object,dataUpdate)
+newModel <- fit(newModel,useOptimizer=FALSE,init=coef(object),...)
 meansAndCovs <- fitted(newModel)
 
 #calculate predictions
@@ -66,7 +64,7 @@ for (i in seq_len(length(res$ID))){
   indexOld <- seq_len(borderOld)
   indexNew <- (borderOld+1):nTimePoints
   onlyDataForPersonI <- dataUpdate[dataUpdate[,IDfield]==res$ID[i],]
-  res$preds[[i]] <- onlyDataForPersonI[indexNew,preds(gpModel),drop=FALSE]
+  res$preds[[i]] <- onlyDataForPersonI[indexNew,preds(object),drop=FALSE]
   res$trueVals[[i]] <- onlyDataForPersonI[indexNew,attr(oldData,'DV'),drop=FALSE]
   res$DV <- getDV(oldData)
   fullMean <- means[[i]]
@@ -101,9 +99,9 @@ res
 
 #' Accuracy Estimates for Predictions
 #'
-#' Estimate the accuracy based on predictions
+#' Estimate the accuracy based on predictions.
 #'
-#' @param object of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}
+#' @param predRes  object of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}
 #' @return accuracy estimates in the form of the mean squared error (MSE), the negative log-predictive probability (nLPP), and the sum squared error (SSE)
 #'
 #' @examples
@@ -125,7 +123,7 @@ accuracy <- function(predRes){
   MSE <- c()
   LL <- rep(NA,nPers)
   for (i in 1:nPers){
-    MSE <- c(MSE,(predRes$predMean[i]-predRes$trueVals[[i]])^2)
+    MSE <- c(MSE,((predRes$predMean[[i]]-predRes$trueVals[[i]])^2)[,1])
     LL[i] <- log(mvtnorm::dmvnorm(t(predRes$trueVals[[i]]),mean=as.vector(predRes$predMean[[i]]),sigma=predRes$predCov[[i]]))
   }
   mMSE <- mean(MSE)
@@ -139,8 +137,10 @@ accuracy <- function(predRes){
 #'
 #' Plots person-specific predictions
 #'
-#' @param object of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}
-#' @return A plot visualizing the predicitive distribution. The bold line describes the mean and the shaded area the 95% credibility interval.
+#' @param x object of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}
+#' @param plotId character string or integer. ID of the person for which the predictions should be plotted
+#' @param ... additional arguments (currently not used).
+#' @return A plot visualizing the predicitive distribution. The bold line describes the mean and the shaded area the 95\% credibility interval.
 #'
 #' @examples
 #'data("demoLGCM")
@@ -153,30 +153,30 @@ accuracy <- function(predRes){
 #' lgcm <- fit(lgcm)
 #' predRes <- predict(lgcm,demoLGCM[predIdx,])
 #' plot(predRes,1)
-#' @import ggthemes
+#' @method plot GPPMPred
 #' @export
-plot.GPPMPred <- function(predRes,plotId){
+plot.GPPMPred <- function(x,plotId,...){
 
   stopifnot(length(plotId)==1)
-  idIdx = plotId==predRes$ID
+  idIdx = plotId==x$ID
   stopifnot(sum(idIdx)==1) #only for one subject
   idIdx = which(idIdx) #solved indexing errors
 
-  toPlot <- data.frame(mypreds=predRes$preds[[idIdx]],means=predRes$predMean[[idIdx]],var=diag(predRes$predCov[[idIdx]]),trueV=predRes$trueVals[[idIdx]])
-  thePlot <- ggplot2::ggplot(toPlot, ggplot2::aes_string(x=names(toPlot)[1], y='means')) +
-  ggplot2::geom_line(aes(y=means+1.96*var))+
-  ggplot2::geom_line(aes(y=means-1.96*var))+
-  ggplot2::geom_point(ggplot2::aes_string(y=names(toPlot)[4]))+
-  geom_ribbon(aes( ymax=means+1.96*var, ymin=means-1.96*var), fill="grey", alpha=.5)+
-  ggplot2::geom_line(size=1)
+  means <- x$predMean[[idIdx]]
+  vars <- diag(x$predCov[[idIdx]])
+  cv <- 1.96
+  browser()
+  lb <- means+cv*vars
+  ub <- means-cv*vars
+  toPlot <- data.frame(mypreds=x$preds[[idIdx]],theMeans=means,lb=lb,ub=ub,trueV=x$trueVals[[idIdx]])
+  thePlot <- ggplot(toPlot, aes_string(x=names(toPlot)[1], y='means')) +
+  geom_line(aes_string(y='ub'))+
+  geom_line(aes_string(y='lb'))+
+  geom_point(aes_string(y=names(toPlot)[4]))+
+  geom_ribbon(aes_string(ymax='ub', ymin='lb', fill="grey", alpha=.5))+
+  geom_line(size=1)
 
-  # if (!is.null(trainingData)){
-  #   idcol <- attr(trainingData,'ID')
-  #   trainingData <- trainingData[trainingData[,idcol]==plotId,]
-  #   dataPlot <- data.frame(mypreds=trainingData[,attr(trainingData,'preds')],trueV=trainingData[,attr(trainingData,'DV')])
-  #   thePlot <- thePlot + ggplot2::geom_point(data=dataPlot,mapping=aes(x=mypreds,y=trueV))
-  # }
-  thePlot <- thePlot + ggthemes::theme_tufte()+xlab(paste0('Predictor ',names(toPlot)[1]))+ylab(paste0('Outcome ', predRes$DV))
+  thePlot <- thePlot + ggthemes::theme_tufte()+xlab(paste0('Predictor ',names(toPlot)[1]))+ylab(paste0('Outcome ', x$DV))
   thePlot
 }
 

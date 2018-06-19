@@ -4,17 +4,19 @@
 \alias{confint.GPPM}
 \title{Confidence Intervals}
 \usage{
-\method{confint}{GPPM}(gpModel, parm, level = 0.95)
+\method{confint}{GPPM}(object, parm, level = 0.95, ...)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+\item{object}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
 
-\item{parm}{a specification of which parameters are to be given confidence intervals, either a vector of numbers or a vector of names. If missing, all parameters are considered.}
+\item{parm}{vector of strings. The parameters for which confidence intervals are desired. If missing, confidence intervals for all parameters are returned.}
 
-\item{level}{the confidence level required.}
+\item{level}{scalar from 0 to 1. The confidence level required.}
+
+\item{...}{additional arguments (currently not used).}
 }
 \value{
-A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labelled as (1-level)/2 and 1 - (1-level)/2 in % (by default 2.5% and 97.5%).
+A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 }
 \description{
 Computes confidence intervals for one or more parameters in a fitted GPPM.

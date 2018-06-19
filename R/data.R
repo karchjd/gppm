@@ -1,4 +1,4 @@
-#' Simulated data from a latent growth curve model
+#' Simulated Data From a Latent Growth Curve Model.
 #'
 #' @format A data frame with 1998 rows and 3 variables:
 #' \describe{
@@ -7,3 +7,8 @@
 #'   \item{y}{Generic measurement}
 #' }
 "demoLGCM"
+
+#' Parameters used for generating \code{\link{demoLGCM}}.
+#'
+#' @format A parameter vector.
+"trueParas"

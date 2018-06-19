@@ -4,10 +4,12 @@
 \alias{logLik.GPPM}
 \title{Log-Likelihood}
 \usage{
-\method{logLik}{GPPM}(gpModel)
+\method{logLik}{GPPM}(object, ...)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+\item{object}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+
+\item{...}{additional arguments (currently not used).}
 }
 \value{
 Returns an object of class logLik. Attributs are: "df" (\strong{d}egrees of \strong{f}reedom; number of estimated parameters in the model) and nobs (number of persons in the model)

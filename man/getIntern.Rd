@@ -9,13 +9,13 @@ getIntern(gpModel, quantity)
 \arguments{
 \item{gpModel}{object of class GPPM.}
 
-\item{quantity}{name of the quanity to extract. Possible values are
+\item{quantity}{character string. Name of the quanity to extract. Possible values are
 \itemize{
-  \item "parsedmFormula" for the parsed mean formula
-  \item "parsedcFormula" for the parsed covariance formula
-  \item "stanData" for the data set in the form needed for rstan
-  \item "stanModel" for the created rstan model
-  \item "stanOut" for the created stan output
+\item "parsedmFormula" for the parsed mean formula
+\item "parsedcFormula" for the parsed covariance formula
+\item "stanData" for the data set in the form needed for rstan
+\item "stanModel" for the created rstan model
+\item "stanOut" for the created stan output
 }}
 }
 \value{
@@ -28,7 +28,7 @@ Extracts internals from a GPPM.
 data("demoLGCM")
 simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
-myData <- datas(simpleModel)
+getIntern(simpleModel,'parsedmFormula')
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

@@ -1,3 +1,5 @@
+.pkgglobalenv <- new.env(parent=emptyenv())
+
 validate_toStan <- function(parsedModel,myData){
   stopifnot(is(parsedModel,'ParsedModel'))
 }
@@ -15,8 +17,8 @@ toStan <-function(parsedModel,control){
   theCode <- gsub('<meanfunction>',parsedModel$mFormula,theCode)
   theCode <- gsub('<covfunction>',parsedModel$kFormula,theCode)
   if(control$stanModel){
-    globalModel <<- rstan::stan_model(model_code = theCode,auto_write = TRUE)
-    theModel <- globalModel
+    theModel <- rstan::stan_model(model_code = theCode,auto_write = TRUE)
+    assign("globalmodel", theModel, envir=.pkgglobalenv)
   }else{
     theModel <- NA
   }

@@ -13,7 +13,7 @@ preds(gpModel)
 The names of the predictors.
 }
 \description{
-Extracts the predictors from a GPPM
+Extracts the predictor names from a GPPM.
 }
 \examples{
 data("demoLGCM")

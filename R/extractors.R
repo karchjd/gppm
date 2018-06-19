@@ -3,7 +3,8 @@
 #'
 #' Extracts point estimates for all parameters from a fitted GPPM.
 #'
-#' @param gpModel object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.
+#' @param object object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.
+#' @param ... additional arguments (currently not used).
 #' @family functions to extract from a GPPM
 #' @return Point estimates for all parameters as a named numeric vector.
 #' @examples
@@ -13,9 +14,9 @@
 #' simpleModel <- fit(simpleModel)
 #' paraEsts <- coef(simpleModel)
 #' @export
-coef.GPPM <- function (gpModel){
-  checkFitted(gpModel)
-  gpModel$fitRes$paraEsts
+coef.GPPM <- function (object,...){
+  checkFitted(object)
+  object$fitRes$paraEsts
 }
 
 #' Variance-Covariance Matrix
@@ -32,10 +33,10 @@ coef.GPPM <- function (gpModel){
 #' simpleModel <- fit(simpleModel)
 #' paraEsts <- vcov(simpleModel)
 #' @export
-vcov.GPPM <- function (gpModel)
+vcov.GPPM <- function (object,...)
 {
-  checkFitted(gpModel)
-  gpModel$fitRes$vcov
+  checkFitted(object)
+  object$fitRes$vcov
 }
 
 
@@ -53,11 +54,11 @@ vcov.GPPM <- function (gpModel)
 #' simpleModel <- fit(simpleModel)
 #' paraEsts <- SE(simpleModel)
 #' @export
-SE <- function (gpModel)
+SE <- function (object)
 {
-  checkGPPM(gpModel)
-  checkFitted(gpModel)
-  sqrt(diag(vcov(gpModel)))
+  checkGPPM(object)
+  checkFitted(object)
+  sqrt(diag(vcov(object)))
 }
 
 
@@ -66,10 +67,10 @@ SE <- function (gpModel)
 #' Computes confidence intervals for one or more parameters in a fitted GPPM.
 #' @inheritParams coef.GPPM
 #' @family functions to extract from a GPPM
-#' @param parm a specification of which parameters are to be given confidence intervals, either a vector of numbers or a vector of names. If missing, all parameters are considered.
-#' @param level the confidence level required.
+#' @param parm vector of strings. The parameters for which confidence intervals are desired. If missing, confidence intervals for all parameters are returned.
+#' @param level scalar from 0 to 1. The confidence level required.
 #'
-#' @return A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labelled as (1-level)/2 and 1 - (1-level)/2 in % (by default 2.5% and 97.5%).
+#' @return A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 #' @examples
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
@@ -77,9 +78,9 @@ SE <- function (gpModel)
 #' simpleModel <- fit(simpleModel)
 #' paraEsts <- confint(simpleModel)
 #' @export
-confint.GPPM <- function(gpModel, parm, level = 0.95)
+confint.GPPM <- function(object, parm, level = 0.95,...)
 {
-  cf <- coef(gpModel) #checksfitted
+  cf <- coef(object) #checksfitted
   pnames <- names(cf)
   if (missing(parm))
     parm <- pnames
@@ -88,10 +89,10 @@ confint.GPPM <- function(gpModel, parm, level = 0.95)
   a <- (1 - level)/2
   a <- c(a, 1 - a)
   fac <- qnorm(a) #besides this line completely the same as confint.lm
-  pct <- stats:::format.perc(a, 3)
+  pct <- format.perc(a, 3)
   ci <- array(NA, dim = c(length(parm), 2L), dimnames = list(parm,
                                                              pct))
-  ses <- sqrt(diag(vcov(gpModel)))[parm]
+  ses <- sqrt(diag(vcov(object)))[parm]
   ci[] <- cf[parm] + ses %o% fac
   ci
 }
@@ -111,11 +112,11 @@ confint.GPPM <- function(gpModel, parm, level = 0.95)
 #' simpleModel <- fit(simpleModel)
 #' ll <- logLik(simpleModel)
 #' @export
-logLik.GPPM <- function(gpModel){
-  checkFitted(gpModel)
-  val <- gpModel$fitRes$LL
-  attr(val, "nobs") <- gpModel$dataForStan$nPer
-  attr(val, "df") <- gpModel$fitRes$nPar
+logLik.GPPM <- function(object,...){
+  checkFitted(object)
+  val <- object$fitRes$LL
+  attr(val, "nobs") <- object$dataForStan$nPer
+  attr(val, "df") <- object$fitRes$nPar
   class(val) <- "logLik"
   val
 }
@@ -137,9 +138,9 @@ logLik.GPPM <- function(gpModel){
 #' person1Cov <- meansCovs$cov[[1]]
 #' person1ID <- meansCovs$ID[[1]]
 #' @export
-fitted.GPPM <- function(gpModel,..){
-  checkFitted(gpModel)
-  list(mean=gpModel$fitRes$mu,cov=gpModel$fitRes$Sigma,ID=attr(gpModel$dataForStan,'IDs'))
+fitted.GPPM <- function(object,...){
+  checkFitted(object)
+  list(mean=object$fitRes$mu,cov=object$fitRes$Sigma,ID=attr(object$dataForStan,'IDs'))
 }
 
 #' Number of persons
@@ -154,7 +155,7 @@ fitted.GPPM <- function(gpModel,..){
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
 #' simpleModel <- fit(simpleModel)
-#' numberPersons <- nobs(simpleModel)
+#' numberPersons <- nPers(simpleModel)
 #' @export
 nPers <- function (gpModel) {
   gpModel$dataForStan$nPer
@@ -173,7 +174,7 @@ nPers <- function (gpModel) {
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' numberParas <- npar(simpleModel)
+#' numberParas <- nPars(simpleModel)
 #' @export
 nPars <- function (gpModel) {
   checkGPPM(gpModel)
@@ -192,7 +193,7 @@ nPars <- function (gpModel) {
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' numberTimePoints <- maxntime(simpleModel)
+#' numberTimePoints <- maxnObs(simpleModel)
 #' @export
 maxnObs <- function (gpModel){
   checkGPPM(gpModel)
@@ -210,7 +211,7 @@ maxnObs <- function (gpModel){
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' numberTimePoints <- nstime(simpleModel)
+#' numberTimePoints <-  nObs(simpleModel)
 #'
 #' @export
 nObs <- function (gpModel) {
@@ -234,7 +235,7 @@ nObs <- function (gpModel) {
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' nPreds <- npred(simpleModel)
+#' numberPreds <- nPreds(simpleModel)
 #' @export
 nPreds <- function (gpModel) {
   checkGPPM(gpModel)
@@ -243,7 +244,7 @@ nPreds <- function (gpModel) {
 
 #' Predictors Names
 #'
-#' Extracts the predictors from a GPPM
+#' Extracts the predictor names from a GPPM.
 #'
 #' @inheritParams nPers
 #' @family functions to extract from a GPPM
@@ -284,8 +285,7 @@ pars <- function (gpModel) {
 #'
 #' @inherit coef.GPPM params seealso
 #' @family functions to extract from a GPPM
-#' @param level The confidence level required.
-#' @return The names of the parameters
+#' @param level scalar from 0 to 1. The confidence level required.
 #' @examples
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
@@ -294,19 +294,19 @@ pars <- function (gpModel) {
 #'
 #' @return A data.frame containing the estimated parameters, standard errors, and the lower and upper bounds of the confidence intervals.
 #' @export
-parEsts <- function (gpModel, level=.95) {
+parEsts <- function (object, level=.95) {
   stopifnot(level<=1 & level>0)
-  checkFitted(gpModel)
-  res <- as.data.frame(matrix(nrow=gpModel$fitRes$nPar,ncol=5))
+  checkFitted(object)
+  res <- as.data.frame(matrix(nrow=object$fitRes$nPar,ncol=5))
   a <- (1 - level)/2
   a <- c(a, 1 - a)
-  pct <- stats:::format.perc(a, 3)
+  pct <- format.perc(a, 3)
   names(res) <- c('Param','Est','SE',pct)
-  paraNames <- pars(gpModel)
-  confInters <- confint(gpModel)
+  paraNames <- pars(object)
+  confInters <- confint(object)
   res[['Param']] <- paraNames
-  res[['Est']] <- coef(gpModel)[paraNames]
-  res[['SE']] <- SE(gpModel)[paraNames]
+  res[['Est']] <- coef(object)[paraNames]
+  res[['SE']] <- SE(object)[paraNames]
   res[[4]] <- confInters[,1][paraNames]
   res[[5]] <- confInters[,2][paraNames]
   res
@@ -319,7 +319,7 @@ parEsts <- function (gpModel, level=.95) {
 #'
 #' @inheritParams nPers
 #' @family functions to extract from a GPPM
-#' @return The mean function as a string.
+#' @return The mean function as a character string.
 #' @examples
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
@@ -338,14 +338,14 @@ meanf <- function (gpModel) {
 #'
 #' @inheritParams nPers
 #' @family functions to extract from a GPPM
-#' @return The covariance function as a string.
+#' @return The covariance function as a character string.
 #' @examples
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
 #' myCov <- covf(simpleModel)
 #' @export
-covf <- function (gpModel, ...) {
+covf <- function (gpModel) {
   checkGPPM(gpModel)
   gpModel$cFormula
 }
@@ -357,7 +357,7 @@ covf <- function (gpModel, ...) {
 #'
 #' @inheritParams nPers
 #' @family functions to extract from a GPPM
-#' @return The data set associated with the GPPM
+#' @return The data set associated with the GPPM.
 #' @examples
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
@@ -375,7 +375,7 @@ datas <- function (gpModel) {
 #' Extracts internals from a GPPM.
 #'
 #' @inheritParams nPers
-#' @param quantity name of the quanity to extract. Possible values are
+#' @param quantity character string. Name of the quanity to extract. Possible values are
 #'\itemize{
 #'   \item "parsedmFormula" for the parsed mean formula
 #'   \item "parsedcFormula" for the parsed covariance formula
@@ -389,7 +389,7 @@ datas <- function (gpModel) {
 #' data("demoLGCM")
 #' simpleModel <- gppm('grandMean','(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' myData <- datas(simpleModel)
+#' getIntern(simpleModel,'parsedmFormula')
 #' @export
 getIntern <- function (gpModel, quantity) {
   checkGPPM(gpModel)
@@ -419,3 +419,8 @@ checkGPPM <- function(gpModel){
     stop('gpModel must inherit \'GPPM\'')
   }
 }
+
+#copied from interal stats function
+format.perc <- function (probs, digits)
+  paste(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits),
+        "%")

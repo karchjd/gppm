@@ -19,7 +19,7 @@ Extracts the number of parameters from a GPPM.
 data("demoLGCM")
 simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
-numberParas <- npar(simpleModel)
+numberParas <- nPars(simpleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

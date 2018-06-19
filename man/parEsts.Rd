@@ -4,16 +4,14 @@
 \alias{parEsts}
 \title{Essential Parameter Estimation Results}
 \usage{
-parEsts(gpModel, level = 0.95)
+parEsts(object, level = 0.95)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+\item{object}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
 
-\item{level}{The confidence level required.}
+\item{level}{scalar from 0 to 1. The confidence level required.}
 }
 \value{
-The names of the parameters
-
 A data.frame containing the estimated parameters, standard errors, and the lower and upper bounds of the confidence intervals.
 }
 \description{

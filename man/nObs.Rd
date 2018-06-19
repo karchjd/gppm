@@ -19,7 +19,7 @@ Extracts the number of observations for each person from a GPPM.
 data("demoLGCM")
 simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
-numberTimePoints <- nstime(simpleModel)
+numberTimePoints <-  nObs(simpleModel)
 
 }
 \seealso{

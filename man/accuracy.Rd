@@ -7,13 +7,13 @@
 accuracy(predRes)
 }
 \arguments{
-\item{object}{of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}}
+\item{predRes}{object of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}}
 }
 \value{
 accuracy estimates in the form of the mean squared error (MSE), the negative log-predictive probability (nLPP), and the sum squared error (SSE)
 }
 \description{
-Estimate the accuracy based on predictions
+Estimate the accuracy based on predictions.
 }
 \examples{
 data("demoLGCM")

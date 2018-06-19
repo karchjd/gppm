@@ -3,17 +3,17 @@
 \docType{data}
 \name{demoLGCM}
 \alias{demoLGCM}
-\title{Simulated data from a latent growth curve model}
+\title{Simulated Data From a Latent Growth Curve Model.}
 \format{A data frame with 1998 rows and 3 variables:
 \describe{
-  \item{ID}{Subject ID}
-  \item{t}{Time index}
-  \item{y}{Generic measurement}
+\item{ID}{Subject ID}
+\item{t}{Time index}
+\item{y}{Generic measurement}
 }}
 \usage{
 demoLGCM
 }
 \description{
-Simulated data from a latent growth curve model
+Simulated Data From a Latent Growth Curve Model.
 }
 \keyword{datasets}

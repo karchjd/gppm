@@ -4,10 +4,12 @@
 \alias{vcov.GPPM}
 \title{Variance-Covariance Matrix}
 \usage{
-\method{vcov}{GPPM}(gpModel)
+\method{vcov}{GPPM}(object, ...)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+\item{object}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+
+\item{...}{additional arguments (currently not used).}
 }
 \value{
 A matrix of the estimated covariances between the parameter estimates. This has row and column names corresponding to the parameter names.

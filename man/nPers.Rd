@@ -20,7 +20,7 @@ data("demoLGCM")
 simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
 simpleModel <- fit(simpleModel)
-numberPersons <- nobs(simpleModel)
+numberPersons <- nPers(simpleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

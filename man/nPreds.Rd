@@ -19,7 +19,7 @@ Extracts the number of predictors from a GPPM.
 data("demoLGCM")
 simpleModel <- gppm('grandMean','(t==t#)*sigma',
         demoLGCM,'ID','y')
-nPreds <- npred(simpleModel)
+numberPreds <- nPreds(simpleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

@@ -1,12 +1,12 @@
 #' Create Leave-persons-out Folds
 #'
-#' This function is used to create a leave-persons-out cross-validation fold vector to be used by \code{\link{crossvalidate}}
+#' This function is used to create a leave-persons-out cross-validation fold vector to be used by \code{\link{crossvalidate}}.
 #'
 #' @inheritParams nPers
 #'
 #' @param k integer scalar. Number of folds to create.
 #'
-#' @return A fold vector, which is a vector of length nrow(datas(gpModel)) of integers from 1 to k. If foldVector[i]=j, then data point i is assigned to fold j.
+#' @return A fold vector, which is a vector of length \code{nrow(datas(gpModel))} of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
 #' @seealso \code{\link{crossvalidate}} for how to use the created fold vector to perform cross-validation.
 #' @details The folds are created such that the data of each person is fully in one fold.
 #' @examples
@@ -77,16 +77,18 @@ validate_cross <- function(gpModel,foldVector){
 #'
 #' @inheritParams nPers
 #'
-#' @param foldVector. A vector describing the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}
+#' @param foldVector interger vector. Describes the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}.
 #'
 #' @return Cross-validation estimates of the mean squared error (MSE) and the negative log-predictive probability (nLPP)
-#' @details The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If foldVector[i]=j, then data point i is assigned to fold j.
+#' @details The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
 #' @examples
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
 #' theFolds <- createLeavePersonsOutFolds(lgcm)
-#' crossvalidate(lgcm,theFolds)
+#' crosRes <- crossvalidate(lgcm,theFolds)
+#' crosRes$MSE #mean squared error
+#' crosRes$nLPP #negative log-predictive probability
 #' @export
 crossvalidate <- function(gpModel,foldVector){
   validate_cross(gpModel,foldVector)

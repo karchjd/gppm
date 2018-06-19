@@ -4,31 +4,29 @@
 \alias{plot.LongData}
 \title{Plot a Long Data Frame}
 \usage{
-plot.LongData(myData, plotIds, by, ID, DV)
+\method{plot}{LongData}(x, plotIds, by, ID, DV, ...)
 }
 \arguments{
-\item{myData}{longitudinal data frame; possibly of class 'LongData'.}
+\item{x}{longitudinal data frame of class 'LongData'.}
 
 \item{plotIds}{vector of IDs for which the data should be printed. Can be left empty. Then 5 IDs are picked randomly.}
 
-\item{by}{label of the variable on the x-axis.}
+\item{by}{label of the variable on the x-axis. Can be left empty.}
 
-\item{ID}{label of the ID column.}
+\item{ID}{label of the ID column. Can be left empty.}
 
-\item{DV}{label of the variable on the y-axis.}
+\item{DV}{label of the variable on the y-axis. Can be left empty.}
+
+\item{...}{additional parameters (currently not used).}
 }
 \value{
 a fitted Gaussian process panel model, which is an object of class 'GPPM'
 }
 \description{
-This function is used to plot longitudinal data in data frame.
+This function is used to plot data from class 'LongData' as it is returned by \code{\link{datas}} \code{\link{simulate.GPPM}}.
 }
 \examples{
 data("demoLGCM")
-plot(demoLGCM,plotIds=c(1,2,3),by='t',ID='ID',DV='y')
-plot(demoLGCM,by='t',ID='ID',DV='y') #five random ids
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','y')
-lgcmData <- datas(lgcm)
-plot(lgcmData) #for data sets from a gppm by, ID, and DV are not necessary
+plot(demoLGCM,plotIds=c(1,2,3))
+plot(demoLGCM) #five random ids
 }

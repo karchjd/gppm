@@ -4,13 +4,13 @@
 \alias{covf}
 \title{Covariance Function}
 \usage{
-covf(gpModel, ...)
+covf(gpModel)
 }
 \arguments{
 \item{gpModel}{object of class GPPM.}
 }
 \value{
-The covariance function as a string.
+The covariance function as a character string.
 }
 \description{
 Extracts the covariance function from a GPPM.

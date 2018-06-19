@@ -1,5 +1,12 @@
+#' Generic Method For Fitting a model
+#'
+#' Generic method for fitting a model.
+#' @param gpModel a model.
+#' @param ... additional arguments.
+#' @return A fitted model
+#' @seealso \code{\link{fit.GPPM}}
 #' @export
-fit <-  function(theModel,...) {
+fit <-  function(gpModel,...) {
   UseMethod("fit")
 }
 
@@ -12,9 +19,15 @@ fit <-  function(theModel,...) {
 #'
 #' @param init string or named numeric vector. Used to specify the starting values for the parameters. Can either be the string 'random' (default) or a numeric vector startVal of starting values. Which value belongs to which parameter is determined by the names attribute of startVal. See also the example.
 #'
-#' @param useOptimizer boolean. Should the optimizer be used or not? For false the (possibly random) starting values are returned as the maximum likelihood values.
+#' @param useOptimizer boolean. Should the optimizer be used or not? For false the (possibly random) starting values are returned as the maximum likelihood estimates.
 #'
-#' @return a fitted Gaussian process panel model, which is an object of class 'GPPM'
+#' @param verbose boolean. Print diagnostic output?
+#'
+#' @param hessian boolean. Compute the hessian at the maximum likelihood estimate?
+#'
+#' @param ... additional arguments (currently not used).
+#'
+#' @return A fitted Gaussian process panel model, which is an object of class 'GPPM'.
 #' @examples
 #' #regular usage
 #' data("demoLGCM")
@@ -28,7 +41,7 @@ fit <-  function(theModel,...) {
 #' linearChangeFake <- fit(linearChange,init=startVals,useOptimizer=FALSE)
 #' stopifnot(identical(startVals,coef(linearChangeFake)))
 #' @export
-fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE,hessian=TRUE) {
+fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE,hessian=TRUE,...) {
   if (useOptimizer){
     iter<- 10000
     algorithm <- 'LBFGS' #default
@@ -44,7 +57,7 @@ fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE,hess
   if(verbose){
     outf <- eval
   }else{
-    outf <- capture.output
+    outf <- utils::capture.output
   }
   outf(gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = hessian,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE))
   gpModel$fitRes <- extractFitRes(gpModel$stanOut,gpModel$parsedModel,gpModel$dataForStan[c('nPer','nTime','maxTime','Y')])

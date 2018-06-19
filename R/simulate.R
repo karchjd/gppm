@@ -3,13 +3,18 @@
 #' This function is used to simulate from a Gaussian process panel model,
 #' which has been specified using \code{\link{gppm}}.
 #'
-#' @param gpModel object of class GPPM. The Gaussian proces spanel model from which to simulate
+#' @param object object of class GPPM. The Gaussian proces spanel model from which to simulate.
 #'
 #' @param parameterValues numeric vector. Used to specify the values for the parameters.  Which value belongs to which parameter is determined by the names attribute of parameterValues. See also the example.
 #'
 #' @param seed numeric. Random seed to be used.
 #'
-#' @return a simulate data set, which is an object of class 'LongData'
+#' @param nsim integer. Number of data sets to generate.
+#'
+#' @param ... additional parameters (currently not used).
+#'
+#' @param verbose boolean. Print diagnostic output?
+#' @return A simulated data set, which is an object of class 'LongData'. If \code{nsim>1} a list of \code{nsim} simulated data sets.
 #' @examples
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
@@ -18,14 +23,13 @@
 #' parameterValues <- c(10,-1,0,10,0,0.1)
 #' names(parameterValues) <-c('muI','muS','varI','varS','covIS','sigma')
 #' simData <- simulate(lgcm,parameterValues)
-#' @import MASS
 #' @export
-simulate.GPPM <- function (gpModel, parameterValues=NULL, seed = NULL,nsim=1,verbose=FALSE){
+simulate.GPPM <- function (object,nsim=1,seed = NULL,parameterValues=NULL,verbose=FALSE,...){
 
   if (is.null(parameterValues)){
-    parameterValues <- coef(gpModel)
+    parameterValues <- coef(object)
   }
-    validate_simulate(gpModel,parameterValues)
+    validate_simulate(object,parameterValues)
 
     ##set seed
     if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
@@ -41,13 +45,13 @@ simulate.GPPM <- function (gpModel, parameterValues=NULL, seed = NULL,nsim=1,ver
 
 
     ##core
-    gpModel <- fit(gpModel,useOptimizer=FALSE,init=parameterValues,verbose=verbose,hessian=FALSE)
-    meansAndCovs <- fitted(gpModel)
+    object <- fit(object,useOptimizer=FALSE,init=parameterValues,verbose=verbose,hessian=FALSE)
+    meansAndCovs <- fitted(object)
     IDs <- meansAndCovs$ID
-    simData <- datas(gpModel)
+    simData <- datas(object)
     idCol <- attr(simData,'ID')
     dvCol <- attr(simData,'DV')
-    attr(simData,'preds') <- preds(gpModel)
+    attr(simData,'preds') <- preds(object)
     res <- rep(list(simData),nsim)
     for (j in 1:nsim){
       simData[,dvCol] <- NA

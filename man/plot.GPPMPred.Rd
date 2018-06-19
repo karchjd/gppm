@@ -4,13 +4,17 @@
 \alias{plot.GPPMPred}
 \title{Plotting predictions}
 \usage{
-plot.GPPMPred(predRes, plotId)
+\method{plot}{GPPMPred}(x, plotId, ...)
 }
 \arguments{
-\item{object}{of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}}
+\item{x}{object of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}}
+
+\item{plotId}{character string or integer. ID of the person for which the predictions should be plotted}
+
+\item{...}{additional arguments (currently not used).}
 }
 \value{
-A plot visualizing the predicitive distribution. The bold line describes the mean and the shaded area the 95% credibility interval.
+A plot visualizing the predicitive distribution. The bold line describes the mean and the shaded area the 95\% credibility interval.
 }
 \description{
 Plots person-specific predictions

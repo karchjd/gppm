@@ -4,10 +4,10 @@
 \alias{SE}
 \title{Standard Errors}
 \usage{
-SE(gpModel)
+SE(object)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+\item{object}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
 }
 \value{
 Standard errors for all parameters as a named numeric vector.

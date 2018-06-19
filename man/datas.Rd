@@ -10,7 +10,7 @@ datas(gpModel)
 \item{gpModel}{object of class GPPM.}
 }
 \value{
-The data set associated with the GPPM
+The data set associated with the GPPM.
 }
 \description{
 Extracts the data set from a GPPM.

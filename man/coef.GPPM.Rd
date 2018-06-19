@@ -4,10 +4,12 @@
 \alias{coef.GPPM}
 \title{Point Estimates}
 \usage{
-\method{coef}{GPPM}(gpModel)
+\method{coef}{GPPM}(object, ...)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+\item{object}{object of class GPPM. Must be fitted, that is, a result from \code{\link{fit.GPPM}}.}
+
+\item{...}{additional arguments (currently not used).}
 }
 \value{
 Point estimates for all parameters as a named numeric vector.

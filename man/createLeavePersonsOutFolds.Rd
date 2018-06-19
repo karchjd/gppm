@@ -12,10 +12,10 @@ createLeavePersonsOutFolds(gpModel, k = 10)
 \item{k}{integer scalar. Number of folds to create.}
 }
 \value{
-A fold vector, which is a vector of length nrow(datas(gpModel)) of integers from 1 to k. If foldVector[i]=j, then data point i is assigned to fold j.
+A fold vector, which is a vector of length \code{nrow(datas(gpModel))} of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
 }
 \description{
-This function is used to create a leave-persons-out cross-validation fold vector to be used by \code{\link{crossvalidate}}
+This function is used to create a leave-persons-out cross-validation fold vector to be used by \code{\link{crossvalidate}}.
 }
 \details{
 The folds are created such that the data of each person is fully in one fold.

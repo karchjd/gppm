@@ -4,18 +4,24 @@
 \alias{simulate.GPPM}
 \title{Simulate from a Gaussian process panel model}
 \usage{
-\method{simulate}{GPPM}(gpModel, parameterValues = NULL, seed = NULL,
-  nsim = 1, verbose = FALSE)
+\method{simulate}{GPPM}(object, nsim = 1, seed = NULL,
+  parameterValues = NULL, verbose = FALSE, ...)
 }
 \arguments{
-\item{gpModel}{object of class GPPM. The Gaussian proces spanel model from which to simulate}
+\item{object}{object of class GPPM. The Gaussian proces spanel model from which to simulate.}
+
+\item{nsim}{integer. Number of data sets to generate.}
+
+\item{seed}{numeric. Random seed to be used.}
 
 \item{parameterValues}{numeric vector. Used to specify the values for the parameters.  Which value belongs to which parameter is determined by the names attribute of parameterValues. See also the example.}
 
-\item{seed}{numeric. Random seed to be used.}
+\item{verbose}{boolean. Print diagnostic output?}
+
+\item{...}{additional parameters (currently not used).}
 }
 \value{
-a simulate data set, which is an object of class 'LongData'
+A simulated data set, which is an object of class 'LongData'. If \code{nsim>1} a list of \code{nsim} simulated data sets.
 }
 \description{
 This function is used to simulate from a Gaussian process panel model,
