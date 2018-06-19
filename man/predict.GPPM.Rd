@@ -12,7 +12,7 @@
 \item{newData}{a data frame with the same column names as the data frame used for generating \code{gpModel} with \code{\link{gppm}}}
 }
 \value{
-Predictions of the dependent variable for all rows in newData. Conditional predictions for all persons in newData that are also present
+predictions of the dependent variable for all rows in newData. Conditional predictions for all persons in newData that are also present
 in the data used for fitting gpModel; unconditional predictions for others persons.
 See examples for format.
 }
@@ -28,5 +28,5 @@ fitDemoLGCM <- demoLGCM[setdiff(1:nrow(demoLGCM),predIdx),]
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
              fitDemoLGCM,'ID','y')
 lgcm <- fit(lgcm)
-predictions <- predict(lgcm,demoLGCM[predIdx,])
+predRes <- predict(lgcm,demoLGCM[predIdx,])
 }

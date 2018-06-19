@@ -53,3 +53,13 @@ test_that("cross check with idependent calculation 2", {
   sum <- -sum
   expect_equal(accRes$nLPP/10000,sum/10000,tolerance=0.00001)
 })
+
+
+test_that("thePlot", {
+  newData <- demoLGCM
+  newData[,c('t')] <- newData[,c('t')] + 0.0000001
+  thePreds <- predict(lgcmFit,newData)
+  tmp <- plot(thePreds,10)
+  expect_equal(class(tmp)[1],'gg')
+})
+

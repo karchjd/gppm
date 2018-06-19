@@ -1,4 +1,19 @@
-##splitters
+#' Create Leave-persons-out Folds
+#'
+#' This function is used to create a leave-persons-out cross-validation fold vector to be used by \code{\link{crossvalidate}}
+#'
+#' @inheritParams nPers
+#'
+#' @param k integer scalar. Number of folds to create.
+#'
+#' @return A fold vector, which is a vector of length nrow(datas(gpModel)) of integers from 1 to k. If foldVector[i]=j, then data point i is assigned to fold j.
+#' @seealso \code{\link{crossvalidate}} for how to use the created fold vector to perform cross-validation.
+#' @details The folds are created such that the data of each person is fully in one fold.
+#' @examples
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' theFolds <- createLeavePersonsOutFolds(lgcm)
 #' @export
 createLeavePersonsOutFolds <- function(gpModel,k=10){
   checkGPPM(gpModel)
@@ -56,6 +71,22 @@ validate_cross <- function(gpModel,foldVector){
 
 }
 
+#' Cross-validation.
+#'
+#' Performs cross-validation of a Gaussian process panel model.
+#'
+#' @inheritParams nPers
+#'
+#' @param foldVector. A vector describing the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}
+#'
+#' @return Cross-validation estimates of the mean squared error (MSE) and the negative log-predictive probability (nLPP)
+#' @details The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If foldVector[i]=j, then data point i is assigned to fold j.
+#' @examples
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' theFolds <- createLeavePersonsOutFolds(lgcm)
+#' crossvalidate(lgcm,theFolds)
 #' @export
 crossvalidate <- function(gpModel,foldVector){
   validate_cross(gpModel,foldVector)
@@ -76,7 +107,7 @@ crossvalidate <- function(gpModel,foldVector){
     thePreds <- predict(tmpModel,theData[testRows,])
     theAcc <- accuracy(thePreds)
     resnLPP <- resnLPP + theAcc$nLPP
-    resSE <- resSE + theAcc$sSE
+    resSE <- resSE + theAcc$SSE
   }
   mse <- resSE/nrow(theData)
   return(list(MSE=mse,nLPP=resnLPP))
