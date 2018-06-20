@@ -16,6 +16,7 @@ accuracy estimates in the form of the mean squared error (MSE), the negative log
 Estimate the accuracy based on predictions.
 }
 \examples{
+\dontrun{
 data("demoLGCM")
 #remove all measurements from person 1 and the first form person 2
 predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
@@ -28,4 +29,5 @@ predRes <- predict(lgcm,demoLGCM[predIdx,])
 accEsts <- accuracy(predRes)
 accEsts$MSE #mean squared error
 accEsts$nLPP #negative log-predictive probability
+}
 }

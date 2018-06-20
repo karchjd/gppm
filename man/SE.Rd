@@ -16,11 +16,8 @@ Standard errors for all parameters as a named numeric vector.
 Returns the standard errors of the parameters of a fitted GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-simpleModel <- fit(simpleModel)
-paraEsts <- SE(simpleModel)
+data("exampleModel")
+stdErrors <- SE(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{coef.GPPM}},

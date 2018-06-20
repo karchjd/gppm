@@ -18,11 +18,8 @@ Point estimates for all parameters as a named numeric vector.
 Extracts point estimates for all parameters from a fitted GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-simpleModel <- fit(simpleModel)
-paraEsts <- coef(simpleModel)
+data("exampleModel")
+paraEsts <- coef(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

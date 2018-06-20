@@ -18,10 +18,8 @@ A data.frame containing the estimated parameters, standard errors, and the lower
 Extracts the essential parameter estimation results for a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-paramEssentials <- parEsts(simpleModel)
+data("exampleModel")
+paramEssentials <- parEsts(exampleModel)
 
 }
 \seealso{

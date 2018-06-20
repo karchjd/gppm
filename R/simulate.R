@@ -16,13 +16,15 @@
 #' @param verbose boolean. Print diagnostic output?
 #' @return A simulated data set, which is an object of class 'LongData'. If \code{nsim>1} a list of \code{nsim} simulated data sets.
 #' @examples
+#' \dontrun{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','x')
 #'
 #' parameterValues <- c(10,-1,0,10,0,0.1)
 #' names(parameterValues) <-c('muI','muS','varI','varS','covIS','sigma')
-#' simData <- simulate(lgcm,parameterValues)
+#' simData <- simulate(lgcm,parameterValues=parameterValues)
+#' }
 #' @export
 simulate.GPPM <- function (object,nsim=1,seed = NULL,parameterValues=NULL,verbose=FALSE,...){
 

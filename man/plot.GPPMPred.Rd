@@ -20,6 +20,7 @@ A plot visualizing the predicitive distribution. The bold line describes the mea
 Plots person-specific predictions
 }
 \examples{
+\dontrun{
 data("demoLGCM")
 #remove all measurements from person 1 and the first form person 2
 predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
@@ -30,4 +31,5 @@ lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 lgcm <- fit(lgcm)
 predRes <- predict(lgcm,demoLGCM[predIdx,])
 plot(predRes,1)
+}
 }

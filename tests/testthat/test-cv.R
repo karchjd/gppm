@@ -28,7 +28,7 @@ test_that("full cv", {
   linearReg <- gppm('b*t','noise*(t==t#)',fakeData,ID='ID',DV='y')
   theFolds <- createLeavePersonsOutFolds(linearReg,k=2)
   cvRes <- crossvalidate(linearReg,theFolds)
-  expect_equal(cvRes$MSE/2,.5,tolerance=0.01)
+  expect_equal(cvRes$MSE/2,.5,tolerance=0.02)
   sum <- 0
   for (i in 1:10000){
     sum <- sum + log(dnorm(rnorm(1)))

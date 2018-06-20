@@ -18,11 +18,8 @@ Returns a list structure with mean and covariances matrices. See example.
 A fitted GPPM implies a mean vector and a covariance matrix for each person. These are returned by this function.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-simpleModel <- fit(simpleModel)
-meansCovs <- fitted(simpleModel)
+data("exampleModel")
+meansCovs <- fitted(exampleModel)
 
 person1Mean <- meansCovs$mean[[1]]
 person1Cov <- meansCovs$cov[[1]]

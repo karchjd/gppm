@@ -16,10 +16,8 @@ The data set associated with the GPPM.
 Extracts the data set from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-myData <- datas(simpleModel)
+data("exampleModel")
+myData <- datas(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

@@ -10,10 +10,8 @@
 #' @seealso \code{\link{crossvalidate}} for how to use the created fold vector to perform cross-validation.
 #' @details The folds are created such that the data of each person is fully in one fold.
 #' @examples
-#' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' theFolds <- createLeavePersonsOutFolds(lgcm)
+#' data("exampleModel")
+#' theFolds <- createLeavePersonsOutFolds(exampleModel)
 #' @export
 createLeavePersonsOutFolds <- function(gpModel,k=10){
   checkGPPM(gpModel)
@@ -82,13 +80,15 @@ validate_cross <- function(gpModel,foldVector){
 #' @return Cross-validation estimates of the mean squared error (MSE) and the negative log-predictive probability (nLPP)
 #' @details The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
 #' @examples
+#' \dontrun{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' theFolds <- createLeavePersonsOutFolds(lgcm)
+#' theFolds <- createLeavePersonsOutFolds(lgcm,k=2) #for speed, in practive rather use default k=10
 #' crosRes <- crossvalidate(lgcm,theFolds)
 #' crosRes$MSE #mean squared error
 #' crosRes$nLPP #negative log-predictive probability
+#' }
 #' @export
 crossvalidate <- function(gpModel,foldVector){
   validate_cross(gpModel,foldVector)

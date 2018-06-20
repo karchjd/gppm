@@ -16,10 +16,8 @@ The covariance function as a character string.
 Extracts the covariance function from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-myCov <- covf(simpleModel)
+data("exampleModel")
+myCov <- covf(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

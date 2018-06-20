@@ -25,10 +25,8 @@ The requested quantity
 Extracts internals from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-getIntern(simpleModel,'parsedmFormula')
+data("exampleModel")
+getIntern(exampleModel,'parsedmFormula')
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

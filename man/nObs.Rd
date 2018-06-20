@@ -16,10 +16,8 @@ Number of observations for each person as a numeric vector. The corresponding ID
 Extracts the number of observations for each person from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-numberTimePoints <-  nObs(simpleModel)
+data("exampleModel")
+numberObs <-  nObs(exampleModel)
 
 }
 \seealso{

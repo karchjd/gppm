@@ -16,10 +16,8 @@ The names of the predictors.
 Extracts the predictor names from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-myPreds <- preds(simpleModel)
+data("exampleModel")
+myPreds <- preds(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

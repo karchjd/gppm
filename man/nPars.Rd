@@ -16,10 +16,8 @@ Number of parameters as a numeric.
 Extracts the number of parameters from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-numberParas <- nPars(simpleModel)
+data("exampleModel")
+numberParas <- nPars(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

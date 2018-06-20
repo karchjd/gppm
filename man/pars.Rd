@@ -16,10 +16,8 @@ The names of the paramters
 Extracts the parameter names from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-parameters <- pars(simpleModel)
+data("exampleModel")
+parameters <- pars(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

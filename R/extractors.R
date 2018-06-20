@@ -8,11 +8,8 @@
 #' @family functions to extract from a GPPM
 #' @return Point estimates for all parameters as a named numeric vector.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' simpleModel <- fit(simpleModel)
-#' paraEsts <- coef(simpleModel)
+#' data("exampleModel")
+#' paraEsts <- coef(exampleModel)
 #' @export
 coef.GPPM <- function (object,...){
   checkFitted(object)
@@ -27,11 +24,8 @@ coef.GPPM <- function (object,...){
 #' @family functions to extract from a GPPM
 #' @return A matrix of the estimated covariances between the parameter estimates. This has row and column names corresponding to the parameter names.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' simpleModel <- fit(simpleModel)
-#' paraEsts <- vcov(simpleModel)
+#' data("exampleModel")
+#' covMat <- vcov(exampleModel)
 #' @export
 vcov.GPPM <- function (object,...)
 {
@@ -48,11 +42,8 @@ vcov.GPPM <- function (object,...)
 #' @family functions to extract from a GPPM
 #' @return Standard errors for all parameters as a named numeric vector.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' simpleModel <- fit(simpleModel)
-#' paraEsts <- SE(simpleModel)
+#' data("exampleModel")
+#' stdErrors <- SE(exampleModel)
 #' @export
 SE <- function (object)
 {
@@ -72,11 +63,8 @@ SE <- function (object)
 #'
 #' @return A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' simpleModel <- fit(simpleModel)
-#' paraEsts <- confint(simpleModel)
+#' data("exampleModel")
+#' confInts <- confint(exampleModel)
 #' @export
 confint.GPPM <- function(object, parm, level = 0.95,...)
 {
@@ -106,11 +94,8 @@ confint.GPPM <- function(object, parm, level = 0.95,...)
 #' @family functions to extract from a GPPM
 #' @return Returns an object of class logLik. Attributs are: "df" (\strong{d}egrees of \strong{f}reedom; number of estimated parameters in the model) and nobs (number of persons in the model)
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' simpleModel <- fit(simpleModel)
-#' ll <- logLik(simpleModel)
+#' data("exampleModel")
+#' ll <- logLik(exampleModel)
 #' @export
 logLik.GPPM <- function(object,...){
   checkFitted(object)
@@ -128,11 +113,8 @@ logLik.GPPM <- function(object,...){
 #' @family functions to extract from a GPPM
 #' @return Returns a list structure with mean and covariances matrices. See example.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' simpleModel <- fit(simpleModel)
-#' meansCovs <- fitted(simpleModel)
+#' data("exampleModel")
+#' meansCovs <- fitted(exampleModel)
 #'
 #' person1Mean <- meansCovs$mean[[1]]
 #' person1Cov <- meansCovs$cov[[1]]
@@ -151,11 +133,8 @@ fitted.GPPM <- function(object,...){
 #' @param gpModel object of class GPPM.
 #' @return Number of persons as a numeric.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' simpleModel <- fit(simpleModel)
-#' numberPersons <- nPers(simpleModel)
+#' data("exampleModel")
+#' numberPersons <- nPers(exampleModel)
 #' @export
 nPers <- function (gpModel) {
   gpModel$dataForStan$nPer
@@ -171,10 +150,8 @@ nPers <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Number of parameters as a numeric.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' numberParas <- nPars(simpleModel)
+#' data("exampleModel")
+#' numberParas <- nPars(exampleModel)
 #' @export
 nPars <- function (gpModel) {
   checkGPPM(gpModel)
@@ -190,10 +167,8 @@ nPars <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Maximum number of observations as a numeric.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' numberTimePoints <- maxnObs(simpleModel)
+#' data("exampleModel")
+#' maxNumberObs <- maxnObs(exampleModel)
 #' @export
 maxnObs <- function (gpModel){
   checkGPPM(gpModel)
@@ -208,10 +183,8 @@ maxnObs <- function (gpModel){
 #' @family functions to extract from a GPPM
 #' @return Number of observations for each person as a numeric vector. The corresponding IDs are in the IDs attribute.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' numberTimePoints <-  nObs(simpleModel)
+#' data("exampleModel")
+#' numberObs <-  nObs(exampleModel)
 #'
 #' @export
 nObs <- function (gpModel) {
@@ -232,10 +205,8 @@ nObs <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Number of predictors as numeric.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' numberPreds <- nPreds(simpleModel)
+#' data("exampleModel")
+#' numberPreds <- nPreds(exampleModel)
 #' @export
 nPreds <- function (gpModel) {
   checkGPPM(gpModel)
@@ -250,10 +221,8 @@ nPreds <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The names of the predictors.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' myPreds <- preds(simpleModel)
+#' data("exampleModel")
+#' myPreds <- preds(exampleModel)
 #' @export
 preds <-  function(gpModel) {
   checkGPPM(gpModel)
@@ -268,10 +237,8 @@ preds <-  function(gpModel) {
 #' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' parameters <- pars(simpleModel)
+#' data("exampleModel")
+#' parameters <- pars(exampleModel)
 #' @return The names of the paramters
 #' @export
 pars <- function (gpModel) {
@@ -287,10 +254,8 @@ pars <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @param level scalar from 0 to 1. The confidence level required.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' paramEssentials <- parEsts(simpleModel)
+#' data("exampleModel")
+#' paramEssentials <- parEsts(exampleModel)
 #'
 #' @return A data.frame containing the estimated parameters, standard errors, and the lower and upper bounds of the confidence intervals.
 #' @export
@@ -321,10 +286,8 @@ parEsts <- function (object, level=.95) {
 #' @family functions to extract from a GPPM
 #' @return The mean function as a character string.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' myMean <- meanf(simpleModel)
+#' data("exampleModel")
+#' myMean <- meanf(exampleModel)
 #' @export
 meanf <- function (gpModel) {
   checkGPPM(gpModel)
@@ -340,10 +303,8 @@ meanf <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The covariance function as a character string.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' myCov <- covf(simpleModel)
+#' data("exampleModel")
+#' myCov <- covf(exampleModel)
 #' @export
 covf <- function (gpModel) {
   checkGPPM(gpModel)
@@ -359,10 +320,8 @@ covf <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The data set associated with the GPPM.
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' myData <- datas(simpleModel)
+#' data("exampleModel")
+#' myData <- datas(exampleModel)
 #' @export
 datas <- function (gpModel) {
   checkGPPM(gpModel)
@@ -386,10 +345,8 @@ datas <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The requested quantity
 #' @examples
-#' data("demoLGCM")
-#' simpleModel <- gppm('grandMean','(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' getIntern(simpleModel,'parsedmFormula')
+#' data("exampleModel")
+#' getIntern(exampleModel,'parsedmFormula')
 #' @export
 getIntern <- function (gpModel, quantity) {
   checkGPPM(gpModel)

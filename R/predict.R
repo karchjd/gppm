@@ -24,6 +24,7 @@ validate_predict <- function(gpModel,newData){
 #' See examples for format.
 #'
 #' @examples
+#' \dontrun{
 #'data("demoLGCM")
 #' #remove all measurements from person 1 and the first form person 2
 #' predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
@@ -33,6 +34,7 @@ validate_predict <- function(gpModel,newData){
 #'              fitDemoLGCM,'ID','y')
 #' lgcm <- fit(lgcm)
 #' predRes <- predict(lgcm,demoLGCM[predIdx,])
+#' }
 #' @export
 predict.GPPM <- function(object,newData,...){
 validate_predict(object,newData)
@@ -105,6 +107,7 @@ res
 #' @return accuracy estimates in the form of the mean squared error (MSE), the negative log-predictive probability (nLPP), and the sum squared error (SSE)
 #'
 #' @examples
+#' \dontrun{
 #'data("demoLGCM")
 #' #remove all measurements from person 1 and the first form person 2
 #' predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
@@ -117,6 +120,7 @@ res
 #' accEsts <- accuracy(predRes)
 #' accEsts$MSE #mean squared error
 #' accEsts$nLPP #negative log-predictive probability
+#' }
 #' @export
 accuracy <- function(predRes){
   nPers <- length(predRes$ID)
@@ -143,6 +147,7 @@ accuracy <- function(predRes){
 #' @return A plot visualizing the predicitive distribution. The bold line describes the mean and the shaded area the 95\% credibility interval.
 #'
 #' @examples
+#' \dontrun{
 #'data("demoLGCM")
 #' #remove all measurements from person 1 and the first form person 2
 #' predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
@@ -153,10 +158,10 @@ accuracy <- function(predRes){
 #' lgcm <- fit(lgcm)
 #' predRes <- predict(lgcm,demoLGCM[predIdx,])
 #' plot(predRes,1)
+#' }
 #' @method plot GPPMPred
 #' @export
 plot.GPPMPred <- function(x,plotId,...){
-
   stopifnot(length(plotId)==1)
   idIdx = plotId==x$ID
   stopifnot(sum(idIdx)==1) #only for one subject
@@ -165,15 +170,14 @@ plot.GPPMPred <- function(x,plotId,...){
   means <- x$predMean[[idIdx]]
   vars <- diag(x$predCov[[idIdx]])
   cv <- 1.96
-  browser()
   lb <- means+cv*vars
   ub <- means-cv*vars
   toPlot <- data.frame(mypreds=x$preds[[idIdx]],theMeans=means,lb=lb,ub=ub,trueV=x$trueVals[[idIdx]])
-  thePlot <- ggplot(toPlot, aes_string(x=names(toPlot)[1], y='means')) +
-  geom_line(aes_string(y='ub'))+
-  geom_line(aes_string(y='lb'))+
-  geom_point(aes_string(y=names(toPlot)[4]))+
-  geom_ribbon(aes_string(ymax='ub', ymin='lb', fill="grey", alpha=.5))+
+  thePlot <- ggplot(toPlot, aes_string(x=names(toPlot)[1], y='means'))+
+  geom_line(aes_string(y='ub')) +
+  geom_line(aes_string(y='lb')) +
+  geom_point(aes_string(y='means')) +
+  geom_ribbon(aes_string(ymax='ub', ymin='lb'), fill="grey", alpha=.5)+
   geom_line(size=1)
 
   thePlot <- thePlot + ggthemes::theme_tufte()+xlab(paste0('Predictor ',names(toPlot)[1]))+ylab(paste0('Outcome ', x$DV))

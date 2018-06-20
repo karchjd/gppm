@@ -18,11 +18,8 @@ Returns an object of class logLik. Attributs are: "df" (\strong{d}egrees of \str
 Compute the log-likelihood for a GPPM at the maximum likelihood parameter values.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-simpleModel <- fit(simpleModel)
-ll <- logLik(simpleModel)
+data("exampleModel")
+ll <- logLik(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

@@ -16,10 +16,8 @@ The mean function as a character string.
 Extracts the mean function from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-myMean <- meanf(simpleModel)
+data("exampleModel")
+myMean <- meanf(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

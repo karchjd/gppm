@@ -29,7 +29,7 @@ test_that("cross check with idependent calculation 2", {
   theFit <- fit(linearReg,init = truePars,useOptimizer = FALSE)
   thePreds <- predict(theFit,fakeDataTest,verbose=FALSE)
   accRes <- accuracy(thePreds)
-  expect_equal(accRes$MSE/2,.5,tolerance=0.01)
+  expect_equal(accRes$MSE/2,.5,tolerance=0.05)
 
   sum <- 0
   for (i in 3:10000){
@@ -44,7 +44,7 @@ test_that("cross check with idependent calculation 2", {
   theFit <- fit(linearReg,init = truePars,useOptimizer = FALSE)
   thePreds <- predict(theFit,fakeDataTest,verbose=FALSE)
   accRes <- accuracy(thePreds)
-  expect_equal(accRes$MSE/2,1,tolerance=0.02)
+  expect_equal(accRes$MSE/2,1,tolerance=0.05)
 
   sum <- 0
   for (i in 1:length(fakeDataTest$y)){

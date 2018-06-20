@@ -29,17 +29,19 @@ fit <-  function(gpModel,...) {
 #'
 #' @return A fitted Gaussian process panel model, which is an object of class 'GPPM'.
 #' @examples
+#' \dontrun{
 #' #regular usage
 #' data("demoLGCM")
-#' linearChange <- gppm('muI+muS*t','(t==t#)*sigma',
-#'         demoLGCM,'ID','x')
-#' linearChange <- fit(linearChange)
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
 #'
 #' #starting values as ML results
-#' startVals <- c(10,1,10)
-#' names(startVals) <- c('muI','muS','sigma')
-#' linearChangeFake <- fit(linearChange,init=startVals,useOptimizer=FALSE)
-#' stopifnot(identical(startVals,coef(linearChangeFake)))
+#' startVals <- c(10,1,10,3,10,1)
+#' names(startVals) <- pars(lgcm)
+#' lgcmFakeFit <- fit(lgcm,init=startVals,useOptimizer=FALSE)
+#' stopifnot(identical(startVals,coef(lgcmFakeFit)))
+#' }
 #' @export
 fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE,hessian=TRUE,...) {
   if (useOptimizer){

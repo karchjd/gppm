@@ -28,15 +28,17 @@ This function is used to fit a Gaussian process panel model,
 which has been specified fit using \code{\link{gppm}}.
 }
 \examples{
+\dontrun{
 #regular usage
 data("demoLGCM")
-linearChange <- gppm('muI+muS*t','(t==t#)*sigma',
-        demoLGCM,'ID','x')
-linearChange <- fit(linearChange)
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+lgcmFit <- fit(lgcm)
 
 #starting values as ML results
-startVals <- c(10,1,10)
-names(startVals) <- c('muI','muS','sigma')
-linearChangeFake <- fit(linearChange,init=startVals,useOptimizer=FALSE)
-stopifnot(identical(startVals,coef(linearChangeFake)))
+startVals <- c(10,1,10,3,10,1)
+names(startVals) <- pars(lgcm)
+lgcmFakeFit <- fit(lgcm,init=startVals,useOptimizer=FALSE)
+stopifnot(identical(startVals,coef(lgcmFakeFit)))
+}
 }

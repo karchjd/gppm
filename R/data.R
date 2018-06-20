@@ -12,3 +12,27 @@
 #'
 #' @format A parameter vector.
 "trueParas"
+
+
+#' Example Gaussian Process Panel model
+#'
+#' @format An object of class GPPM. A fitted Gaussian process panel model. Used to speed up the example code for the numerous extractor functions. Result of
+#'
+#' ```
+#' data('demoLGCM')
+#' exampleModel <- fit(gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',demoLGCM,'ID','y'))
+#' ```
+"exampleModel"
+
+#' Example Gaussian Process Panel model
+#'
+#' @format An object of class GPPM. An unfitted Gaussian process panel model. Used for testing only. Result of
+#'
+#' ```
+#' data('demoLGCM')
+#' exampleModelNotFit <- fit(gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',demoLGCM,'ID','y'))
+#' ```
+"exampleModelNotFit"
+
+
+

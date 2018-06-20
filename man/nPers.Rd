@@ -16,11 +16,8 @@ Number of persons as a numeric.
 Extracts the number of persons from a GPPM.
 }
 \examples{
-data("demoLGCM")
-simpleModel <- gppm('grandMean','(t==t#)*sigma',
-        demoLGCM,'ID','y')
-simpleModel <- fit(simpleModel)
-numberPersons <- nPers(simpleModel)
+data("exampleModel")
+numberPersons <- nPers(exampleModel)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},
