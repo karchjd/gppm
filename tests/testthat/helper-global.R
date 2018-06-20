@@ -1,9 +1,7 @@
 data("demoLGCM")
 data('trueParas')
-data('exampleModel')
-data('exampleModelNotFit')
-lgcm <- exampleModelNotFit
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+             demoLGCM,'ID','x')
 parameterValues <- trueParas
-lgcmFit <- exampleModel
+lgcmFit <-fit(lgcm,init=parameterValues)
 modelForExtract <- lgcmFit
-

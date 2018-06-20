@@ -10,8 +10,13 @@
 #' @seealso \code{\link{crossvalidate}} for how to use the created fold vector to perform cross-validation.
 #' @details The folds are created such that the data of each person is fully in one fold.
 #' @examples
-#' data("exampleModel")
-#' theFolds <- createLeavePersonsOutFolds(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' theFolds <- createLeavePersonsOutFolds(lgcm)
+#' }
+#'
 #' @export
 createLeavePersonsOutFolds <- function(gpModel,k=10){
   checkGPPM(gpModel)

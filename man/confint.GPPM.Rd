@@ -22,8 +22,13 @@ A matrix (or vector) with columns giving lower and upper confidence limits for e
 Computes confidence intervals for one or more parameters in a fitted GPPM.
 }
 \examples{
-data("exampleModel")
-confInts <- confint(exampleModel)
+\dontrun{
+data("demoLGCM")
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+lgcmFit <- fit(lgcm)
+confInts <- confint(lgcmFit)
+}
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

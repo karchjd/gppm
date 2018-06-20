@@ -8,8 +8,13 @@
 #' @family functions to extract from a GPPM
 #' @return Point estimates for all parameters as a named numeric vector.
 #' @examples
-#' data("exampleModel")
-#' paraEsts <- coef(exampleModel)
+#' \dontrun{
+#'  data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
+#' paraEsts <- coef(lgcmFit)
+#' }
 #' @export
 coef.GPPM <- function (object,...){
   checkFitted(object)
@@ -24,8 +29,13 @@ coef.GPPM <- function (object,...){
 #' @family functions to extract from a GPPM
 #' @return A matrix of the estimated covariances between the parameter estimates. This has row and column names corresponding to the parameter names.
 #' @examples
-#' data("exampleModel")
-#' covMat <- vcov(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
+#' covMat <- vcov(lgcmFit)
+#' }
 #' @export
 vcov.GPPM <- function (object,...)
 {
@@ -42,8 +52,12 @@ vcov.GPPM <- function (object,...)
 #' @family functions to extract from a GPPM
 #' @return Standard errors for all parameters as a named numeric vector.
 #' @examples
-#' data("exampleModel")
-#' stdErrors <- SE(exampleModel)
+#' \dontrun{
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
+#' stdErrors <- SE(lgcmFit)
+#' }
 #' @export
 SE <- function (object)
 {
@@ -63,8 +77,13 @@ SE <- function (object)
 #'
 #' @return A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 #' @examples
-#' data("exampleModel")
-#' confInts <- confint(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
+#' confInts <- confint(lgcmFit)
+#' }
 #' @export
 confint.GPPM <- function(object, parm, level = 0.95,...)
 {
@@ -94,8 +113,13 @@ confint.GPPM <- function(object, parm, level = 0.95,...)
 #' @family functions to extract from a GPPM
 #' @return Returns an object of class logLik. Attributs are: "df" (\strong{d}egrees of \strong{f}reedom; number of estimated parameters in the model) and nobs (number of persons in the model)
 #' @examples
-#' data("exampleModel")
-#' ll <- logLik(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
+#' ll <- logLik(lgcmFit)
+#' }
 #' @export
 logLik.GPPM <- function(object,...){
   checkFitted(object)
@@ -113,12 +137,17 @@ logLik.GPPM <- function(object,...){
 #' @family functions to extract from a GPPM
 #' @return Returns a list structure with mean and covariances matrices. See example.
 #' @examples
-#' data("exampleModel")
-#' meansCovs <- fitted(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
+#' meansCovs <- fitted(lgcmFit)
 #'
 #' person1Mean <- meansCovs$mean[[1]]
 #' person1Cov <- meansCovs$cov[[1]]
 #' person1ID <- meansCovs$ID[[1]]
+#' }
 #' @export
 fitted.GPPM <- function(object,...){
   checkFitted(object)
@@ -133,8 +162,12 @@ fitted.GPPM <- function(object,...){
 #' @param gpModel object of class GPPM.
 #' @return Number of persons as a numeric.
 #' @examples
-#' data("exampleModel")
-#' numberPersons <- nPers(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' numberPersons <- nPers(lgcm)
+#' }
 #' @export
 nPers <- function (gpModel) {
   gpModel$dataForStan$nPer
@@ -150,8 +183,12 @@ nPers <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Number of parameters as a numeric.
 #' @examples
-#' data("exampleModel")
-#' numberParas <- nPars(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' numberParas <- nPars(lgcm)
+#' }
 #' @export
 nPars <- function (gpModel) {
   checkGPPM(gpModel)
@@ -167,8 +204,12 @@ nPars <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Maximum number of observations as a numeric.
 #' @examples
-#' data("exampleModel")
-#' maxNumberObs <- maxnObs(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' maxNumberObs <- maxnObs(lgcm)
+#' }
 #' @export
 maxnObs <- function (gpModel){
   checkGPPM(gpModel)
@@ -183,9 +224,12 @@ maxnObs <- function (gpModel){
 #' @family functions to extract from a GPPM
 #' @return Number of observations for each person as a numeric vector. The corresponding IDs are in the IDs attribute.
 #' @examples
-#' data("exampleModel")
-#' numberObs <-  nObs(exampleModel)
-#'
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' numberObs <-  nObs(lgcm)
+#' }
 #' @export
 nObs <- function (gpModel) {
   checkGPPM(gpModel)
@@ -205,8 +249,12 @@ nObs <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Number of predictors as numeric.
 #' @examples
-#' data("exampleModel")
-#' numberPreds <- nPreds(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' numberPreds <- nPreds(lgcm)
+#' }
 #' @export
 nPreds <- function (gpModel) {
   checkGPPM(gpModel)
@@ -221,8 +269,12 @@ nPreds <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The names of the predictors.
 #' @examples
-#' data("exampleModel")
-#' myPreds <- preds(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' myPreds <- preds(lgcm)
+#' }
 #' @export
 preds <-  function(gpModel) {
   checkGPPM(gpModel)
@@ -237,9 +289,13 @@ preds <-  function(gpModel) {
 #' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @examples
-#' data("exampleModel")
-#' parameters <- pars(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' parameters <- pars(lgcm)
 #' @return The names of the paramters
+#' }
 #' @export
 pars <- function (gpModel) {
     gpModel$parsedModel$params
@@ -254,9 +310,13 @@ pars <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @param level scalar from 0 to 1. The confidence level required.
 #' @examples
-#' data("exampleModel")
-#' paramEssentials <- parEsts(exampleModel)
-#'
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
+#' paramEssentials <- parEsts(lgcmFit)
+#' }
 #' @return A data.frame containing the estimated parameters, standard errors, and the lower and upper bounds of the confidence intervals.
 #' @export
 parEsts <- function (object, level=.95) {
@@ -286,8 +346,12 @@ parEsts <- function (object, level=.95) {
 #' @family functions to extract from a GPPM
 #' @return The mean function as a character string.
 #' @examples
-#' data("exampleModel")
-#' myMean <- meanf(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' myMean <- meanf(lgcm)
+#' }
 #' @export
 meanf <- function (gpModel) {
   checkGPPM(gpModel)
@@ -303,8 +367,12 @@ meanf <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The covariance function as a character string.
 #' @examples
-#' data("exampleModel")
-#' myCov <- covf(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' myCov <- covf(lgcm)
+#' }
 #' @export
 covf <- function (gpModel) {
   checkGPPM(gpModel)
@@ -320,8 +388,12 @@ covf <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The data set associated with the GPPM.
 #' @examples
-#' data("exampleModel")
-#' myData <- datas(exampleModel)
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' myData <- datas(lgcm)
+#' }
 #' @export
 datas <- function (gpModel) {
   checkGPPM(gpModel)
@@ -345,8 +417,13 @@ datas <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The requested quantity
 #' @examples
-#' data("exampleModel")
-#' getIntern(exampleModel,'parsedmFormula')
+#' \dontrun{
+#' data("demoLGCM")
+#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+#'         demoLGCM,'ID','y')
+#' lgcmFit <- fit(lgcm)
+#' getIntern(lgcmFit,'parsedmFormula')
+#' }
 #' @export
 getIntern <- function (gpModel, quantity) {
   checkGPPM(gpModel)

@@ -16,9 +16,12 @@ Number of observations for each person as a numeric vector. The corresponding ID
 Extracts the number of observations for each person from a GPPM.
 }
 \examples{
-data("exampleModel")
-numberObs <-  nObs(exampleModel)
-
+\dontrun{
+data("demoLGCM")
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+numberObs <-  nObs(lgcm)
+}
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

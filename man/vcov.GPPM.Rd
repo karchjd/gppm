@@ -18,8 +18,13 @@ A matrix of the estimated covariances between the parameter estimates. This has 
 Returns the variance-covariance matrix of the parameters of a fitted GPPM.
 }
 \examples{
-data("exampleModel")
-covMat <- vcov(exampleModel)
+\dontrun{
+data("demoLGCM")
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+lgcmFit <- fit(lgcm)
+covMat <- vcov(lgcmFit)
+}
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

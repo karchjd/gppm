@@ -18,8 +18,13 @@ Point estimates for all parameters as a named numeric vector.
 Extracts point estimates for all parameters from a fitted GPPM.
 }
 \examples{
-data("exampleModel")
-paraEsts <- coef(exampleModel)
+\dontrun{
+ data("demoLGCM")
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+lgcmFit <- fit(lgcm)
+paraEsts <- coef(lgcmFit)
+}
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

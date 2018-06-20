@@ -16,8 +16,12 @@ Maximum number of observations as a numeric.
 Extracts the maximum number of observations per person from a GPPM.
 }
 \examples{
-data("exampleModel")
-maxNumberObs <- maxnObs(exampleModel)
+\dontrun{
+data("demoLGCM")
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+maxNumberObs <- maxnObs(lgcm)
+}
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

@@ -16,8 +16,12 @@ The names of the predictors.
 Extracts the predictor names from a GPPM.
 }
 \examples{
-data("exampleModel")
-myPreds <- preds(exampleModel)
+\dontrun{
+data("demoLGCM")
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+myPreds <- preds(lgcm)
+}
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

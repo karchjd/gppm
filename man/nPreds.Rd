@@ -16,8 +16,12 @@ Number of predictors as numeric.
 Extracts the number of predictors from a GPPM.
 }
 \examples{
-data("exampleModel")
-numberPreds <- nPreds(exampleModel)
+\dontrun{
+data("demoLGCM")
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+numberPreds <- nPreds(lgcm)
+}
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},
