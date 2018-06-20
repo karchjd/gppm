@@ -9,8 +9,19 @@ pars(gpModel)
 \arguments{
 \item{gpModel}{object of class GPPM.}
 }
+\value{
+The names of the paramters
+}
 \description{
 Extracts the parameter names from a GPPM.
+}
+\examples{
+\dontrun{
+data("demoLGCM")
+lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
+        demoLGCM,'ID','y')
+parameters <- pars(lgcm)
+}
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{SE}},

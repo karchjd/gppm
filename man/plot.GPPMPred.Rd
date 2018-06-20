@@ -14,7 +14,7 @@
 \item{...}{additional arguments (currently not used).}
 }
 \value{
-A plot visualizing the predicitive distribution. The bold line describes the mean and the shaded area the 95\% credibility interval.
+A plot visualizing the predictive distribution. The bold line describes the mean and the shaded area the 95\% credibility interval.
 }
 \description{
 Plots person-specific predictions

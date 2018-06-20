@@ -294,8 +294,8 @@ preds <-  function(gpModel) {
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
 #' parameters <- pars(lgcm)
-#' @return The names of the paramters
 #' }
+#' @return The names of the paramters
 #' @export
 pars <- function (gpModel) {
     gpModel$parsedModel$params

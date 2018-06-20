@@ -144,7 +144,7 @@ accuracy <- function(predRes){
 #' @param x object of class \code{GPPMPred} as obtained by \code{\link{predict.GPPM}}
 #' @param plotId character string or integer. ID of the person for which the predictions should be plotted
 #' @param ... additional arguments (currently not used).
-#' @return A plot visualizing the predicitive distribution. The bold line describes the mean and the shaded area the 95\% credibility interval.
+#' @return A plot visualizing the predictive distribution. The bold line describes the mean and the shaded area the 95\% credibility interval.
 #'
 #' @examples
 #' \dontrun{
