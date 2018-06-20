@@ -80,7 +80,7 @@ validate_cross <- function(gpModel,foldVector){
 #'
 #' @inheritParams nPers
 #'
-#' @param foldVector interger vector. Describes the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}.
+#' @param foldVector integer vector. Describes the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}.
 #'
 #' @return Cross-validation estimates of the mean squared error (MSE) and the negative log-predictive probability (nLPP)
 #' @details The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.

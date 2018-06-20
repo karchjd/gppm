@@ -75,7 +75,7 @@ SE <- function (object)
 #' @param parm vector of strings. The parameters for which confidence intervals are desired. If missing, confidence intervals for all parameters are returned.
 #' @param level scalar from 0 to 1. The confidence level required.
 #'
-#' @return A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
+#' @return A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labeled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 #' @examples
 #' \dontrun{
 #' data("demoLGCM")
@@ -111,7 +111,7 @@ confint.GPPM <- function(object, parm, level = 0.95,...)
 #'
 #' @inheritParams coef.GPPM
 #' @family functions to extract from a GPPM
-#' @return Returns an object of class logLik. Attributs are: "df" (\strong{d}egrees of \strong{f}reedom; number of estimated parameters in the model) and nobs (number of persons in the model)
+#' @return Returns an object of class logLik. Attributes are: "df" (\strong{d}egrees of \strong{f}reedom; number of estimated parameters in the model) and nobs (number of persons in the model)
 #' @examples
 #' \dontrun{
 #' data("demoLGCM")
@@ -406,7 +406,7 @@ datas <- function (gpModel) {
 #' Extracts internals from a GPPM.
 #'
 #' @inheritParams nPers
-#' @param quantity character string. Name of the quanity to extract. Possible values are
+#' @param quantity character string. Name of the quantity to extract. Possible values are
 #'\itemize{
 #'   \item "parsedmFormula" for the parsed mean formula
 #'   \item "parsedcFormula" for the parsed covariance formula

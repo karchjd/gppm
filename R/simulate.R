@@ -3,7 +3,7 @@
 #' This function is used to simulate from a Gaussian process panel model,
 #' which has been specified using \code{\link{gppm}}.
 #'
-#' @param object object of class GPPM. The Gaussian proces spanel model from which to simulate.
+#' @param object object of class GPPM. The Gaussian process panel model from which to simulate.
 #'
 #' @param parameterValues numeric vector. Used to specify the values for the parameters.  Which value belongs to which parameter is determined by the names attribute of parameterValues. See also the example.
 #'
