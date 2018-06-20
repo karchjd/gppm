@@ -34,6 +34,6 @@ test_that("full cv", {
     sum <- sum + log(dnorm(rnorm(1)))
   }
   sum <- -sum
-  expect_equal(cvRes$nLPP/10000,sum/10000,tolerance=0.01)
+  expect_equal(cvRes$nLPP/10000,sum/10000,tolerance=0.05)
 })
 
