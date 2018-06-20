@@ -16,7 +16,7 @@
 \item{...}{additional arguments (currently not used).}
 }
 \value{
-A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labelled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
+A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labeled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 }
 \description{
 Computes confidence intervals for one or more parameters in a fitted GPPM.

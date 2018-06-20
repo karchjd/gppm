@@ -9,7 +9,7 @@ crossvalidate(gpModel, foldVector)
 \arguments{
 \item{gpModel}{object of class GPPM.}
 
-\item{foldVector}{interger vector. Describes the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}.}
+\item{foldVector}{integer vector. Describes the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}.}
 }
 \value{
 Cross-validation estimates of the mean squared error (MSE) and the negative log-predictive probability (nLPP)

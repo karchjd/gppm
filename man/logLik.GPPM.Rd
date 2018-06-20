@@ -12,7 +12,7 @@
 \item{...}{additional arguments (currently not used).}
 }
 \value{
-Returns an object of class logLik. Attributs are: "df" (\strong{d}egrees of \strong{f}reedom; number of estimated parameters in the model) and nobs (number of persons in the model)
+Returns an object of class logLik. Attributes are: "df" (\strong{d}egrees of \strong{f}reedom; number of estimated parameters in the model) and nobs (number of persons in the model)
 }
 \description{
 Compute the log-likelihood for a GPPM at the maximum likelihood parameter values.

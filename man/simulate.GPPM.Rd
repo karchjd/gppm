@@ -8,7 +8,7 @@
   parameterValues = NULL, verbose = FALSE, ...)
 }
 \arguments{
-\item{object}{object of class GPPM. The Gaussian proces spanel model from which to simulate.}
+\item{object}{object of class GPPM. The Gaussian process panel model from which to simulate.}
 
 \item{nsim}{integer. Number of data sets to generate.}
 

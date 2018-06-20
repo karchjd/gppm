@@ -9,7 +9,7 @@ getIntern(gpModel, quantity)
 \arguments{
 \item{gpModel}{object of class GPPM.}
 
-\item{quantity}{character string. Name of the quanity to extract. Possible values are
+\item{quantity}{character string. Name of the quantity to extract. Possible values are
 \itemize{
 \item "parsedmFormula" for the parsed mean formula
 \item "parsedcFormula" for the parsed covariance formula
