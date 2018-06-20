@@ -52,7 +52,7 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
 #'
 #' @param ... additional parameters (currently not used).
 #'
-#' @return An object of classs "summary.GPPM", which is a list with 4 entries:
+#' @return An object of class "summary.GPPM", which is a list with 4 entries:
 #'  \itemize{
 #'   \item \code{modelSpecification} an object of class 'ModelSpecification' describing the model as a list with the following entries
 #'   \itemize{

@@ -17,7 +17,7 @@
 \item{x}{output of \code{\link{fit.GPPM}}}
 }
 \value{
-An object of classs "summary.GPPM", which is a list with 4 entries:
+An object of class "summary.GPPM", which is a list with 4 entries:
 \itemize{
 \item \code{modelSpecification} an object of class 'ModelSpecification' describing the model as a list with the following entries
 \itemize{
