@@ -8,3 +8,4 @@ README.html
 *.tex
 vignettes/cache
 vignettes/gppm.bbl
+revdep
