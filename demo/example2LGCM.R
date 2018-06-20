@@ -1,30 +1,33 @@
-require(gppmr)
-require(OpenMx)
-require(MASS)
+source(file.path(system.file(package = 'gppm'),'demo_helpers.R'))
+  ##settings
+  nP <- 500
+  nT <- 10
 
-##settings
-nP <- 100
-nT <- 3
-
-##define latent growth curve model using the SEM software OpenMx
-lgcModel <- generateLGCM(nT)
-trueModel <- omxSetParameters(lgcModel,labels=c('muI','muS','varI','varS','covIS','sigma'),values=c(10,3,4,10,0.5,10))
-
-##simulate data
-yMatrix <- simulateData(trueModel,N=nP)
-tMatrix <- matrix(rep(0:(nT-1),each=nP),nrow = nP,ncol = nT)
+  ##define latent growth curve model using SEM software
+  lgcModel <- generateLGCM(nT)
+  trueModel <- omxSetParameters(lgcModel,labels=c('muI','muS','varI','varS','covIS','sigma'),values=c(10,3,4,10,0.5,10))
 
 
-##fit data using OpenMx
-semModel <- mxModel(lgcModel,mxData(yMatrix,type = "raw"))
-semModel <- mxRun(semModel,silent = TRUE)
-colnames(tMatrix) <- paste0('t',1:nT)
-myData <- as.data.frame(cbind(tMatrix,yMatrix))
+  ##simulate data
+  yMatrix <- simulateData(trueModel,N=nP)
+  tMatrix <- matrix(rep(0:(nT-1),each=nP),nrow = nP,ncol = nT)
+  colnames(tMatrix) <- paste0('t',1:nT)
+  myData <- as.data.frame(cbind(tMatrix,yMatrix))
 
-##fit data using GPPM
-gpModel <- gppModel('muI+muS*t','varI+covIS*(t+t!)+varS*t*t!+omxApproxEquals(t,t!,0.0001)*sigma',myData)
-gpModelFit <- gppFit(gpModel)
+  #fit data using SEM
+  semModel <- mxModel(lgcModel,mxData(yMatrix,type = "raw"))
+  semModel <- mxRun(semModel,silent = TRUE)
 
-##compare results
-lgcmSame <- all.equal(gpModelFit$mlParas,omxGetParameters(semModel)[names(gpModelFit$mlParas)],check.attributes=FALSE,tolerance=0.0001)
-message(sprintf('Estimated parameters for the LGCM model are the same: %s',lgcmSame))
+
+
+
+  ##fit data using GPPMNew
+  longData <- convertFromWide(myData)
+  gpModel <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',longData,ID='ID',DV='Y')
+  fittedModel <- fit(gpModel)
+
+
+
+  ##compare results
+  lgcmSame <- all.equal(coef(fittedModel),omxGetParameters(semModel)[names(coef(fittedModel))],check.attributes=FALSE,tolerance=0.0001)
+  message(sprintf('Estimated parameters for the LGCM model are the same: %s',lgcmSame))

@@ -2,6 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
-inst/doc
 README.html
 .DS_Store
+*.pdf
+*.tex
+vignettes/cache
+vignettes/gppm.bbl
