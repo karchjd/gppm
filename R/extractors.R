@@ -295,7 +295,7 @@ preds <-  function(gpModel) {
 #'         demoLGCM,'ID','y')
 #' parameters <- pars(lgcm)
 #' }
-#' @return The names of the paramters
+#' @return The names of the parameters
 #' @export
 pars <- function (gpModel) {
     gpModel$parsedModel$params

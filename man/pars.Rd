@@ -10,7 +10,7 @@ pars(gpModel)
 \item{gpModel}{object of class GPPM.}
 }
 \value{
-The names of the paramters
+The names of the parameters
 }
 \description{
 Extracts the parameter names from a GPPM.
