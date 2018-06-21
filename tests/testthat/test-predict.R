@@ -38,7 +38,7 @@ test_that("cross check with idependent calculation 2", {
     sum <- sum + log(dnorm(rnorm(1)))
   }
   sum <- -sum
-  expect_equal(accRes$nLPP/10000,sum/10000,tolerance=0.01)
+  expect_equal(accRes$nLPP/10000,sum/10000,tolerance=0.05)
 
 
   truePars <- c(0,2)
