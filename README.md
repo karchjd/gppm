@@ -18,7 +18,7 @@ devtools::install_github('karchjd/gppm')
 Examples
 --------
 
-For examples, consult the demos. To see a list of all examples do the following:
+For examples, consult the demos. To see a list of all demos do the following:
 
 ``` r
 demo(package='gppm')
@@ -27,14 +27,14 @@ demo(package='gppm')
 To run a particular example, you can do the following. Here, exemplified for 'example1linearModel':
 
 ``` r
-demo('example1linearModel',package='gppmr')
+demo('example1linearModel',package='gppm')
 ```
 
 However, the recommended approach is to look at the source directly. To locate the demo folder in which all examples resides on your computer, do the following:
 
 ``` r
-system.file("demo", package ="gppmr")
-#> [1] ""
+system.file("demo", package ="gppm")
+#> [1] "/Library/Frameworks/R.framework/Versions/3.5/Resources/library/gppm/demo"
 ```
 
 Learning Gaussian Process Panel Modeling
