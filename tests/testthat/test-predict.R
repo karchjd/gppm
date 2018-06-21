@@ -10,6 +10,7 @@ test_that("cross check with idependent calculation", {
   names(paras) <- pars(lgcm)
   lgcmFit <- fit(lgcm,init=paras,useOptimizer=FALSE)
   thePreds <- predict(lgcmFit,fakeDataTest)
+  plot(thePreds,1)
   expect_identical(round(thePreds$predMean[[1]][2]),19)
   expect_identical(round(thePreds$predCov[[1]][2,2]),28)
 })
@@ -17,6 +18,7 @@ test_that("cross check with idependent calculation", {
 
 #50% of variance explained
 test_that("cross check with idependent calculation 2", {
+  skip_on_cran()
   theT <- rnorm(10000)
   theY <- theT+rnorm(10000)
   fakeData <- data.frame(ID=rep(1:2500,4),t=theT,y=theY)
@@ -54,8 +56,8 @@ test_that("cross check with idependent calculation 2", {
   expect_equal(accRes$nLPP/10000,sum/10000,tolerance=0.00001)
 })
 
-
 test_that("thePlot", {
+  skip_on_cran()
   newData <- demoLGCM
   newData[,c('t')] <- newData[,c('t')] + 0.0000001
   thePreds <- predict(lgcmFit,newData)

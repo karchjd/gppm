@@ -1,20 +1,23 @@
 context('fit')
 test_that("useOptimizerFalse", {
-  gpModel <- gppm('b0+b1*t','(t==t#)*sigma',myDataLong)
-  startValues <- c(10,3,1)
-  names(startValues) <- c('b0','b1','sigma')
-  gpModel <- fit(gpModel,useOptimizer=FALSE,init=startValues)
-  coef(gpModel)
-  expect_equal(coef(gpModel),startValues)
+  lgcmFakeFit <- fit(lgcm,useOptimizer=FALSE,init=parameterValues)
+  expect_equal(coef(lgcmFakeFit)[names(parameterValues)],parameterValues)
 })
 
-test_that("useOptimizerTrue", {
+test_that("Paras in Confint", {
   #for this seed all true paras are in data set
   confInters <- confint(lgcmFit)
   for (cPar in names(trueParas)){
     expect_true(confInters[cPar,1] < trueParas[cPar] && confInters[cPar,2] > trueParas[cPar])
   }
 })
+
+test_that("always reach ML estimates", {
+  skip_on_cran()
+  lgcmFit2 <-fit(lgcm)
+  expect_equal(lgcmFit2,lgcmFit,tolerance=0.01)
+})
+
 
 
 

@@ -14,6 +14,7 @@ test_that("Each person one Fold", {
   }
 })
 
+
 test_that("Folds roughly same size", {
   theFolds <- createLeavePersonsOutFolds(lgcm)
   proportion <- table(theFolds)/sum(table(theFolds))
@@ -22,6 +23,7 @@ test_that("Folds roughly same size", {
 
 
 test_that("full cv", {
+  skip_on_cran()
   theT <- rnorm(10000)
   theY <- theT+rnorm(10000)
   fakeData <- data.frame(ID=rep(1:2500,4),t=theT,y=theY)
