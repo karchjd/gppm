@@ -1,7 +1,10 @@
 Package: gppm
 Version: 0.2.0
 Title: Gaussian Process Panel Modeling
-Description:  Provides an implementation of Gaussian process panel modeling (GPPM), which enables: Gaussian process based modeling of longitudinal panel data (GPPM), regular Gaussian process regression with flexible model specification, and Gaussian process regression with multi-task learning.
+Description:  Provides an implementation of Gaussian process panel modeling (GPPM). 
+              GPPM is described in Karch (2016; <DOI:10.18452/17641>) and Karch, Brandmaier & Voelkle (2018; <DOI:10.17605/OSF.IO/KVW5Y>).
+              Essentially, GPPM is Gaussian process based modeling of longitudinal panel data.
+              gppm also supports regular Gaussian process regression (with a focus on flexible model specification), and multi-task learning.
 Authors@R: c(person(c("Julian", "D."), "Karch", email="j.d.karch@fsw.leidenuniv.nl", role=c("aut", "cre", "cph")))
 Depends:
     R (>= 3.1.0),
@@ -26,3 +29,5 @@ BugReports: https://github.com/karchjd/gppm/issues
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
+
+
