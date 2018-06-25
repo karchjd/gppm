@@ -16,7 +16,7 @@ accuracy estimates in the form of the mean squared error (MSE), the negative log
 Estimate the accuracy based on predictions.
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 #remove all measurements from person 1 and the first form person 2
 predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])

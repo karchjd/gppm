@@ -24,7 +24,7 @@ validate_predict <- function(gpModel,newData){
 #' See examples for format.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'data("demoLGCM")
 #' #remove all measurements from person 1 and the first form person 2
 #' predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
@@ -107,7 +107,7 @@ res
 #' @return accuracy estimates in the form of the mean squared error (MSE), the negative log-predictive probability (nLPP), and the sum squared error (SSE)
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'data("demoLGCM")
 #' #remove all measurements from person 1 and the first form person 2
 #' predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])
@@ -147,7 +147,7 @@ accuracy <- function(predRes){
 #' @return A plot visualizing the predictive distribution. The bold line describes the mean and the shaded area the 95\% credibility interval.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'data("demoLGCM")
 #' #remove all measurements from person 1 and the first form person 2
 #' predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])

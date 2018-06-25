@@ -18,7 +18,7 @@ Returns an object of class logLik. Attributes are: "df" (\strong{d}egrees of \st
 Compute the log-likelihood for a GPPM at the maximum likelihood parameter values.
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')

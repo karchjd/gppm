@@ -21,7 +21,7 @@ This function is used to create a leave-persons-out cross-validation fold vector
 The folds are created such that the data of each person is fully in one fold.
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')

@@ -16,7 +16,7 @@ Number of observations for each person as a numeric vector. The corresponding ID
 Extracts the number of observations for each person from a GPPM.
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')

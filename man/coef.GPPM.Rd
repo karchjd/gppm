@@ -18,7 +18,7 @@ Point estimates for all parameters as a named numeric vector.
 Extracts point estimates for all parameters from a fitted GPPM.
 }
 \examples{
-\dontrun{
+\donttest{
  data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')

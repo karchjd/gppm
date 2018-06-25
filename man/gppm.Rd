@@ -48,7 +48,7 @@ Constants: Again, all constants that are supported by stan can be used and in ge
 }
 \examples{
 # Defintion of a latent growth curve model
-\dontrun{
+\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')

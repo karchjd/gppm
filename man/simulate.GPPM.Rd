@@ -28,7 +28,7 @@ This function is used to simulate from a Gaussian process panel model,
 which has been specified using \code{\link{gppm}}.
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','x')

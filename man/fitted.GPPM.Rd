@@ -18,7 +18,7 @@ Returns a list structure with mean and covariances matrices. See example.
 A fitted GPPM implies a mean vector and a covariance matrix for each person. These are returned by this function.
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')
