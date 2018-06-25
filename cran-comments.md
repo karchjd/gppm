@@ -1,9 +1,9 @@
 ## Resubmission
 This is a resubmission. To address the maintainer's comments, I have
 
-* decreased the test time from ~465s  to ~170s by skiping a few long tests on cran, and writting some tests more efficiently.
+* Changed gppm to 'gppm' in the DESCRIPTION file
 
-* added DOI references about the method in the description file.
+* Changed all \dontrun tags to \donttest
 
 ## Test environments
 * local mac OS 10.12.6, R 3.5.0 
