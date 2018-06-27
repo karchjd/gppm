@@ -125,15 +125,18 @@ res
 accuracy <- function(predRes){
   nPers <- length(predRes$ID)
   MSE <- c()
+  absDist <- c()
   LL <- rep(NA,nPers)
   for (i in 1:nPers){
     MSE <- c(MSE,((predRes$predMean[[i]]-predRes$trueVals[[i]])^2)[,1])
+    absDist <- c(absDist,(abs(predRes$predMean[[i]]-predRes$trueVals[[i]]))[,1])
     LL[i] <- log(mvtnorm::dmvnorm(t(predRes$trueVals[[i]]),mean=as.vector(predRes$predMean[[i]]),sigma=predRes$predCov[[i]]))
   }
   mMSE <- mean(MSE)
+  mabsDist <- mean(absDist)
   sLL <- sum(LL)
   sSE <- sum(MSE)
-  return(list(MSE=mMSE,nLPP=-sLL,SSE=sSE))
+  return(list(MSE=mMSE,nLPP=-sLL,SSE=sSE,mAE=mabsDist))
 }
 
 
