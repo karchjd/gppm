@@ -172,11 +172,12 @@ plot.GPPMPred <- function(x,plotId,...){
   cv <- 1.96
   lb <- means+cv*vars
   ub <- means-cv*vars
+
   toPlot <- data.frame(mypreds=x$preds[[idIdx]],theMeans=means,lb=lb,ub=ub,trueV=x$trueVals[[idIdx]])
   thePlot <- ggplot(toPlot, aes_string(x=names(toPlot)[1], y='means'))+
   geom_line(aes_string(y='ub')) +
   geom_line(aes_string(y='lb')) +
-  geom_point(aes_string(y='means')) +
+  geom_point(aes_string(y='y')) +
   geom_ribbon(aes_string(ymax='ub', ymin='lb'), fill="grey", alpha=.5)+
   geom_line(size=1)
 
