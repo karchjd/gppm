@@ -18,7 +18,7 @@ A data.frame containing the estimated parameters, standard errors, and the lower
 Extracts the essential parameter estimation results for a GPPM.
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')

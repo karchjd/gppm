@@ -29,7 +29,7 @@ fit <-  function(gpModel,...) {
 #'
 #' @return A fitted Gaussian process panel model, which is an object of class 'GPPM'.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' #regular usage
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',

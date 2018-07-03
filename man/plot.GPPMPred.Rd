@@ -20,7 +20,7 @@ A plot visualizing the predictive distribution. The bold line describes the mean
 Plots person-specific predictions
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 #remove all measurements from person 1 and the first form person 2
 predIdx <- c(which(demoLGCM$ID==1),which(demoLGCM$ID==2)[1])

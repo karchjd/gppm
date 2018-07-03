@@ -16,7 +16,7 @@ Number of parameters as a numeric.
 Extracts the number of parameters from a GPPM.
 }
 \examples{
-\dontrun{
+\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
         demoLGCM,'ID','y')

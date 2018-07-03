@@ -16,7 +16,7 @@
 #' @param verbose boolean. Print diagnostic output?
 #' @return A simulated data set, which is an object of class 'LongData'. If \code{nsim>1} a list of \code{nsim} simulated data sets.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','x')

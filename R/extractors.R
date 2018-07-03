@@ -8,7 +8,7 @@
 #' @family functions to extract from a GPPM
 #' @return Point estimates for all parameters as a named numeric vector.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'  data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -29,7 +29,7 @@ coef.GPPM <- function (object,...){
 #' @family functions to extract from a GPPM
 #' @return A matrix of the estimated covariances between the parameter estimates. This has row and column names corresponding to the parameter names.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -52,7 +52,7 @@ vcov.GPPM <- function (object,...)
 #' @family functions to extract from a GPPM
 #' @return Standard errors for all parameters as a named numeric vector.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
 #' lgcmFit <- fit(lgcm)
@@ -77,7 +77,7 @@ SE <- function (object)
 #'
 #' @return A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labeled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -113,7 +113,7 @@ confint.GPPM <- function(object, parm, level = 0.95,...)
 #' @family functions to extract from a GPPM
 #' @return Returns an object of class logLik. Attributes are: "df" (\strong{d}egrees of \strong{f}reedom; number of estimated parameters in the model) and nobs (number of persons in the model)
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -137,7 +137,7 @@ logLik.GPPM <- function(object,...){
 #' @family functions to extract from a GPPM
 #' @return Returns a list structure with mean and covariances matrices. See example.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -162,7 +162,7 @@ fitted.GPPM <- function(object,...){
 #' @param gpModel object of class GPPM.
 #' @return Number of persons as a numeric.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -183,7 +183,7 @@ nPers <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Number of parameters as a numeric.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -204,7 +204,7 @@ nPars <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Maximum number of observations as a numeric.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -224,7 +224,7 @@ maxnObs <- function (gpModel){
 #' @family functions to extract from a GPPM
 #' @return Number of observations for each person as a numeric vector. The corresponding IDs are in the IDs attribute.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -249,7 +249,7 @@ nObs <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return Number of predictors as numeric.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -269,7 +269,7 @@ nPreds <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The names of the predictors.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -289,7 +289,7 @@ preds <-  function(gpModel) {
 #' @inheritParams nPers
 #' @family functions to extract from a GPPM
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -310,7 +310,7 @@ pars <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @param level scalar from 0 to 1. The confidence level required.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -346,7 +346,7 @@ parEsts <- function (object, level=.95) {
 #' @family functions to extract from a GPPM
 #' @return The mean function as a character string.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -367,7 +367,7 @@ meanf <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The covariance function as a character string.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -388,7 +388,7 @@ covf <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The data set associated with the GPPM.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
@@ -417,7 +417,7 @@ datas <- function (gpModel) {
 #' @family functions to extract from a GPPM
 #' @return The requested quantity
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
