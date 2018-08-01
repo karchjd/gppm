@@ -61,7 +61,28 @@ fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE,hess
   }else{
     outf <- utils::capture.output
   }
-  outf(gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = hessian,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE))
+  wasError <- FALSE
+  theOut <- outf( tryCatch(
+    {
+      gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = hessian,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE)
+    },error=function(cond){
+      gpModel$stanOut <- NA
+    }
+  ))
+  if (is.na(gpModel$stanOut)){
+    parseErrorOut(theOut)
+    if (!verbose){
+      stop('There was a problem with your model. Refit using verbose=TRUE to obtain more information.')
+    }else{
+      stop('Initialization failed')
+    }
+  }
   gpModel$fitRes <- extractFitRes(gpModel$stanOut,gpModel$parsedModel,gpModel$dataForStan[c('nPer','nTime','maxTime','Y')])
   gpModel
+}
+
+parseErrorOut <- function(errorOut){
+  if(any(grepl('m is not symmetric', errorOut))){
+    stop('Specified covariance function is not symmetric')
+  }
 }
