@@ -21,7 +21,7 @@ Suggests:
     testthat (>= 2.0.0),
     knitr (>= 1.20),
     rmarkdown (>= 1.10),
-    roxygen2 (>= 6.0.1)  ,
+    roxygen2 (>= 6.0.1),
     covr
 License: GPL-3 | file LICENSE
 LazyData: true
