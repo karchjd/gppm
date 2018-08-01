@@ -65,3 +65,13 @@ test_that("thePlot", {
   expect_equal(class(tmp)[1],'gg')
 })
 
+test_that("thePlot2", {
+  skip_on_cran()
+  theTs <- seq(1,10,0.05)
+  n <- length(theTs)
+  newData <- data.frame(ID=rep(10,n),t=theTs,y=rep(NA,n))
+  thePreds <- predict(lgcmFit,newData)
+  tmp <- plot(thePreds,10)
+  expect_equal(class(tmp)[1],'gg')
+})
+

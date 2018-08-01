@@ -45,16 +45,23 @@ oldData <- datas(object)
 IDfield <- getID(oldData)
 predictionIDs <- unique(newData[,IDfield])
 oldData <- oldData[oldData[,IDfield] %in% predictionIDs,]
+
+#switch NA to stan representation
+DVField <- getDV(oldData)
+naPlaceHolder <- -81975897359872328957325.12904812903481249081249082497
+newData[is.na(newData[,DVField]),DVField] <- naPlaceHolder
+
 dataUpdate <- rbind(oldData,newData)
 
 #get model implied mean and covariance matrices for all relevant persons
 newModel <- updateData(object,dataUpdate)
-newModel <- fit(newModel,useOptimizer=FALSE,init=coef(object),...)
+newModel <- fit(newModel,useOptimizer=FALSE,init=coef(object),hessian=FALSE,...)
 meansAndCovs <- fitted(newModel)
 
 #calculate predictions
-res <- list(predMean=list(),predCov=list(),type=character(),preds=list(),trueVals=list())
+res <- list(predMean=list(),predCov=list(),type=character(),preds=list(),trueVals=list(),train=list())
 res$ID <- meansAndCovs$ID
+res$DV <- DVField
 means <- meansAndCovs$mean
 covs <- meansAndCovs$cov
 for (i in seq_len(length(res$ID))){
@@ -67,8 +74,9 @@ for (i in seq_len(length(res$ID))){
   indexNew <- (borderOld+1):nTimePoints
   onlyDataForPersonI <- dataUpdate[dataUpdate[,IDfield]==res$ID[i],]
   res$preds[[i]] <- onlyDataForPersonI[indexNew,preds(object),drop=FALSE]
-  res$trueVals[[i]] <- onlyDataForPersonI[indexNew,attr(oldData,'DV'),drop=FALSE]
-  res$DV <- getDV(oldData)
+  tmp <- onlyDataForPersonI[indexNew,DVField,drop=TRUE]
+  tmp[tmp==naPlaceHolder] <- NA
+  res$trueVals[[i]] <- tmp
   fullMean <- means[[i]]
   fullCov <- covs[[i]]
 
@@ -89,6 +97,8 @@ for (i in seq_len(length(res$ID))){
     res$predMean[[i]] <- mNew + crossNewOld %*% cOldInv %*% (y-mOld)
     res$predCov[[i]] <- cNew - crossNewOld %*% cOldInv %*% crossOldNew
     res$type[i] <- 'conditional'
+    res$train[[i]] <- list(preds=onlyDataForPersonI[indexOld,preds(object),drop=FALSE],DV='NA')
+    res$train[[i]]$DV <- y
   }else{
     res$predMean[[i]] <- mNew
     res$predCov[[i]] <- cNew
@@ -172,18 +182,47 @@ plot.GPPMPred <- function(x,plotId,...){
 
   means <- x$predMean[[idIdx]]
   vars <- diag(x$predCov[[idIdx]])
-  cv <- 1.96
-  lb <- means+cv*vars
-  ub <- means-cv*vars
 
-  toPlot <- data.frame(mypreds=x$preds[[idIdx]],theMeans=means,lb=lb,ub=ub,trueV=x$trueVals[[idIdx]])
+  quantiles <- c(.50,.75,.95)
+  lbsCDF <- (1-quantiles)/2
+  sds <- qnorm(lbsCDF)*-1
+
+  lb1 <- means+sds[1]*vars
+  ub1 <- means-sds[1]*vars
+
+  lb2 <- means+sds[2]*vars
+  ub2 <- means-sds[2]*vars
+
+  lb3 <- means+sds[3]*vars
+  ub3 <- means-sds[3]*vars
+
+  shapes <- as.factor(c(3,8))
+  alphas <- as.factor(c(1,2,3))
+  names(x$trueVals[[idIdx]]) <- NULL
+  toPlot <- data.frame(mypreds=x$preds[[idIdx]],theMeans=means,lb1=lb1,ub1=ub1,lb2=lb2,ub3=ub3,trueV=x$trueVals[[idIdx]])
   thePlot <- ggplot(toPlot, aes_string(x=names(toPlot)[1], y='means'))+
-  geom_line(aes_string(y='ub')) +
-  geom_line(aes_string(y='lb')) +
-  geom_point(aes_string(y='y')) +
-  geom_ribbon(aes_string(ymax='ub', ymin='lb'), fill="grey", alpha=.5)+
-  geom_line(size=1)
+  geom_ribbon(aes_string(ymax='ub3', ymin='lb3',alpha=alphas[1]), fill="black")+
+  geom_ribbon(aes_string(ymax='ub2', ymin='lb2',alpha=alphas[2]), fill="black")+
+  geom_ribbon(aes_string(ymax='ub1', ymin='lb1',alpha=alphas[3]), fill="black")+
+  geom_line(size=1,aes(color='black')) +
+  geom_line(aes_string(y='ub3')) +
+  geom_line(aes_string(y='lb3')) +
+  geom_point(aes_string(y='trueV',shape=shapes[1]))
 
+  ##plot training data when present
+  if (x$type[idIdx]=='conditional'){
+    toPlot2 <- data.frame(mypreds=x$train[[idIdx]]$preds[,1],trueV=x$train[[idIdx]]$DV[,1])
+    thePlot <- thePlot + geom_point(data=toPlot2,aes(x=mypreds,y=trueV,shape=shapes[2]))
+  }
+
+  ##legend
+  thePlot <- thePlot + scale_color_manual(name = 'Predictive Mean',values=c('black'), labels = c('Mean'))
+  thePlot <- thePlot + scale_alpha_manual(values=c(.05,.15,.3),labels=c('$95\\%$','$75\\%$','$50\\%$'),guide='legend',name="Credibility Intervals")
+  thePlot <- thePlot + scale_shape_manual(name = 'Data',values=c(8,3), labels = c('Training Data','Test Data'))
+
+
+
+  ##aesthetics
   thePlot <- thePlot + ggthemes::theme_tufte()+xlab(paste0('Predictor ',names(toPlot)[1]))+ylab(paste0('Outcome ', x$DV))
   thePlot
 }
