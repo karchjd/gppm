@@ -75,6 +75,13 @@ test_that("hard names", {
   expect_equal(cFormula,"(X[i,j,1]==X[i,k,1])*sigma")
 })
 
+test_that("reserved names", {
+expect_error(failNames <- gppm('muI','const',
+                demoLGCM,'ID','x'),'Change parameter name .*')
+})
+
+
+
 
 
 
