@@ -97,6 +97,9 @@ updateData <- function(gpModel,newData){
   stopifnot(identical(names(oldData),names(newData)))
   newModel$data <- as_LongData(newData,getID(oldData),getDV(oldData))
   newModel$dataForStan <- as_StanData(newModel$data)
+  # remove invalid fitting results
+  newModel$stanOut <- NA
+  newModel$stanOut <- NA
   return(newModel)
 }
 

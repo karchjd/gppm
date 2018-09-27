@@ -19,6 +19,7 @@ toStan <-function(parsedModel,control){
   theCode <- gsub('<covfunction>',parsedModel$kFormula,theCode)
   if(control$stanModel){
     utils::capture.output(theModel <- rstan::stan_model(model_code = theCode,auto_write = TRUE))
+    theModel <<- theModel
   }else{
     theModel <- NA
   }

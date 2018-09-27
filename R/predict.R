@@ -138,8 +138,8 @@ accuracy <- function(predRes){
   absDist <- c()
   LL <- rep(NA,nPers)
   for (i in 1:nPers){
-    MSE <- c(MSE,((predRes$predMean[[i]]-predRes$trueVals[[i]])^2)[,1])
-    absDist <- c(absDist,(abs(predRes$predMean[[i]]-predRes$trueVals[[i]]))[,1])
+    MSE <- c(MSE,as.numeric((predRes$predMean[[i]]-predRes$trueVals[[i]])^2))
+    absDist <- c(absDist,as.numeric((abs(predRes$predMean[[i]]-predRes$trueVals[[i]]))))
     LL[i] <- log(mvtnorm::dmvnorm(t(predRes$trueVals[[i]]),mean=as.vector(predRes$predMean[[i]]),sigma=predRes$predCov[[i]]))
   }
   mMSE <- mean(MSE)
@@ -217,8 +217,8 @@ plot.GPPMPred <- function(x,plotId,...){
 
   ##legend
   thePlot <- thePlot + scale_color_manual(name = 'Predictive Mean',values=c('black'), labels = c('Mean'))
-  thePlot <- thePlot + scale_alpha_manual(values=c(.05,.15,.3),labels=c('$95\\%$','$75\\%$','$50\\%$'),guide='legend',name="Credibility Intervals")
-  thePlot <- thePlot + scale_shape_manual(name = 'Data',values=c(8,3), labels = c('Training Data','Test Data'))
+  thePlot <- thePlot + scale_alpha_manual(values=c(.05,.15,.3),labels=c('95%$','75%','50%'),guide='legend',name="Credibility Intervals")
+  thePlot <- thePlot + scale_shape_manual(name = 'Data',values=c(8,3), labels = c('Test Data','Training Data'))
 
 
 

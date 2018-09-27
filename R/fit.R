@@ -66,10 +66,10 @@ fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE,hess
     {
       gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = hessian,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE)
     },error=function(cond){
-      gpModel$stanOut <- NA
+      gpModel$stanOut <- NULL
     }
   ))
-  if (is.na(gpModel$stanOut)){
+  if (is.null(gpModel$stanOut)){
     parseErrorOut(theOut)
     if (!verbose){
       stop('There was a problem with your model. Refit using verbose=TRUE to obtain more information.')

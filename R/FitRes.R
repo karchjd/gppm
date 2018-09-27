@@ -45,7 +45,9 @@ extractFitRes <- function(stanOut,parsedModel,dataStats){
   names(paraEsts) <- theNames
   vcov <- as.matrix(NA)
   if (!is.null(stanOut$hessian)){
-    tryCatch(vcov <- solve(-stanOut$hessian),error=function(e){})
+    tryCatch(vcov <- solve(-stanOut$hessian),error=function(e){
+      warning('Hessian is not invertible. Results might not be trustworthy. Standard errors cannot be calculated. See https://gking.harvard.edu/files/help.pdf, for recommendation how to proceed.')
+    })
   }
 
   nPar <- length(parsedModel$params)
