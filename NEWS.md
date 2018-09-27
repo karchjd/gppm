@@ -1,4 +1,5 @@
 # gppm 0.2.9000
+* Better error messages
 * Added appveyor for automatic testing on windows.
 * Added eigenvalues of implied covariance matrix to output of fit
 * predict function also returns data set used for training

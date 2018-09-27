@@ -18,6 +18,13 @@ test_that("always reach ML estimates", {
   expect_equal(lgcmFit2,lgcmFit,tolerance=0.05)
 })
 
+test_that("failing fit", {
+  skip_on_cran()
+  failFit <- gppm('muI','aConst',
+               demoLGCM,'ID','x')
+  fit(failFit)
+})
+
 
 
 
