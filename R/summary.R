@@ -80,8 +80,8 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
 #' @method summary GPPM
 #' @export
 summary.GPPM <- function (object,...) {
-    modelSpecification <- new_ModelSpecification(meanf(object),covf(object),nPars(object),pars(object),nPreds(object),preds(object))
-    dataStats <- new_DataStats(nPers(object),maxnObs(object),nObs(object))
+    modelSpecification <- new_ModelSpecification(meanFun(object),covFun(object),nPars(object),pars(object),nPreds(object),preds(object))
+    dataStats <- new_DataStats(nPers(object),maxNObs(object),nObs(object))
   if (isFitted(object)){
     parameterEstimates <- parEsts(object)
     modelfit <- new_ModelFit(AIC(object),BIC(object),logLik(object))

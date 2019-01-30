@@ -68,8 +68,8 @@ test_that("covf", {
 })
 
 
-test_that("datas", {
-  expect_identical(datas(lgcmFit),demoLGCM)
+test_that("getData", {
+  expect_identical(getData(lgcmFit),demoLGCM)
 })
 
 

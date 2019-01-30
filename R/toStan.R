@@ -21,7 +21,8 @@ toStan <-function(parsedModel,control){
   if(control$stanModel){
     theOut <- utils::capture.output(tryCatch(
       {
-        theModel <- rstan::stan_model(model_code = theCode,auto_write = TRUE)
+        theOutOut <- utils::capture.output(theModel <- rstan::stan_model(model_code = theCode,auto_write = TRUE),type='output')
+        print(theOutOut)
       },error=function(cond){
         theModel <- NULL
       }),type='message')

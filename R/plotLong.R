@@ -1,6 +1,6 @@
 #' Plot a Long Data Frame
 #'
-#' This function is used to plot data from class 'LongData' as it is returned by \code{\link{datas}} \code{\link{simulate.GPPM}}.
+#' This function is used to plot data from class 'LongData' as it is returned by \code{\link{getData}} \code{\link{simulate.GPPM}}.
 #'
 #' @param x longitudinal data frame of class 'LongData'.
 #'

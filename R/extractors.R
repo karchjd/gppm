@@ -208,10 +208,10 @@ nPars <- function (gpModel) {
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' maxNumberObs <- maxnObs(lgcm)
+#' maxNumberObs <- maxNObs(lgcm)
 #' }
 #' @export
-maxnObs <- function (gpModel){
+maxNObs <- function (gpModel){
   checkGPPM(gpModel)
   gpModel$dataForStan$maxTime
 }
@@ -350,10 +350,10 @@ parEsts <- function (object, level=.95) {
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' myMean <- meanf(lgcm)
+#' myMean <- meanFun(lgcm)
 #' }
 #' @export
-meanf <- function (gpModel) {
+meanFun <- function (gpModel) {
   checkGPPM(gpModel)
   gpModel$mFormula
 }
@@ -374,7 +374,7 @@ meanf <- function (gpModel) {
 #' myCov <- covf(lgcm)
 #' }
 #' @export
-covf <- function (gpModel) {
+covFun <- function (gpModel) {
   checkGPPM(gpModel)
   gpModel$cFormula
 }
@@ -392,10 +392,10 @@ covf <- function (gpModel) {
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
-#' myData <- datas(lgcm)
+#' myData <- getData(lgcm)
 #' }
 #' @export
-datas <- function (gpModel) {
+getData <- function (gpModel) {
   checkGPPM(gpModel)
   gpModel$data
 }

@@ -25,10 +25,10 @@ stdErrors <- SE(lgcmFit)
 }
 \seealso{
 Other functions to extract from a GPPM: \code{\link{coef.GPPM}},
-  \code{\link{confint.GPPM}}, \code{\link{covf}},
-  \code{\link{datas}}, \code{\link{fitted.GPPM}},
+  \code{\link{confint.GPPM}}, \code{\link{covFun}},
+  \code{\link{fitted.GPPM}}, \code{\link{getData}},
   \code{\link{getIntern}}, \code{\link{logLik.GPPM}},
-  \code{\link{maxnObs}}, \code{\link{meanf}},
+  \code{\link{maxNObs}}, \code{\link{meanFun}},
   \code{\link{nObs}}, \code{\link{nPars}},
   \code{\link{nPers}}, \code{\link{nPreds}},
   \code{\link{parEsts}}, \code{\link{pars}},

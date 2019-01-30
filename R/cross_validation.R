@@ -6,7 +6,7 @@
 #'
 #' @param k integer scalar. Number of folds to create.
 #'
-#' @return A fold vector, which is a vector of length \code{nrow(datas(gpModel))} of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
+#' @return A fold vector, which is a vector of length \code{nrow(getData(gpModel))} of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
 #' @seealso \code{\link{crossvalidate}} for how to use the created fold vector to perform cross-validation.
 #' @details The folds are created such that the data of each person is fully in one fold.
 #' @examples
@@ -22,7 +22,7 @@ createLeavePersonsOutFolds <- function(gpModel,k=10){
   checkGPPM(gpModel)
 
   #get all person ids
-  theData <- datas(gpModel)
+  theData <- getData(gpModel)
   idCol <- getID(theData)
   theIDs <- theData[,idCol]
   uniqueIDs <- sort(unique(theIDs))
@@ -59,7 +59,7 @@ validate_cross <- function(gpModel,foldVector){
   checkGPPM(gpModel)
 
   #foldVector
-  n <- nrow(datas(gpModel))
+  n <- nrow(getData(gpModel))
   if (length(foldVector)!=n){
     stop('foldVector invalid length')
   }
@@ -83,7 +83,7 @@ validate_cross <- function(gpModel,foldVector){
 #' @param foldVector integer vector. Describes the foldstructure to use. For example, created by \code{\link{createLeavePersonsOutFolds}}.
 #'
 #' @return Cross-validation estimates of the mean squared error (MSE) and the negative log-predictive probability (nLPP)
-#' @details The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
+#' @details The fold vector, must be a vector of length nrow(getData(gpModel)) of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
@@ -100,7 +100,7 @@ crossvalidate <- function(gpModel,foldVector){
 
 
   nFolds <- max(foldVector)
-  theData <- datas(gpModel)
+  theData <- getData(gpModel)
   rowsRes <- vector(mode='double',length=nrow(theData))
   resnLPP <- 0
   resSE <- 0

@@ -28,6 +28,7 @@ fit <-  function(gpModel,...) {
 #' @param ... additional arguments (currently not used).
 #'
 #' @return A fitted Gaussian process panel model, which is an object of class 'GPPM'.
+#' @seealso Functions to extract from a fitted GPPM:
 #' @examples
 #' \donttest{
 #' #regular usage

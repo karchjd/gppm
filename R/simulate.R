@@ -50,7 +50,7 @@ simulate.GPPM <- function (object,nsim=1,seed = NULL,parameterValues=NULL,verbos
     object <- fit(object,useOptimizer=FALSE,init=parameterValues,verbose=verbose,hessian=FALSE)
     meansAndCovs <- fitted(object)
     IDs <- meansAndCovs$ID
-    simData <- datas(object)
+    simData <- getData(object)
     idCol <- attr(simData,'ID')
     dvCol <- attr(simData,'DV')
     attr(simData,'preds') <- preds(object)

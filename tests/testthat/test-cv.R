@@ -1,7 +1,7 @@
 context('cv')
 test_that("Each person one Fold", {
   theFolds <- createLeavePersonsOutFolds(lgcm)
-  ids <- datas(lgcm)[,gppm:::getID(datas(lgcm))]
+  ids <- getData(lgcm)[,gppm:::getID(getData(lgcm))]
   uIds <- sort(unique(ids))
   folds <- vector(mode='integer',length(uIds))
   for (i in 1:length(ids)){
