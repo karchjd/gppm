@@ -5,6 +5,9 @@
 * predict function also returns data set used for training
 * predict function now also supports NA
 * Improved plot of predictions, also contains training data, and multiple credibility intervals
+* removed invalid print statement from stan template
+* fixed a few smaller bugs	
+
 
 # gppm 0.2.0
 Changed backend to rstan and many other changes. Not so many users yet, thus short news.

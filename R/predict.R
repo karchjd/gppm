@@ -2,7 +2,7 @@ validate_predict <- function(gpModel,newData){
   checkFitted(gpModel)
 
   #check for repeats of oldData in newData
-  oldData <- datas(gpModel)
+  oldData <- getData(gpModel)
   oldData <- unique(oldData)
   newData <- unique(newData)
   data_all <- rbind(oldData, newData)
@@ -130,6 +130,7 @@ res
 #' accEsts <- accuracy(predRes)
 #' accEsts$MSE #mean squared error
 #' accEsts$nLPP #negative log-predictive probability
+#' accEsts$MAE #mean absolute error
 #' }
 #' @export
 accuracy <- function(predRes){
