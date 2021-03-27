@@ -29,5 +29,6 @@ predRes <- predict(lgcm,demoLGCM[predIdx,])
 accEsts <- accuracy(predRes)
 accEsts$MSE #mean squared error
 accEsts$nLPP #negative log-predictive probability
+accEsts$MAE #mean absolute error
 }
 }

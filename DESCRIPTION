@@ -28,6 +28,6 @@ License: GPL-3 | file LICENSE
 LazyData: true
 URL: https://github.com/karchjd/gppm
 BugReports: https://github.com/karchjd/gppm/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8

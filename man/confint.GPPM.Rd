@@ -16,7 +16,7 @@
 \item{...}{additional arguments (currently not used).}
 }
 \value{
-A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labeled as (1-level)/2 and 1 - (1-level)/2 in \% (by default 2.5\% and 97.5\%).
+A matrix (or vector) with columns giving lower and upper confidence limits for each parameter. These will be labeled as (1-level)/2 and 1 - (1-level)/2 in \\% (by default 2.5\\% and 97.5\\%).
 }
 \description{
 Computes confidence intervals for one or more parameters in a fitted GPPM.
@@ -31,13 +31,23 @@ confInts <- confint(lgcmFit)
 }
 }
 \seealso{
-Other functions to extract from a GPPM: \code{\link{SE}},
-  \code{\link{coef.GPPM}}, \code{\link{covFun}},
-  \code{\link{fitted.GPPM}}, \code{\link{getData}},
-  \code{\link{getIntern}}, \code{\link{logLik.GPPM}},
-  \code{\link{maxNObs}}, \code{\link{meanFun}},
-  \code{\link{nObs}}, \code{\link{nPars}},
-  \code{\link{nPers}}, \code{\link{nPreds}},
-  \code{\link{parEsts}}, \code{\link{pars}},
-  \code{\link{preds}}, \code{\link{vcov.GPPM}}
+Other functions to extract from a GPPM: 
+\code{\link{SE}()},
+\code{\link{coef.GPPM}()},
+\code{\link{covFun}()},
+\code{\link{fitted.GPPM}()},
+\code{\link{getData}()},
+\code{\link{getIntern}()},
+\code{\link{logLik.GPPM}()},
+\code{\link{maxNObs}()},
+\code{\link{meanFun}()},
+\code{\link{nObs}()},
+\code{\link{nPars}()},
+\code{\link{nPers}()},
+\code{\link{nPreds}()},
+\code{\link{parEsts}()},
+\code{\link{pars}()},
+\code{\link{preds}()},
+\code{\link{vcov.GPPM}()}
 }
+\concept{functions to extract from a GPPM}

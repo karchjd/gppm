@@ -56,8 +56,8 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
 #'  \itemize{
 #'   \item \code{modelSpecification} an object of class 'ModelSpecification' describing the model as a list with the following entries
 #'   \itemize{
-#'       \item \code{meanFormula} formula for the mean function; output of \code{\link{meanf}}
-#'       \item \code{covFormula} formula for the covariance function; output of \code{\link{covf}}
+#'       \item \code{meanFormula} formula for the mean function; output of \code{\link{meanFun}}
+#'       \item \code{covFormula} formula for the covariance function; output of \code{\link{covFun}}
 #'       \item \code{nPars} number of parameters; output of \code{\link{nPars}}
 #'       \item \code{params} parameter names; output of \code{\link{pars}}
 #'       \item \code{nPreds} number of predictors; output of \code{\link{nPreds}}
@@ -73,7 +73,7 @@ new_summaryGPPM <- function(modelSpecification,parameterEstimates,modelFit,dataS
 #'   \item \code{dataStats} An object of class "DataStats" describing the data set using a list with the following entries
 #'      \itemize{
 #'       \item \code{nPer} number of persons; output of \code{\link{nPers}}
-#'       \item \code{maxTime} maximum number of observations per person; output of \code{\link{maxnObs}}
+#'       \item \code{maxTime} maximum number of observations per person; output of \code{\link{maxNObs}}
 #'       \item \code{nTime} number of observations for each person; output of \code{\link{nObs}}
 #'   }
 #' }

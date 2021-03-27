@@ -4,7 +4,9 @@
 \name{truePars}
 \alias{truePars}
 \title{Parameters used for generating \code{\link{demoLGCM}}.}
-\format{A parameter vector.}
+\format{
+A parameter vector.
+}
 \usage{
 truePars
 }

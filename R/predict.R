@@ -41,7 +41,7 @@ validate_predict(object,newData)
 checkFitted(object)
 
 #get relevant old data
-oldData <- datas(object)
+oldData <- getData(object)
 IDfield <- getID(oldData)
 predictionIDs <- unique(newData[,IDfield])
 oldData <- oldData[oldData[,IDfield] %in% predictionIDs,]

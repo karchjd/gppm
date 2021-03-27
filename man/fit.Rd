@@ -18,5 +18,5 @@ A fitted model
 Generic method for fitting a model.
 }
 \seealso{
-\code{\link{fit.GPPM}} for fitting a GPPM
+\code{\link{fit.GPPM}}
 }

@@ -36,7 +36,7 @@ test_that("nPars", {
 })
 
 test_that("maxnObs", {
-  expect_equal(maxnObs(lgcmFit),11)
+  expect_equal(maxNObs(lgcmFit),11)
 })
 
 test_that("nObs", {
@@ -59,12 +59,12 @@ test_that("parEsts", {
   expect_identical(parEsts(lgcmFit)[,'Param'],names(parameterValues[parEsts(lgcmFit)[,'Param']]))
 })
 
-test_that("meanf", {
-  expect_identical(meanf(lgcmFit),"muI+muS*t")
+test_that("meanfun", {
+  expect_identical(meanFun(lgcmFit),"muI+muS*t")
 })
 
-test_that("covf", {
-  expect_identical(covf(lgcmFit),"varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma")
+test_that("covFun", {
+  expect_identical(covFun(lgcmFit),"varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma")
 })
 
 

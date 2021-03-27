@@ -18,7 +18,7 @@ test_that("Each person one Fold", {
 test_that("Folds roughly same size", {
   theFolds <- createLeavePersonsOutFolds(lgcm)
   proportion <- table(theFolds)/sum(table(theFolds))
-  expect(all(proportion>0.09 & proportion<0.11))
+  expect(all(proportion>0.09 & proportion<0.11), "Folds are not roughly equal")
 })
 
 
