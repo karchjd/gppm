@@ -23,6 +23,7 @@ Suggests:
     knitr (>= 1.20),
     rmarkdown (>= 1.10),
     roxygen2 (>= 6.0.1),
+    testit (>= 0.12),
     covr
 License: GPL-3 | file LICENSE
 LazyData: true
