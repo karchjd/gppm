@@ -39,16 +39,22 @@ extractLL <- function(meanCov,dataStats){
 }
 
 extractFitRes <- function(stanOut,parsedModel,dataStats){
-  paraEsts <- stanOut$par[parsedModel$params]
-  theNames <- names(paraEsts)
-  paraEsts <- as.numeric(paraEsts)
-  names(paraEsts) <- theNames
   vcov <- as.matrix(NA)
   if (!is.null(stanOut$hessian)){
     tryCatch(vcov <- solve(-stanOut$hessian),error=function(e){
       warning('Hessian is not invertible. Results might not be trustworthy. Standard errors cannot be calculated. See https://gking.harvard.edu/files/help.pdf, for recommendations how to proceed.')
     })
   }
+  if (stanOut$return_code>0){
+    warning("Optimizer returned nonzero code. Don't trust the results. Try different initial values.")
+  }
+  paraEsts <- stanOut$par[parsedModel$params]
+  theNames <- names(paraEsts)
+  paraEsts <- as.numeric(paraEsts)
+  names(paraEsts) <- theNames
+
+
+
 
   nPar <- length(parsedModel$params)
   meanCov <- extractMoments(stanOut$par,dataStats)
