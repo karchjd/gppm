@@ -27,13 +27,23 @@ covMat <- vcov(lgcmFit)
 }
 }
 \seealso{
-Other functions to extract from a GPPM: \code{\link{SE}},
-  \code{\link{coef.GPPM}}, \code{\link{confint.GPPM}},
-  \code{\link{covFun}}, \code{\link{fitted.GPPM}},
-  \code{\link{getData}}, \code{\link{getIntern}},
-  \code{\link{logLik.GPPM}}, \code{\link{maxNObs}},
-  \code{\link{meanFun}}, \code{\link{nObs}},
-  \code{\link{nPars}}, \code{\link{nPers}},
-  \code{\link{nPreds}}, \code{\link{parEsts}},
-  \code{\link{pars}}, \code{\link{preds}}
+Other functions to extract from a GPPM: 
+\code{\link{SE}()},
+\code{\link{coef.GPPM}()},
+\code{\link{confint.GPPM}()},
+\code{\link{covFun}()},
+\code{\link{fitted.GPPM}()},
+\code{\link{getData}()},
+\code{\link{getIntern}()},
+\code{\link{logLik.GPPM}()},
+\code{\link{maxNObs}()},
+\code{\link{meanFun}()},
+\code{\link{nObs}()},
+\code{\link{nPars}()},
+\code{\link{nPers}()},
+\code{\link{nPreds}()},
+\code{\link{parEsts}()},
+\code{\link{pars}()},
+\code{\link{preds}()}
 }
+\concept{functions to extract from a GPPM}

@@ -18,7 +18,7 @@ Cross-validation estimates of the mean squared error (MSE) and the negative log-
 Performs cross-validation of a Gaussian process panel model.
 }
 \details{
-The fold vector, must be a vector of length nrow(datas(gpModel)) of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
+The fold vector, must be a vector of length nrow(getData(gpModel)) of integers from 1 to k. If \code{foldVector[i]=j}, then data point i is assigned to fold j.
 }
 \examples{
 \donttest{

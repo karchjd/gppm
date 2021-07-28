@@ -23,7 +23,7 @@
 a fitted Gaussian process panel model, which is an object of class 'GPPM'
 }
 \description{
-This function is used to plot data from class 'LongData' as it is returned by \code{\link{datas}} \code{\link{simulate.GPPM}}.
+This function is used to plot data from class 'LongData' as it is returned by \code{\link{getData}} \code{\link{simulate.GPPM}}.
 }
 \examples{
 data("demoLGCM")
