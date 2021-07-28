@@ -41,7 +41,7 @@ toStan <-function(parsedModel,control){
 }
 
 parseErrorOuttoStan <- function(errorOut){
-  if(any("variable identifier (name) may not be reserved word"==errorOut)){
+  if(any("Variable identifier (name) may not be reserved word" %in% errorOut)){
     tmp <- stringr::str_extract(errorOut, "(?<=found identifier=).+")
     varName <-  tmp[!is.na(tmp)]
     stop(sprintf('Change parameter name \'%s\'. It corresponds to a reserved word in stan.',varName))
