@@ -14,7 +14,7 @@ test_that("Paras in Confint", {
 
 test_that("always reach ML estimates", {
   skip_on_cran()
-  lgcmFit2 <-fit(lgcm)
+  lgcmFit2 <-fit(lgcm, init=parameterValues)
   expect_equal(lgcmFit2,lgcmFit,tolerance=0.05)
 })
 
