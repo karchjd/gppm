@@ -17,11 +17,7 @@ toStan <-function(parsedModel,control){
   theCode <- gsub('<parameters>',paramSect,theCode)
   theCode <- gsub('<meanfunction>',parsedModel$mFormula,theCode)
   theCode <- gsub('<covfunction>',parsedModel$kFormula,theCode)
-  if(control$stanModel){
-    utils::capture.output(theModel <- rstan::stan_model(model_code = theCode,auto_write = TRUE))
-  }else{
-    theModel <- NA
-  }
+  theModel <- rstan::stan_model(model_code = theCode)
   return(theModel)
 }
 
