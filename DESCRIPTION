@@ -11,17 +11,10 @@ Depends:
     Rcpp (>= 0.12.17)
 Imports:
     rstan (>= 2.17.3),
-    ggplot2 (>= 2.2.1),
-    MASS (>= 7.3-49),
-    ggthemes (>= 3.5.0),
-    mvtnorm (>= 1.0-8),
     stats,
     methods
 Suggests: 
-    testthat (>= 2.0.0),
-    knitr (>= 1.20),
-    rmarkdown (>= 1.10),
-    roxygen2 (>= 6.0.1)  
+    testthat (>= 2.0.0)
 License: GPL-3 | file LICENSE
 LazyData: true
 URL: https://github.com/karchjd/gppm
