@@ -69,6 +69,7 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #' @import Rcpp
 #' @importFrom mvtnorm dmvnorm
 #' @import stats
+#' @importFrom RcppParallel RcppParallelLibs
 #' @importFrom MASS mvrnorm
 #' @importFrom methods is
 #' @importFrom utils capture.output

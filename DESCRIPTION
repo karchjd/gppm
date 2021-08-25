@@ -8,8 +8,11 @@ Description: Provides an implementation of Gaussian process panel modeling (GPPM
 Authors@R: c(person(c("Julian", "D."), "Karch", email="julian.karch@gmail.com", role=c("aut", "cre", "cph")))
 Depends:
     R (>= 3.1.0),
-    Rcpp (>= 0.12.17)
+    Rcpp
 Imports:
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    rstantools (>= 2.1.1),
     rstan (>= 2.17.3),
     ggplot2 (>= 2.2.1),
     MASS (>= 7.3-49),
@@ -22,6 +25,13 @@ Suggests:
     knitr (>= 1.20),
     rmarkdown (>= 1.10),
     roxygen2 (>= 6.0.1)  
+LinkingTo:
+    BH (>= 1.66.0),
+    Rcpp (>= 0.12.0),
+    RcppEigen (>= 0.3.3.3.0),
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    StanHeaders (>= 2.18.0)
 License: GPL-3 | file LICENSE
 LazyData: true
 URL: https://github.com/karchjd/gppm
@@ -29,3 +39,4 @@ BugReports: https://github.com/karchjd/gppm/issues
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
+SystemRequirements: GNU make
