@@ -7,7 +7,7 @@
 gppmControl(stanModel = TRUE)
 }
 \arguments{
-\item{stanModel}{boolean. Should the corresponding stan model be created? Should only be set to FALSE for testing purposes.
+\item{stanModel}{logical. Should the corresponding stan model be created? Should only be set to FALSE for testing purposes.
 Not creating the stan model makes model fitting impossible but saves a lot of time.}
 }
 \value{

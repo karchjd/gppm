@@ -2,53 +2,20 @@
 % Please edit documentation in R/summary.R
 \name{summary.GPPM}
 \alias{summary.GPPM}
-\alias{print.summary.GPPM}
-\title{Summarizing GPPM}
+\title{Summarize a GPPM object}
 \usage{
-\method{summary}{GPPM}(object, ...)
-
-\method{print}{summary.GPPM}(x, ...)
+\method{summary}{ggplot}(x, ...)
 }
 \arguments{
-\item{object}{object of class GPPM.}
+\item{...}{other arguments ignored (for compatibility with generic)}
 
-\item{...}{additional parameters (currently not used).}
-
-\item{x}{output of \code{\link{fit.GPPM}}}
-}
-\value{
-An object of class "summary.GPPM", which is a list with 4 entries:
-\itemize{
-\item \code{modelSpecification} an object of class 'ModelSpecification' describing the model as a list with the following entries
-\itemize{
-\item \code{meanFormula} formula for the mean function; output of \code{\link{meanf}}
-\item \code{covFormula} formula for the covariance function; output of \code{\link{covf}}
-\item \code{nPars} number of parameters; output of \code{\link{nPars}}
-\item \code{params} parameter names; output of \code{\link{pars}}
-\item \code{nPreds} number of predictors; output of \code{\link{nPreds}}
-\item \code{preds} predictors names; output of \code{\link{preds}}
-}
-\item \code{parameterEstimates} a data frame containing a summary of the parameter estimates; output of \code{\link{parEsts}}
-\item \code{modelfit} An object of class "ModelFit" describing the modelfit using a list with the following entries
-\itemize{
-\item \code{AIC} AIC of the model; output of \code{\link{AIC}}
-\item \code{BIC} BIC of the model; output of \code{\link{BIC}}
-\item \code{logLik} log-likelihood of the model; output of \code{\link{logLik}}
-}
-\item \code{dataStats} An object of class "DataStats" describing the data set using a list with the following entries
-\itemize{
-\item \code{nPer} number of persons; output of \code{\link{nPers}}
-\item \code{maxTime} maximum number of observations per person; output of \code{\link{maxnObs}}
-\item \code{nTime} number of observations for each person; output of \code{\link{nObs}}
-}
-}
+\item{object}{GPPM object to summarise}
 }
 \description{
-This function is used to summarize a GPPM.
-\code{summary} method for class 'GPPM'.
+Summarize a GPPM object
 }
-\section{Methods (by generic)}{
-\itemize{
-\item \code{print}: Printing a summary.GPPM object
-}}
-
+\examples{
+data("demoLGCM")
+                demoLGCM,'ID','x')
+summary(lgcm)
+}

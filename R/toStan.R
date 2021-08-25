@@ -1,24 +1,29 @@
-
-
 validate_toStan <- function(parsedModel,myData){
   stopifnot(is(parsedModel,'ParsedModel'))
+  stopifnot(is(myData,'StanData'))
 }
 
-.pkgglobalenv <- new.env(parent=emptyenv())
 
-toStan <-function(parsedModel,control){
-  validate_toStan(parsedModel)
+toStan <-function(parsedModel,myData,control){
+  ##constants
+  templateLocation <- '~/mystuff/projects/GPPMSoftware/R/gppm/R/stanTemplate.stan'
 
-  templateLocation <- file.path(system.file(package = 'gppm'),'stanTemplate.stan')
+  validate_toStan(parsedModel,myData)
+
+
+  ##
   theTemplate <- readChar(templateLocation, file.info(templateLocation)$size)
 
-  theCode <- theTemplate;
+
   paramSect <- paste0('real ', parsedModel$params,';',collapse = '\n ')
+
+  theCode <- theTemplate;
   theCode <- gsub('<parameters>',paramSect,theCode)
   theCode <- gsub('<meanfunction>',parsedModel$mFormula,theCode)
   theCode <- gsub('<covfunction>',parsedModel$kFormula,theCode)
-  theModel <- rstan::stan_model(model_code = theCode)
-  return(theModel)
+  if(control$stanModel){
+    theModel <- stan_model(model_code = theCode)
+  }
 }
 
 

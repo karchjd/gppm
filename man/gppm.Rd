@@ -20,39 +20,37 @@ gppm(mFormula, cFormula, myData, ID, DV, control = gppmControl())
 \item{control}{object of class GPPMControl. Used for storing technical settings. Default should only be changed by advanced users. Generated via \code{\link{gppmControl}}.}
 }
 \value{
-A (unfitted) Gaussian process panel model, which is an object of class 'GPPM'
+a (unfitted) Gaussian process panel model, which is an object of class 'GPPM'
 }
 \description{
-This function is used to specify a Gaussian process panel model (GPPM),
+This function is used to specify a Gaussian process panel model,
 which can then be fit using \code{\link{fit.GPPM}}.
 }
 \details{
-mFormula and cFormula contain the specification of the mean and the covariance function respectively.
+mFormula and cFormula contain the specification of the mean and the kernel function respectively.
 These formulas are defined using character strings. Within these strings there are four basic elements:
-\itemize{
-\item Parameters
-\item Functions and operators
-\item References to observed variables in the data frame myData
-\item Mathematical constants
+ \itemize{
+  \item Parameters
+  \item Functions and operators
+  \item References to observed variables in the data frame myData
+   \item Mathematical constants
 }
-The gppm function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
+The ggpModel function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
 
 Parameters: Parameters may not have the same name as any of the columns in myData to avoid confusing them with a reference to an observed variable.
-Furthermore, to avoid confusing them with functions, operators, or constants, parameter labels must always begin with a lower case letter and only contain letters and digits.
+ Furthermore, to avoid confusing them with functions, operators, or constants, parameter labels must always begin with a lower case letter and only contain letters and digits.
 
 Functions and operators: All functions and operators that are supported by stan can be used; see \url{http://mc-stan.org/users/documentation/} for a full list. In general, all basic operators and functions are supported.
 
-References: A reference must be the same as one of the elements of the output of \code{names(myData)}. For references, the same rules apply as for parameters. That is, the column names of myData may only contain letters and digits and must start with a letter.
+References: A reference must be the same as one of the elements of the output of names(myData). For references, the same rules apply as for parameters. That is, the column names of myData may only contain letters and digits and must start with a letter.
 
 Constants: Again, all constants that are supported by stan can be used and in general the constants are available by their usual name.
 }
 \examples{
 # Defintion of a latent growth curve model
-\donttest{
 data("demoLGCM")
 lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','y')
-}
+        demoLGCM,'ID','x')
 }
 \seealso{
 \code{\link{fit.GPPM}} for how to fit a GPPM

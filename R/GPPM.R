@@ -20,7 +20,7 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 
 #' Define a Gaussian process panel model
 #'
-#' This function is used to specify a Gaussian process panel model (GPPM),
+#' This function is used to specify a Gaussian process panel model,
 #' which can then be fit using \code{\link{fit.GPPM}}.
 #'
 #' @param mFormula character string. Contains the specification of the mean function. See details for more information.
@@ -35,9 +35,9 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #'
 #' @param control object of class GPPMControl. Used for storing technical settings. Default should only be changed by advanced users. Generated via \code{\link{gppmControl}}.
 #'
-#' @return A (unfitted) Gaussian process panel model, which is an object of class 'GPPM'
+#' @return a (unfitted) Gaussian process panel model, which is an object of class 'GPPM'
 #' @details
-#' mFormula and cFormula contain the specification of the mean and the covariance function respectively.
+#' mFormula and cFormula contain the specification of the mean and the kernel function respectively.
 #' These formulas are defined using character strings. Within these strings there are four basic elements:
 #'  \itemize{
 #'   \item Parameters
@@ -45,33 +45,24 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #'   \item References to observed variables in the data frame myData
 #'    \item Mathematical constants
 #' }
-#' The gppm function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
+#' The ggpModel function automatically recognizes which part of the string refers to which elements. To be able to do this certain relatively common rules need to be followed:
 #'
 #' Parameters: Parameters may not have the same name as any of the columns in myData to avoid confusing them with a reference to an observed variable.
 #'  Furthermore, to avoid confusing them with functions, operators, or constants, parameter labels must always begin with a lower case letter and only contain letters and digits.
 #'
 #' Functions and operators: All functions and operators that are supported by stan can be used; see \url{http://mc-stan.org/users/documentation/} for a full list. In general, all basic operators and functions are supported.
 #'
-#' References: A reference must be the same as one of the elements of the output of \code{names(myData)}. For references, the same rules apply as for parameters. That is, the column names of myData may only contain letters and digits and must start with a letter.
+#' References: A reference must be the same as one of the elements of the output of names(myData). For references, the same rules apply as for parameters. That is, the column names of myData may only contain letters and digits and must start with a letter.
 #'
 #' Constants: Again, all constants that are supported by stan can be used and in general the constants are available by their usual name.
 #' @seealso \code{\link{fit.GPPM}} for how to fit a GPPM
 #' @examples
 #' # Defintion of a latent growth curve model
-#' \donttest{
 #' data("demoLGCM")
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' }
+#'         demoLGCM,'ID','x')
 #' @import rstan
-#' @import ggplot2
-#' @import ggthemes
 #' @import Rcpp
-#' @importFrom mvtnorm dmvnorm
-#' @import stats
-#' @importFrom MASS mvrnorm
-#' @importFrom methods is
-#' @importFrom utils capture.output
 #' @export
 gppm <- function(mFormula,cFormula,myData,ID,DV,control=gppmControl()){
   myData <- as_LongData(myData,ID,DV)
@@ -80,32 +71,19 @@ gppm <- function(mFormula,cFormula,myData,ID,DV,control=gppmControl()){
   theModel <- new_GPPM(mFormula,cFormula,myData,control)
   theModel$dataForStan <- as_StanData(myData)
   theModel$parsedModel <- parseModel(theModel$mFormula,theModel$cFormula,theModel$dataForStan)
-  theModel$stanModel <- toStan(theModel$parsedModel,control)
+  theModel$stanModel <- toStan(theModel$parsedModel,theModel$dataForStan,control)
   return(theModel)
 }
 
-subsetData <- function(gpModel,rowIdxs){
-  newModel <- gpModel
-  newModel$data <- gpModel$data[rowIdxs,]
-  newModel$dataForStan <- as_StanData(newModel$data)
-  return(newModel)
-}
 
-updateData <- function(gpModel,newData){
-  newModel <- gpModel
-  oldData <- datas(newModel)
-  stopifnot(identical(names(oldData),names(newData)))
-  newModel$data <- as_LongData(newData,getID(oldData),getDV(oldData))
-  newModel$dataForStan <- as_StanData(newModel$data)
-  return(newModel)
-}
+
 
 validate_gppm <- function(mFormula,cFormula,myData,control){
   ID <- attr(myData,'ID')
   DV <- attr(myData,'DV')
   stopifnot(!is.null(ID))
   stopifnot(!is.null(DV))
-  #type checks
+  #types check
   if (!is.character(mFormula)){
     stop('mFormula must contain a string')
   } else if(length(mFormula)!=1){
@@ -136,7 +114,7 @@ validate_gppm <- function(mFormula,cFormula,myData,control){
   varNames <- names(myData)
   allValid <- grepl("^[A-Za-z]+[0-9A-Za-z]*$",varNames)
   if (any(!allValid)){
-    stop(sprintf('Invalid variable name %s in your data frame. See ?gppm for naming conventions\n',varNames[!allValid]))
+    stop(sprintf('Invalid variable name %s in your data frame. See ?gppModel for naming conventions\n',varNames[!allValid]))
   }
 
 
