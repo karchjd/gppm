@@ -49,6 +49,6 @@ This function is used to summarize a GPPM.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{print}: Printing a summary.GPPM object
-}}
+\item \code{print(summary.GPPM)}: Printing a summary.GPPM object
 
+}}
