@@ -6,7 +6,7 @@
 #' @return A fitted model
 #' @seealso \code{\link{fit.GPPM}}
 #' @export
-fit <-  function(gpModel,...) {
+fit <- function(gpModel, ...) {
   UseMethod("fit")
 }
 
@@ -31,63 +31,67 @@ fit <-  function(gpModel,...) {
 #' @seealso Functions to extract from a fitted GPPM:
 #' @examples
 #' \donttest{
-#' #regular usage
+#' # regular usage
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
 #'
-#' #starting values as ML results
-#' startVals <- c(10,1,10,3,10,1)
+#' # starting values as ML results
+#' startVals <- c(10, 1, 10, 3, 10, 1)
 #' names(startVals) <- pars(lgcm)
-#' lgcmFakeFit <- fit(lgcm,init=startVals,useOptimizer=FALSE)
-#' stopifnot(identical(startVals,coef(lgcmFakeFit)))
+#' lgcmFakeFit <- fit(lgcm, init = startVals, useOptimizer = FALSE)
+#' stopifnot(identical(startVals, coef(lgcmFakeFit)))
 #' }
 #' @export
-fit.GPPM <-  function(gpModel,init='random',useOptimizer=TRUE,verbose=FALSE,hessian=TRUE,...) {
-  if (useOptimizer){
-    iter<- 10000
-    algorithm <- 'LBFGS' #default
-  }
-  else{
+fit.GPPM <- function(gpModel, init = "random", useOptimizer = TRUE, verbose = FALSE, hessian = TRUE, ...) {
+  if (useOptimizer) {
+    iter <- 10000
+    algorithm <- "LBFGS" # default
+  } else {
     iter <- 0
-    algorithm <- 'Newton'#because for some reason LBFSGS still does an iteration even if iter==0
+    algorithm <- "Newton" # because for some reason LBFSGS still does an iteration even if iter==0
   }
-  if (!init[1]=='random'){
-    validate_simulate(gpModel,init)
-    init = as.list(init)
+  if (!init[1] == "random") {
+    validate_simulate(gpModel, init)
+    init <- as.list(init)
   }
-  if(verbose){
+  if (verbose) {
     outf <- eval
-  }else{
+  } else {
     outf <- utils::capture.output
   }
-  wasError <- FALSE
   gpModel$stanOut <- NULL
-  theOut <- outf( tryCatch(
+  theOut <- outf(tryCatch(
     {
-      gpModel$stanOut <- rstan::optimizing(gpModel$stanModel,gpModel$dataForStan,hessian = hessian,iter=iter,init=init,algorithm=algorithm,as_vector=FALSE)
-    },error=function(cond){
-      if (verbose){
+      gpModel$stanOut <- rstan::optimizing(gpModel$stanModel, gpModel$dataForStan,
+                                           hessian = hessian, iter = iter, init = init,
+                                           algorithm = algorithm, as_vector = FALSE)
+    },
+    error = function(cond) {
+      if (verbose) {
         stop(cond)
-      }}
-  ))
-  if (!verbose & is.null(gpModel$stanOut)){
-    parseErrorOutFit(theOut)
-    for (i in 1:length(theOut)){
-      cat(paste0(theOut[i],'\n'))
+      }
     }
-    stop('Stan error. See above')
+  ))
+  if (!verbose && is.null(gpModel$stanOut)) {
+    parseErrorOutFit(theOut)
+    for (i in seq_along(theOut)) {
+      cat(paste0(theOut[i], "\n"))
+    }
+    stop("Stan error. See above")
   }
-  gpModel$fitRes <- extractFitRes(gpModel$stanOut,gpModel$parsedModel,gpModel$dataForStan[c('nPer','nTime','maxTime','Y')])
+  gpModel$fitRes <- extractFitRes(gpModel$stanOut, gpModel$parsedModel, gpModel$dataForStan[c("nPer", "nTime", "maxTime", "Y")])
   gpModel
 }
 
-parseErrorOutFit <- function(errorOut){
-  if(any(grepl('m is not symmetric', errorOut))){
-    stop('Specified covariance function is not symmetric')
+parseErrorOutFit <- function(errorOut) {
+  if (any(grepl("m is not symmetric", errorOut))) {
+    stop("Specified covariance function is not symmetric")
   }
-  if(any(grepl('m is not positive definite', errorOut))){
-    stop('Specified covariance function is not positive definite')
+  if (any(grepl("m is not positive definite", errorOut))) {
+    stop("Specified covariance function is not positive definite")
   }
 }
