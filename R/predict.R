@@ -201,14 +201,14 @@ plot.GPPMPred <- function(x,plotId,...){
   alphas <- as.factor(c(1,2,3))
   names(x$trueVals[[idIdx]]) <- NULL
   toPlot <- data.frame(mypreds=x$preds[[idIdx]],theMeans=means,lb1=lb1,ub1=ub1,lb2=lb2,ub3=ub3,trueV=x$trueVals[[idIdx]])
-  thePlot <- ggplot(toPlot, aes_string(x=names(toPlot)[1], y='means'))+
-  geom_ribbon(aes_string(ymax='ub3', ymin='lb3',alpha=alphas[1]), fill="black")+
-  geom_ribbon(aes_string(ymax='ub2', ymin='lb2',alpha=alphas[2]), fill="black")+
-  geom_ribbon(aes_string(ymax='ub1', ymin='lb1',alpha=alphas[3]), fill="black")+
-  geom_line(size=1,aes(color='black')) +
-  geom_line(aes_string(y='ub3')) +
-  geom_line(aes_string(y='lb3')) +
-  geom_point(aes_string(y='trueV',shape=shapes[1]))
+  thePlot <- ggplot(toPlot, aes(x = .data[[names(toPlot)[1]]], y = .data$means[["theMeans"]])) +
+  geom_ribbon(aes(ymax = .data[["ub3"]], ymin = .data[["lb3"]], alpha = alphas[1]), fill = "black") +
+  geom_ribbon(aes(ymax = .data[["ub2"]], ymin = .data[["lb2"]], alpha = alphas[2]), fill = "black") +
+  geom_ribbon(aes(ymax = .data[["ub1"]], ymin = .data[["lb1"]], alpha = alphas[3]), fill = "black") +
+  geom_line(linewidth=1,aes(color='black')) +
+  geom_line(aes(y = .data[["ub3"]])) +
+  geom_line(aes(y = .data[["lb3"]])) +
+  geom_point(aes(y = .data[["trueV"]], shape = shapes[1]))
 
   ##plot training data when present
   if (x$type[idIdx]=='conditional'){
