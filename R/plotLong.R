@@ -17,27 +17,28 @@
 #' @return a fitted Gaussian process panel model, which is an object of class 'GPPM'
 #' @examples
 #' data("demoLGCM")
-#' plot(demoLGCM,plotIds=c(1,2,3))
-#' plot(demoLGCM) #five random ids
+#' plot(demoLGCM, plotIds = c(1, 2, 3))
+#' plot(demoLGCM) # five random ids
 #' @method plot LongData
 #' @export
-plot.LongData <- function(x,plotIds,by,ID,DV,...){
-  if (!is.null(attr(x,'preds')) && missing(by)){
-    by <- attr(x,'preds')
+plot.LongData <- function(x, plotIds, by, ID, DV, ...) {
+  if (!is.null(attr(x, "preds")) && missing(by)) {
+    by <- attr(x, "preds")
   }
-  x <- as_LongData(x,ID,DV)
-  idCol <- attr(x,'ID')
-  dvCol <- attr(x,'DV')
-  if(missing(plotIds)){
-    Ids <- unique(x[,idCol])
+  x <- as_LongData(x, ID, DV)
+  idCol <- attr(x, "ID")
+  dvCol <- attr(x, "DV")
+  if (missing(plotIds)) {
+    Ids <- unique(x[, idCol])
     nIds <- length(Ids)
-    plotIds <- sample(Ids,min(5,nIds))
+    plotIds <- sample(Ids, min(5, nIds))
   }
-  plotData <- x[x[,idCol] %in% plotIds,]
-  plotData[,idCol] <- as.factor(plotData[,idCol])
+  plotData <- x[x[, idCol] %in% plotIds, ]
+  plotData[, idCol] <- as.factor(plotData[, idCol])
 
   toPlot <- ggplot(plotData, aes(x = .data[[by]], y = .data[[dvCol]], colour = .data[[idCol]])) +
-    ggplot2::geom_line() + ggthemes::theme_tufte()
+    ggplot2::geom_line() +
+    ggthemes::theme_tufte()
 
   return(toPlot)
 }

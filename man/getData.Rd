@@ -18,8 +18,10 @@ Extracts the data set from a GPPM.
 \examples{
 \donttest{
 data("demoLGCM")
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','y')
+lgcm <- gppm(
+  "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+  demoLGCM, "ID", "y"
+)
 myData <- getData(lgcm)
 }
 }

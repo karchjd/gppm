@@ -22,24 +22,24 @@ gppm is an implementation of Gaussian process panel modeling.
 ## Installation
 
 ```{r, eval = FALSE}
-devtools::install_github('karchjd/gppm')
+devtools::install_github("karchjd/gppm")
 ```
 
 ## Examples
 
 For examples, consult the demos. To see a list of all demos do the following:
 ```{r}
-demo(package='gppm')
+demo(package = "gppm")
 ```
 
 To run a particular example, you can do the following. Here, exemplified for 'example1linearModel':
 ```{r, eval=FALSE}
-demo('example1linearModel',package='gppm')
+demo("example1linearModel", package = "gppm")
 ```
 
 However, the recommended approach is to look at the source directly. To locate the demo folder in which all examples resides on your computer, do the following:
 ```{r}
-system.file("demo", package ="gppm")
+system.file("demo", package = "gppm")
 ```
 
 ## Learning Gaussian Process Panel Modeling

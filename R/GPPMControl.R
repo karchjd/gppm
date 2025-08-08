@@ -1,10 +1,10 @@
-new_GPPMControl <- function(stanModel){
+new_GPPMControl <- function(stanModel) {
   stopifnot(is.logical(stanModel))
 
 
   structure(list(
-    stanModel=stanModel #generate stanModel Object or not
-  ),class='GPPMControl')
+    stanModel = stanModel # generate stanModel Object or not
+  ), class = "GPPMControl")
 }
 
 #' Define settings for a Gaussian process panel model
@@ -17,6 +17,6 @@ new_GPPMControl <- function(stanModel){
 #' @return Settings for a Gaussian process panel model in an object of class 'GPPMControl'
 #' @seealso \code{\link{gppm}}
 #' @export
-gppmControl <- function(stanModel=TRUE){
+gppmControl <- function(stanModel = TRUE) {
   new_GPPMControl(stanModel)
 }

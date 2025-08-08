@@ -20,8 +20,10 @@ A fitted GPPM implies a mean vector and a covariance matrix for each person. The
 \examples{
 \donttest{
 data("demoLGCM")
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','y')
+lgcm <- gppm(
+  "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+  demoLGCM, "ID", "y"
+)
 lgcmFit <- fit(lgcm)
 meansCovs <- fitted(lgcmFit)
 

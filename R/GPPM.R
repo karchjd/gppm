@@ -1,20 +1,20 @@
-new_GPPM <- function(mFormula,cFormula,myData,control){
+new_GPPM <- function(mFormula, cFormula, myData, control) {
   stopifnot(is.character(mFormula))
   stopifnot(is.character(cFormula))
   stopifnot(is.data.frame(myData))
-  stopifnot(class(control)=='GPPMControl')
+  stopifnot(class(control) == "GPPMControl")
 
   structure(list(
-    mFormula=mFormula, #formula for the mean
-    cFormula=cFormula, #formula for the covariance
-    data=myData,       #data must be a data frame
-    control=control,    #list of controls
-    parsedModel=NA,    #model in a parsed format
-    dataForStan=NA,    #data as used for stan
-    stanModel=NA,      #generated stan Model
-    stanOut =NA,       #stan output
-    fitRes=NA          #all the fitting results
-  ),class='GPPM')
+    mFormula = mFormula, # formula for the mean
+    cFormula = cFormula, # formula for the covariance
+    data = myData, # data must be a data frame
+    control = control, # list of controls
+    parsedModel = NA, # model in a parsed format
+    dataForStan = NA, # data as used for stan
+    stanModel = NA, # generated stan Model
+    stanOut = NA, # stan output
+    fitRes = NA # all the fitting results
+  ), class = "GPPM")
 }
 
 
@@ -60,94 +60,94 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #' # Defintion of a latent growth curve model
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' }
 #' @importFrom ggplot2 ggplot aes geom_line geom_point labs theme_minimal
+#' geom_ribbon scale_color_manual scale_alpha_manual scale_shape_manual xlab ylab
 #' @importFrom mvtnorm dmvnorm
 #' @importFrom MASS mvrnorm
 #' @importFrom methods is
 #' @importFrom utils capture.output
 #' @export
-gppm <- function(mFormula,cFormula,myData,ID,DV,control=gppmControl()){
-  myData <- as_LongData(myData,ID,DV)
-  validate_gppm(mFormula,cFormula,myData,control)
+gppm <- function(mFormula, cFormula, myData, ID, DV, control = gppmControl()) {
+  myData <- as_LongData(myData, ID, DV)
+  validate_gppm(mFormula, cFormula, myData, control)
 
-  theModel <- new_GPPM(mFormula,cFormula,myData,control)
+  theModel <- new_GPPM(mFormula, cFormula, myData, control)
   theModel$dataForStan <- as_StanData(myData)
-  theModel$parsedModel <- parseModel(theModel$mFormula,theModel$cFormula,theModel$dataForStan)
-  theModel$stanModel <- toStan(theModel$parsedModel,control)
+  theModel$parsedModel <- parseModel(theModel$mFormula, theModel$cFormula, theModel$dataForStan)
+  theModel$stanModel <- toStan(theModel$parsedModel, control)
   return(theModel)
 }
 
-subsetData <- function(gpModel,rowIdxs){
+subsetData <- function(gpModel, rowIdxs) {
   newModel <- gpModel
-  newModel$data <- gpModel$data[rowIdxs,]
+  newModel$data <- gpModel$data[rowIdxs, ]
   newModel$dataForStan <- as_StanData(newModel$data)
   return(newModel)
 }
 
-updateData <- function(gpModel,newData){
+updateData <- function(gpModel, newData) {
   newModel <- gpModel
   oldData <- getData(newModel)
-  stopifnot(identical(names(oldData),names(newData)))
-  newModel$data <- as_LongData(newData,getID(oldData),getDV(oldData))
+  stopifnot(identical(names(oldData), names(newData)))
+  newModel$data <- as_LongData(newData, getID(oldData), getDV(oldData))
   newModel$dataForStan <- as_StanData(newModel$data)
   # remove invalid fitting results
   newModel$stanOut <- NA
   return(newModel)
 }
 
-validate_gppm <- function(mFormula,cFormula,myData,control){
-  ID <- attr(myData,'ID')
-  DV <- attr(myData,'DV')
+validate_gppm <- function(mFormula, cFormula, myData, control) {
+  ID <- attr(myData, "ID")
+  DV <- attr(myData, "DV")
   stopifnot(!is.null(ID))
   stopifnot(!is.null(DV))
-  #type checks
-  if (!is.character(mFormula)){
-    stop('mFormula must contain a string')
-  } else if(length(mFormula)!=1){
+  # type checks
+  if (!is.character(mFormula)) {
+    stop("mFormula must contain a string")
+  } else if (length(mFormula) != 1) {
 
   }
 
-  if (!(is.character(cFormula)&& length(cFormula)==1)){
-    stop('cFormula must contain a string')
+  if (!(is.character(cFormula) && length(cFormula) == 1)) {
+    stop("cFormula must contain a string")
   }
 
-  if (!is.data.frame(myData)){
-    stop('myData must be a data frame')
+  if (!is.data.frame(myData)) {
+    stop("myData must be a data frame")
   }
 
-  if (!(is.character(ID))){
+  if (!(is.character(ID))) {
     browser()
-    stop('ID must contain a string')
+    stop("ID must contain a string")
   }
 
-  if (!is.character(DV)){
-    stop('DV must contain a string')
+  if (!is.character(DV)) {
+    stop("DV must contain a string")
   }
 
-  if (!class(control)=='GPPMControl'){
-    stop('control must be of class GPPMControl')
+  if (!class(control) == "GPPMControl") {
+    stop("control must be of class GPPMControl")
   }
 
   varNames <- names(myData)
-  allValid <- grepl("^[A-Za-z]+[0-9A-Za-z]*$",varNames)
-  if (any(!allValid)){
-    stop(sprintf('Invalid variable name %s in your data frame. See ?gppm for naming conventions\n',varNames[!allValid]))
+  allValid <- grepl("^[A-Za-z]+[0-9A-Za-z]*$", varNames)
+  if (any(!allValid)) {
+    stop(sprintf("Invalid variable name %s in your data frame. See ?gppm for naming conventions\n", varNames[!allValid]))
   }
 
 
-  if (!"longData" %in% class(myData)){
-    if (!ID %in% names(myData)){
-      stop(sprintf('ID variable %s not in data frame',ID))
+  if (!"longData" %in% class(myData)) {
+    if (!ID %in% names(myData)) {
+      stop(sprintf("ID variable %s not in data frame", ID))
     }
 
-    if (!DV %in% names(myData)){
-      stop(sprintf('DV variable %s not in data frame',DV))
+    if (!DV %in% names(myData)) {
+      stop(sprintf("DV variable %s not in data frame", DV))
     }
   }
 }
-
-
-

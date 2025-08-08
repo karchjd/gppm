@@ -36,11 +36,13 @@ which has been specified using \code{\link{gppm}}.
 \examples{
 \donttest{
 data("demoLGCM")
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','x')
+lgcm <- gppm(
+  "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+  demoLGCM, "ID", "x"
+)
 
-parameterValues <- c(10,-1,0,10,0,0.1)
-names(parameterValues) <-c('muI','muS','varI','varS','covIS','sigma')
-simData <- simulate(lgcm,parameterValues=parameterValues)
+parameterValues <- c(10, -1, 0, 10, 0, 0.1)
+names(parameterValues) <- c("muI", "muS", "varI", "varS", "covIS", "sigma")
+simData <- simulate(lgcm, parameterValues = parameterValues)
 }
 }

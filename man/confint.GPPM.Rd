@@ -24,8 +24,10 @@ Computes confidence intervals for one or more parameters in a fitted GPPM.
 \examples{
 \donttest{
 data("demoLGCM")
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','y')
+lgcm <- gppm(
+  "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+  demoLGCM, "ID", "y"
+)
 lgcmFit <- fit(lgcm)
 confInts <- confint(lgcmFit)
 }

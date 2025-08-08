@@ -12,6 +12,3 @@
 #'
 #' @format A parameter vector.
 "truePars"
-
-
-

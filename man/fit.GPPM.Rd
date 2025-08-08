@@ -35,17 +35,19 @@ which has been specified fit using \code{\link{gppm}}.
 }
 \examples{
 \donttest{
-#regular usage
+# regular usage
 data("demoLGCM")
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','y')
+lgcm <- gppm(
+  "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+  demoLGCM, "ID", "y"
+)
 lgcmFit <- fit(lgcm)
 
-#starting values as ML results
-startVals <- c(10,1,10,3,10,1)
+# starting values as ML results
+startVals <- c(10, 1, 10, 3, 10, 1)
 names(startVals) <- pars(lgcm)
-lgcmFakeFit <- fit(lgcm,init=startVals,useOptimizer=FALSE)
-stopifnot(identical(startVals,coef(lgcmFakeFit)))
+lgcmFakeFit <- fit(lgcm, init = startVals, useOptimizer = FALSE)
+stopifnot(identical(startVals, coef(lgcmFakeFit)))
 }
 }
 \seealso{

@@ -27,6 +27,6 @@ This function is used to plot data from class 'LongData' as it is returned by \c
 }
 \examples{
 data("demoLGCM")
-plot(demoLGCM,plotIds=c(1,2,3))
-plot(demoLGCM) #five random ids
+plot(demoLGCM, plotIds = c(1, 2, 3))
+plot(demoLGCM) # five random ids
 }

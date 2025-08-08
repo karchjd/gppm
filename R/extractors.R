@@ -1,4 +1,3 @@
-
 #' Point Estimates
 #'
 #' Extracts point estimates for all parameters from a fitted GPPM.
@@ -9,14 +8,16 @@
 #' @return Point estimates for all parameters as a named numeric vector.
 #' @examples
 #' \donttest{
-#'  data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' data("demoLGCM")
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
 #' paraEsts <- coef(lgcmFit)
 #' }
 #' @export
-coef.GPPM <- function (object,...){
+coef.GPPM <- function(object, ...) {
   checkFitted(object)
   object$fitRes$paraEsts
 }
@@ -31,14 +32,15 @@ coef.GPPM <- function (object,...){
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
 #' covMat <- vcov(lgcmFit)
 #' }
 #' @export
-vcov.GPPM <- function (object,...)
-{
+vcov.GPPM <- function(object, ...) {
   checkFitted(object)
   object$fitRes$vcov
 }
@@ -53,14 +55,15 @@ vcov.GPPM <- function (object,...)
 #' @return Standard errors for all parameters as a named numeric vector.
 #' @examples
 #' \donttest{
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
 #' stdErrors <- SE(lgcmFit)
 #' }
 #' @export
-SE <- function (object)
-{
+SE <- function(object) {
   checkGPPM(object)
   checkFitted(object)
   sqrt(diag(vcov(object)))
@@ -79,26 +82,30 @@ SE <- function (object)
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
 #' confInts <- confint(lgcmFit)
 #' }
 #' @export
-confint.GPPM <- function(object, parm, level = 0.95,...)
-{
-  cf <- coef(object) #checksfitted
+confint.GPPM <- function(object, parm, level = 0.95, ...) {
+  cf <- coef(object) # checksfitted
   pnames <- names(cf)
-  if (missing(parm))
+  if (missing(parm)) {
     parm <- pnames
-  else if (is.numeric(parm))
+  } else if (is.numeric(parm)) {
     parm <- pnames[parm]
-  a <- (1 - level)/2
+  }
+  a <- (1 - level) / 2
   a <- c(a, 1 - a)
-  fac <- qnorm(a) #besides this line completely the same as confint.lm
+  fac <- qnorm(a) # besides this line completely the same as confint.lm
   pct <- format_perc(a, 3)
-  ci <- array(NA, dim = c(length(parm), 2L), dimnames = list(parm,
-                                                             pct))
+  ci <- array(NA, dim = c(length(parm), 2L), dimnames = list(
+    parm,
+    pct
+  ))
   ses <- sqrt(diag(vcov(object)))[parm]
   ci[] <- cf[parm] + ses %o% fac
   ci
@@ -115,13 +122,15 @@ confint.GPPM <- function(object, parm, level = 0.95,...)
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
 #' ll <- logLik(lgcmFit)
 #' }
 #' @export
-logLik.GPPM <- function(object,...){
+logLik.GPPM <- function(object, ...) {
   checkFitted(object)
   val <- object$fitRes$LL
   attr(val, "nobs") <- object$dataForStan$nPer
@@ -139,8 +148,10 @@ logLik.GPPM <- function(object,...){
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
 #' meansCovs <- fitted(lgcmFit)
 #'
@@ -149,9 +160,9 @@ logLik.GPPM <- function(object,...){
 #' person1ID <- meansCovs$ID[[1]]
 #' }
 #' @export
-fitted.GPPM <- function(object,...){
+fitted.GPPM <- function(object, ...) {
   checkFitted(object)
-  list(mean=object$fitRes$mu,cov=object$fitRes$Sigma,ID=attr(object$dataForStan,'IDs'))
+  list(mean = object$fitRes$mu, cov = object$fitRes$Sigma, ID = attr(object$dataForStan, "IDs"))
 }
 
 #' Number of persons
@@ -164,12 +175,14 @@ fitted.GPPM <- function(object,...){
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' numberPersons <- nPers(lgcm)
 #' }
 #' @export
-nPers <- function (gpModel) {
+nPers <- function(gpModel) {
   gpModel$dataForStan$nPer
 }
 
@@ -185,12 +198,14 @@ nPers <- function (gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' numberParas <- nPars(lgcm)
 #' }
 #' @export
-nPars <- function (gpModel) {
+nPars <- function(gpModel) {
   checkGPPM(gpModel)
   length(gpModel$parsedModel$params)
 }
@@ -206,12 +221,14 @@ nPars <- function (gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' maxNumberObs <- maxNObs(lgcm)
 #' }
 #' @export
-maxNObs <- function (gpModel){
+maxNObs <- function(gpModel) {
   checkGPPM(gpModel)
   gpModel$dataForStan$maxTime
 }
@@ -226,15 +243,17 @@ maxNObs <- function (gpModel){
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
-#' numberObs <-  nObs(lgcm)
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
+#' numberObs <- nObs(lgcm)
 #' }
 #' @export
-nObs <- function (gpModel) {
+nObs <- function(gpModel) {
   checkGPPM(gpModel)
   result <- gpModel$dataForStan$nTime
-  attr(result,'IDs') <- attr(gpModel$dataForStan,'IDs')
+  attr(result, "IDs") <- attr(gpModel$dataForStan, "IDs")
   result
 }
 
@@ -251,12 +270,14 @@ nObs <- function (gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' numberPreds <- nPreds(lgcm)
 #' }
 #' @export
-nPreds <- function (gpModel) {
+nPreds <- function(gpModel) {
   checkGPPM(gpModel)
   gpModel$dataForStan$nPreds
 }
@@ -271,12 +292,14 @@ nPreds <- function (gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' myPreds <- preds(lgcm)
 #' }
 #' @export
-preds <-  function(gpModel) {
+preds <- function(gpModel) {
   checkGPPM(gpModel)
   gpModel$parsedModel$preds
 }
@@ -291,14 +314,16 @@ preds <-  function(gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' parameters <- pars(lgcm)
 #' }
 #' @return The names of the parameters
 #' @export
-pars <- function (gpModel) {
-    gpModel$parsedModel$params
+pars <- function(gpModel) {
+  gpModel$parsedModel$params
 }
 
 
@@ -312,28 +337,30 @@ pars <- function (gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
 #' paramEssentials <- parEsts(lgcmFit)
 #' }
 #' @return A data.frame containing the estimated parameters, standard errors, and the lower and upper bounds of the confidence intervals.
 #' @export
-parEsts <- function (object, level=.95) {
-  stopifnot(level<=1 & level>0)
+parEsts <- function(object, level = .95) {
+  stopifnot(level <= 1 & level > 0)
   checkFitted(object)
-  res <- as.data.frame(matrix(nrow=object$fitRes$nPar,ncol=5))
-  a <- (1 - level)/2
+  res <- as.data.frame(matrix(nrow = object$fitRes$nPar, ncol = 5))
+  a <- (1 - level) / 2
   a <- c(a, 1 - a)
   pct <- format_perc(a, 3)
-  names(res) <- c('Param','Est','SE',pct)
+  names(res) <- c("Param", "Est", "SE", pct)
   paraNames <- pars(object)
   confInters <- confint(object)
-  res[['Param']] <- paraNames
-  res[['Est']] <- coef(object)[paraNames]
-  res[['SE']] <- SE(object)[paraNames]
-  res[[4]] <- confInters[,1][paraNames]
-  res[[5]] <- confInters[,2][paraNames]
+  res[["Param"]] <- paraNames
+  res[["Est"]] <- coef(object)[paraNames]
+  res[["SE"]] <- SE(object)[paraNames]
+  res[[4]] <- confInters[, 1][paraNames]
+  res[[5]] <- confInters[, 2][paraNames]
   res
 }
 
@@ -348,12 +375,14 @@ parEsts <- function (object, level=.95) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' myMean <- meanFun(lgcm)
 #' }
 #' @export
-meanFun <- function (gpModel) {
+meanFun <- function(gpModel) {
   checkGPPM(gpModel)
   gpModel$mFormula
 }
@@ -369,12 +398,14 @@ meanFun <- function (gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' myCov <- covf(lgcm)
 #' }
 #' @export
-covFun <- function (gpModel) {
+covFun <- function(gpModel) {
   checkGPPM(gpModel)
   gpModel$cFormula
 }
@@ -390,12 +421,14 @@ covFun <- function (gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' myData <- getData(lgcm)
 #' }
 #' @export
-getData <- function (gpModel) {
+getData <- function(gpModel) {
   checkGPPM(gpModel)
   gpModel$data
 }
@@ -407,7 +440,7 @@ getData <- function (gpModel) {
 #'
 #' @inheritParams nPers
 #' @param quantity character string. Name of the quantity to extract. Possible values are
-#'\itemize{
+#' \itemize{
 #'   \item "parsedmFormula" for the parsed mean formula
 #'   \item "parsedcFormula" for the parsed covariance formula
 #'   \item "stanData" for the data set in the form needed for rstan
@@ -419,42 +452,53 @@ getData <- function (gpModel) {
 #' @examples
 #' \donttest{
 #' data("demoLGCM")
-#' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-#'         demoLGCM,'ID','y')
+#' lgcm <- gppm(
+#'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+#'   demoLGCM, "ID", "y"
+#' )
 #' lgcmFit <- fit(lgcm)
-#' getIntern(lgcmFit,'parsedmFormula')
+#' getIntern(lgcmFit, "parsedmFormula")
 #' }
 #' @export
-getIntern <- function (gpModel, quantity) {
+getIntern <- function(gpModel, quantity) {
   checkGPPM(gpModel)
-  if (quantity %in% ('stanOut')){
+  if (quantity %in% ("stanOut")) {
     checkFitted(gpModel)
   }
-  switch(quantity,parsedmFormula=gpModel$parsedModel$mFormula,parsedcFormula=gpModel$parsedModel$kFormula,stanData=gpModel$dataForStan,
-         stanModel=gpModel$stanModel,stanOut=gpModel$stanOut,stop(sprintf('Unkown quantity %s',quantity)))
+  switch(quantity,
+    parsedmFormula = gpModel$parsedModel$mFormula,
+    parsedcFormula = gpModel$parsedModel$kFormula,
+    stanData = gpModel$dataForStan,
+    stanModel = gpModel$stanModel,
+    stanOut = gpModel$stanOut,
+    stop(sprintf("Unkown quantity %s", quantity))
+  )
 }
 
-isFitted <-  function(gpModel) {
-  class(gpModel$fitRes)=="StanData"
+isFitted <- function(gpModel) {
+  class(gpModel$fitRes) == "StanData"
 }
 
-isGPPM <-  function(gpModel) {
-  inherits(gpModel,'GPPM')
+isGPPM <- function(gpModel) {
+  inherits(gpModel, "GPPM")
 }
 
-checkFitted <- function(gpModel){
-  if (!isFitted(gpModel)){
-    stop('gpModel must be fitted using fit() first!')
+checkFitted <- function(gpModel) {
+  if (!isFitted(gpModel)) {
+    stop("gpModel must be fitted using fit() first!")
   }
 }
 
-checkGPPM <- function(gpModel){
-  if (!isGPPM(gpModel)){
-    stop('gpModel must inherit \'GPPM\'')
+checkGPPM <- function(gpModel) {
+  if (!isGPPM(gpModel)) {
+    stop("gpModel must inherit 'GPPM'")
   }
 }
 
-#copied from interal stats function
-format_perc <- function (probs, digits)
-  paste(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits),
-        "%")
+# copied from interal stats function
+format_perc <- function(probs, digits) {
+  paste(
+    format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits),
+    "%"
+  )
+}

@@ -23,11 +23,13 @@ The fold vector, must be a vector of length nrow(getData(gpModel)) of integers f
 \examples{
 \donttest{
 data("demoLGCM")
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','y')
-theFolds <- createLeavePersonsOutFolds(lgcm,k=2) #for speed, in practive rather use default k=10
-crosRes <- crossvalidate(lgcm,theFolds)
-crosRes$MSE #mean squared error
-crosRes$nLPP #negative log-predictive probability
+lgcm <- gppm(
+  "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+  demoLGCM, "ID", "y"
+)
+theFolds <- createLeavePersonsOutFolds(lgcm, k = 2) # for speed, in practive rather use default k=10
+crosRes <- crossvalidate(lgcm, theFolds)
+crosRes$MSE # mean squared error
+crosRes$nLPP # negative log-predictive probability
 }
 }

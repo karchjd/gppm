@@ -20,8 +20,10 @@ Returns the variance-covariance matrix of the parameters of a fitted GPPM.
 \examples{
 \donttest{
 data("demoLGCM")
-lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
-        demoLGCM,'ID','y')
+lgcm <- gppm(
+  "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
+  demoLGCM, "ID", "y"
+)
 lgcmFit <- fit(lgcm)
 covMat <- vcov(lgcmFit)
 }
