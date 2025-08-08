@@ -33,12 +33,14 @@ betterRegMatches <- function(modString, resGreg, value = " ") {
 extractParamsPreds <- function(myFormula, myData) {
   ## constants
   specialChar <- "#"
-  splitters <- c("[[:alnum:]]*\\(", "\\(", "\\)", "\\+", "\\-", "\\*", "/", "%", "<", "<=", ">", ">=", "==", "!=", "!", "&&", "||", "\\^", ",")
+  splitters <- c("[[:alnum:]]*\\(", "\\(", "\\)", "\\+", "\\-", "\\*", "/",
+                 "%", "<", "<=", ">", ">=", "==", "!=", "!", "&&", "||",
+                 "\\^", ","
+                 )
 
   ## detect and remove reserved characters used for functions, operators etc.
   # detect
-  regExp <- paste0(splitters, "|", collapse = "")
-  regExp <- substr(regExp, 1, nchar(regExp) - 1)
+  regExp <- paste0(splitters, collapse = "|")
   grepRes <- gregexpr(regExp, myFormula)
 
   # remove
@@ -64,7 +66,7 @@ extractParamsPreds <- function(myFormula, myData) {
     newFormula <- betterRegMatches(newFormula, predPos)
   }
 
-  ## extract parameters
+  ##  extract remaining tokens as parameters
   newFormula <- gsub("^[[:space:]]+", "", newFormula) # remove spaces at the beginning
   params <- strsplit(newFormula, "[[:space:]]+")[[1]]
   isnotNumber <- suppressWarnings(is.na(as.double(params)))
