@@ -96,7 +96,7 @@ confint.GPPM <- function(object, parm, level = 0.95,...)
   a <- (1 - level)/2
   a <- c(a, 1 - a)
   fac <- qnorm(a) #besides this line completely the same as confint.lm
-  pct <- format.perc(a, 3)
+  pct <- format_perc(a, 3)
   ci <- array(NA, dim = c(length(parm), 2L), dimnames = list(parm,
                                                              pct))
   ses <- sqrt(diag(vcov(object)))[parm]
@@ -325,7 +325,7 @@ parEsts <- function (object, level=.95) {
   res <- as.data.frame(matrix(nrow=object$fitRes$nPar,ncol=5))
   a <- (1 - level)/2
   a <- c(a, 1 - a)
-  pct <- format.perc(a, 3)
+  pct <- format_perc(a, 3)
   names(res) <- c('Param','Est','SE',pct)
   paraNames <- pars(object)
   confInters <- confint(object)
@@ -455,6 +455,6 @@ checkGPPM <- function(gpModel){
 }
 
 #copied from interal stats function
-format.perc <- function (probs, digits)
+format_perc <- function (probs, digits)
   paste(format(100 * probs, trim = TRUE, scientific = FALSE, digits = digits),
         "%")
