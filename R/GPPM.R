@@ -63,12 +63,8 @@ new_GPPM <- function(mFormula,cFormula,myData,control){
 #' lgcm <- gppm('muI+muS*t','varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma',
 #'         demoLGCM,'ID','y')
 #' }
-#' @import rstan
-#' @import ggplot2
-#' @import ggthemes
-#' @import Rcpp
+#' @importFrom ggplot2 ggplot aes geom_line geom_point labs theme_minimal
 #' @importFrom mvtnorm dmvnorm
-#' @import stats
 #' @importFrom MASS mvrnorm
 #' @importFrom methods is
 #' @importFrom utils capture.output
