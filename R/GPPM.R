@@ -104,16 +104,17 @@ updateData <- function(gpModel, newData) {
 validate_gppm <- function(mFormula, cFormula, myData, control) {
   ID <- attr(myData, "ID")
   DV <- attr(myData, "DV")
-  stopifnot(!is.null(ID))
-  stopifnot(!is.null(DV))
+  stopifnot(!is.null(ID), !is.null(DV))
   # type checks
   if (!is.character(mFormula)) {
     stop("mFormula must contain a string")
-  } else if (length(mFormula) != 1) {
-
   }
 
-  if (!(is.character(cFormula) && length(cFormula) == 1)) {
+  if (length(mFormula) != 1) {
+    stop("mFormula must only have length 1")
+  }
+
+  if (!is.character(cFormula)) {
     stop("cFormula must contain a string")
   }
 
@@ -122,7 +123,6 @@ validate_gppm <- function(mFormula, cFormula, myData, control) {
   }
 
   if (!(is.character(ID))) {
-    browser()
     stop("ID must contain a string")
   }
 
@@ -130,23 +130,24 @@ validate_gppm <- function(mFormula, cFormula, myData, control) {
     stop("DV must contain a string")
   }
 
-  if (!class(control) == "GPPMControl") {
+  if (!inherits(control, "GPPMControl")) {
     stop("control must be of class GPPMControl")
   }
 
   varNames <- names(myData)
   allValid <- grepl("^[A-Za-z]+[0-9A-Za-z]*$", varNames)
   if (any(!allValid)) {
-    stop(sprintf("Invalid variable name %s in your data frame. See ?gppm for naming conventions\n", varNames[!allValid]))
+    stop(sprintf("Invalid variable name %s in your data frame. See ?gppm for naming conventions\n",
+                 varNames[!allValid]
+                 ))
   }
 
-
-  if (!"longData" %in% class(myData)) {
-    if (!ID %in% names(myData)) {
+  if (!inherits(myData, "LongData")) {
+    if (!ID %in% varNames) {
       stop(sprintf("ID variable %s not in data frame", ID))
     }
 
-    if (!DV %in% names(myData)) {
+    if (!DV %in% varNames) {
       stop(sprintf("DV variable %s not in data frame", DV))
     }
   }
