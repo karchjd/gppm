@@ -35,6 +35,7 @@ as_StanData <-  function(myData, ...) {
   UseMethod("as_StanData")
 }
 
+#' @export
 as_StanData.LongData <- function(myData, ...) {
   ##constants
   fakeData <- 10^100
@@ -79,6 +80,7 @@ as_StanData.LongData <- function(myData, ...) {
   StanData(X,Y,nPer,nTime,maxTime,nPreds,uniqueIDs)
 }
 
+#' @export
 as_StanData.default <- function(x, ...) {
     stop(
       "Don't know how to coerce object of class ",
