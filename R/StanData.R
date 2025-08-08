@@ -44,15 +44,15 @@ as_StanData.LongData <- function(myData, ...) {
   ## helper vars
   IDField <- attr(myData, "ID")
   YField <- attr(myData, "DV")
-  IDs <- myData[, IDField]
-  uniqueIDs <- unique(myData[, IDField])
+  IDs <- myData[[IDField]]
+  uniqueIDs <- unique(IDs)
   xCols <- setdiff(names(myData), c(IDField, YField))
 
   ## helper output
   nPer <- length(uniqueIDs)
   nTime <- table(IDs)[as.character(uniqueIDs), drop = FALSE]
   maxTime <- max(nTime)
-  nPreds <- ncol(myData) - 2
+  nPreds <- length(xCols)
 
 
   ## real data out
