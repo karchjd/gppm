@@ -21,15 +21,11 @@ toStan <- function(parsedModel, control) {
       {
         theOutOut <- utils::capture.output(theModel <- rstan::stan_model(model_code = theCode, auto_write = TRUE), type = "output")
         print(theOutOut)
-      },
-      error = function(cond) {
-        theModel <- NULL
-      }
-    ), type = "message")
+      }), type = "message")
 
     if (is.null(theModel)) {
       parseErrorOuttoStan(theOut)
-      for (i in 1:length(theOut)) {
+      for (i in seq_along(theOut)) {
         message(theOut[i])
       }
       stop("Stan error. See above")
