@@ -1,5 +1,5 @@
 Package: gppm
-Version: 0.2.9000
+Version: 0.3.0
 Title: Gaussian Process Panel Modeling
 Description: Provides an implementation of Gaussian process panel modeling (GPPM). 
               GPPM is described in Karch, Brandmaier & Voelkle (2020; <DOI:10.3389/fpsyg.2020.00351>) and Karch (2016; <DOI:10.18452/17641>).
