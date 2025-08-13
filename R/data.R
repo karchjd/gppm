@@ -11,4 +11,4 @@
 #' Parameters used for generating \code{\link{demoLGCM}}.
 #'
 #' @format A parameter vector.
-"truePars"
+"trueParas"

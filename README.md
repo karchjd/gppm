@@ -40,7 +40,7 @@ system.file("demo", package ="gppm")
 Learning Gaussian Process Panel Modeling
 ----------------------------------------
 
-This [dissertation](https://edoc.hu-berlin.de/handle/18452/18293) and this [paper](https://psyarxiv.com/kvw5y/) describe the method.
+This [dissertation](https://edoc.hu-berlin.de/handle/18452/18293) and this [paper](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00351/full) describe the method.
 
 Getting help
 ------------

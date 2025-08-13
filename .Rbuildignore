@@ -10,3 +10,4 @@ cran-comments.md
 revdep
 ^appveyor\.yml$
 ^codecov\.yml$
+^cran-comments\.md$

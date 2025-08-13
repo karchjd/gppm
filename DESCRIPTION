@@ -2,19 +2,18 @@ Package: gppm
 Version: 0.2.9000
 Title: Gaussian Process Panel Modeling
 Description: Provides an implementation of Gaussian process panel modeling (GPPM). 
-              GPPM is described in Karch (2016; <DOI:10.18452/17641>) and Karch, Brandmaier & Voelkle (2018; <DOI:10.17605/OSF.IO/KVW5Y>).
+              GPPM is described in Karch, Brandmaier & Voelkle (2020; <DOI:10.3389/fpsyg.2020.00351>) and Karch (2016; <DOI:10.18452/17641>).
               Essentially, GPPM is Gaussian process based modeling of longitudinal panel data.
               'gppm' also supports regular Gaussian process regression (with a focus on flexible model specification), and multi-task learning.
 Authors@R: c(person(c("Julian", "D."), "Karch", email="j.d.karch@fsw.leidenuniv.nl", role=c("aut", "cre", "cph")))
 Depends:
-    R (>= 3.1.0),
+    R (>= 3.5)
 Imports:
     rstan (>= 2.17.3),
     ggplot2 (>= 2.2.1),
     MASS (>= 7.3-49),
     ggthemes (>= 3.5.0),
     mvtnorm (>= 1.0-8),
-    stringr (>= 1.3.1),
     stats,
     methods
 Suggests:

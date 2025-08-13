@@ -1,4 +1,4 @@
-# gppm 0.2.9000
+# gppm 0.3.0
 * renamed a lot of the utility functions
 * Better error messages
 * Added appveyor for automatic testing on windows.

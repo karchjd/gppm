@@ -81,10 +81,10 @@ as_StanData.LongData <- function(myData, ...) {
 }
 
 #' @export
-as_StanData.default <- function(x, ...) {
+as_StanData.default <- function(myData, ...) {
   stop(
     "Don't know how to coerce object of class ",
-    paste(class(x), collapse = "/"), " into Stan Data",
+    paste(class(myData), collapse = "/"), " into Stan Data",
     call. = FALSE
   )
 }

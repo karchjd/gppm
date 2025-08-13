@@ -71,6 +71,7 @@ new_GPPM <- function(mFormula, cFormula, myData, control) {
 #' @importFrom MASS mvrnorm
 #' @importFrom methods is
 #' @importFrom utils capture.output
+#' @importFrom stats simulate vcov coef qnorm predict coef fitted AIC BIC runif logLik confint
 #' @export
 gppm <- function(mFormula, cFormula, myData, ID, DV, control = gppmControl()) {
   myData <- as_LongData(myData, ID, DV)
