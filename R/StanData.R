@@ -55,7 +55,6 @@ as_StanData.LongData <- function(myData, ...) {
   nPreds <- length(xCols)
 
 
-  ## real data out
   # init
   xMatrices <- matrix(data = fakeData, nrow = maxTime, ncol = nPreds)
   colnames(xMatrices) <- xCols

@@ -142,13 +142,11 @@ validate_gppm <- function(mFormula, cFormula, myData, control) {
                  ))
   }
 
-  if (!inherits(myData, "LongData")) {
-    if (!ID %in% varNames) {
-      stop(sprintf("ID variable %s not in data frame", ID))
-    }
+  if (!ID %in% varNames) {
+    stop(sprintf("ID variable %s not in data frame", ID))
+  }
 
-    if (!DV %in% varNames) {
-      stop(sprintf("DV variable %s not in data frame", DV))
-    }
+  if (!DV %in% varNames) {
+    stop(sprintf("DV variable %s not in data frame", DV))
   }
 }

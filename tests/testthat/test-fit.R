@@ -24,7 +24,7 @@ test_that("failing fit", {
   skip_on_cran()
   failFit <- gppm(
     "muI", "aConst",
-    demoLGCM, "ID", "x"
+    demoLGCM, "ID", "y"
   )
   expect_error(fit(failFit), "Stan error*")
 })

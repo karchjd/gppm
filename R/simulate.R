@@ -20,7 +20,7 @@
 #' data("demoLGCM")
 #' lgcm <- gppm(
 #'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
-#'   demoLGCM, "ID", "x"
+#'   demoLGCM, "ID", "y"
 #' )
 #'
 #' parameterValues <- c(10, -1, 0, 10, 0, 0.1)
