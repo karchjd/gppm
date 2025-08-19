@@ -69,9 +69,13 @@ new_GPPM <- function(mFormula, cFormula, myData, control) {
 #' geom_ribbon scale_color_manual scale_alpha_manual scale_shape_manual xlab ylab
 #' @importFrom mvtnorm dmvnorm
 #' @importFrom MASS mvrnorm
-#' @importFrom methods is
 #' @importFrom utils capture.output
 #' @importFrom stats simulate vcov coef qnorm predict coef fitted AIC BIC runif logLik confint
+#' @import Rcpp
+#' @import methods
+#' @importFrom rstan sampling
+#' @importFrom rstantools rstan_config
+#' @importFrom RcppParallel RcppParallelLibs
 #' @export
 gppm <- function(mFormula, cFormula, myData, ID, DV, control = gppmControl()) {
   myData <- as_LongData(myData, ID, DV)
