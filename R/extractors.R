@@ -402,7 +402,7 @@ meanFun <- function(gpModel) {
 #'   "muI+muS*t", "varI+covIS*(t+t#)+varS*t*t#+(t==t#)*sigma",
 #'   demoLGCM, "ID", "y"
 #' )
-#' myCov <- covf(lgcm)
+#' myCov <- covFun(lgcm)
 #' }
 #' @export
 covFun <- function(gpModel) {
