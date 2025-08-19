@@ -50,7 +50,7 @@ new_GPPM <- function(mFormula, cFormula, myData, control) {
 #' Parameters: Parameters may not have the same name as any of the columns in myData to avoid confusing them with a reference to an observed variable.
 #'  Furthermore, to avoid confusing them with functions, operators, or constants, parameter labels must always begin with a lower case letter and only contain letters and digits.
 #'
-#' Functions and operators: All functions and operators that are supported by stan can be used; see \url{http://mc-stan.org/users/documentation/} for a full list. In general, all basic operators and functions are supported.
+#' Functions and operators: All functions and operators that are supported by stan can be used; see \url{https://mc-stan.org/docs/} for a full list. In general, all basic operators and functions are supported.
 #'
 #' References: A reference must be the same as one of the elements of the output of \code{names(myData)}. For references, the same rules apply as for parameters. That is, the column names of myData may only contain letters and digits and must start with a letter.
 #'

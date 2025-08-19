@@ -4,7 +4,7 @@
 
   <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-  ```{r, echo = FALSE}
+```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -13,7 +13,10 @@ knitr::opts_chunk$set(
 ```
 
 
-[![Travis-CI Build Status](https://travis-ci.org/karchjd/gppm.svg?branch=master)](https://travis-ci.org/karchjd/gppm)<!-- [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggplot2)](https://cran.r-project.org/package=ggplot2)--> [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/karchjd/gppm?branch=master&svg=true)](https://ci.appveyor.com/project/karchjd/gppm) [![Coverage Status](https://img.shields.io/codecov/c/github/karchjd/gppm/master.svg)](https://codecov.io/github/karchjd/gppm?branch=master)
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/karchjd/gppm/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/karchjd/gppm/actions/workflows/R-CMD-check.yaml)
+  [![Codecov test coverage](https://codecov.io/gh/karchjd/gppm/graph/badge.svg)](https://app.codecov.io/gh/karchjd/gppm)
+  <!-- badges: end -->
 
 ## Overview
 
@@ -51,4 +54,4 @@ This [dissertation][diss] and this [paper][pap] describe the method.
 Send an email to j.d.karch@fsw.leidenuniv.nl.
 
 [diss]: https://edoc.hu-berlin.de/handle/18452/18293
-[pap]: https://psyarxiv.com/kvw5y/
+[pap]: https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2020.00351/full
