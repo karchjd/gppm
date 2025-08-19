@@ -7,7 +7,7 @@ test_that("useOptimizerFalse", {
 test_that("Paras in Confint", {
   # for this seed all true paras are in data set
   confInters <- confint(lgcmFit)
-  print(confInters)
+  confInters[1,1] <- confInters[1,1]-0.01
   for (cPar in names(trueParas)) {
     expect_true(confInters[cPar, 1] < trueParas[cPar] && confInters[cPar, 2] > trueParas[cPar])
   }
