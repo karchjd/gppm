@@ -7,5 +7,5 @@ lgcm <- gppm(
 parameterValues <- trueParas
 mlValues <- c(57.86418519, -0.96213162, 4.42108943, 0.22716305, 0.95216303, 0.01003411)
 names(mlValues) <- c("muI", "muS", "varI", "covIS", "varS", "sigma")
-lgcmFit <- fit(lgcm, init = mlValues)
+lgcmFit <- fit(lgcm, init = mlValues, verbose = TRUE)
 modelForExtract <- lgcmFit

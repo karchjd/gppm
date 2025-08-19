@@ -23,8 +23,9 @@ transformed parameters{
       }
     }
 	if(i==1){
-	  print(Sigma[1,1:nTime[i],1:nTime[i]]);
+	  # print(Sigma[1,1:nTime[i],1:nTime[i]]);
 		print(eigenvalues_sym(Sigma[1,1:nTime[i],1:nTime[i]]));
+		print("");
 	}
     cholSigma[i,1:nTime[i],1:nTime[i]] = cholesky_decompose(Sigma[i,1:nTime[i],1:nTime[i]]);
   }
