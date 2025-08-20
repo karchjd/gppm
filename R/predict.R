@@ -205,7 +205,7 @@ plot.GPPMPred <- function(x, plotId, ...) {
   alphas <- as.factor(c(1, 2, 3))
   names(x$trueVals[[idIdx]]) <- NULL
   toPlot <- data.frame(mypreds = x$preds[[idIdx]], theMeans = means, lb1 = lb1, ub1 = ub1, ub2 = ub2, lb2 = lb2, ub3 = ub3, lb3 = lb3, trueV = x$trueVals[[idIdx]])
-  thePlot <- ggplot(toPlot, aes(x = .data[[names(toPlot)[1]]], y = .data$means[["theMeans"]])) +
+  thePlot <- ggplot(toPlot, aes(x = .data[[names(toPlot)[1]]], y = .data$"theMeans")) +
     geom_ribbon(aes(ymax = .data$ub3, ymin = .data$lb3, alpha = alphas[1]), fill = "black") +
     geom_ribbon(aes(ymax = .data$ub2, ymin = .data$lb2, alpha = alphas[2]), fill = "black") +
     geom_ribbon(aes(ymax = .data$ub1, ymin = .data$lb1, alpha = alphas[3]), fill = "black") +
