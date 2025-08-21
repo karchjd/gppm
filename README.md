@@ -24,7 +24,6 @@ following:
 
 ``` r
 demo(package = "gppm")
-#> no demos found
 ```
 
 To run a particular example, you can do the following. Here, exemplified
@@ -40,7 +39,7 @@ do the following:
 
 ``` r
 system.file("demo", package = "gppm")
-#> [1] ""
+#> [1] "/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/gppm/demo"
 ```
 
 ## Learning Gaussian Process Panel Modeling
