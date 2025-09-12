@@ -1,3 +1,6 @@
+# gppm 0.3.1
+* just updated tests to conform to ggplot2 version 4
+
 # gppm 0.3.0
 * renamed a lot of the utility functions
 * Better error messages
