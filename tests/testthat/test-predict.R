@@ -62,7 +62,7 @@ test_that("thePlot", {
   newData[, c("t")] <- newData[, c("t")] + 0.0000001
   thePreds <- predict(lgcmFit, newData)
   tmp <- plot(thePreds, 10)
-  expect_equal(class(tmp)[1], "gg")
+  expect_s3_class(tmp, "gg")
 })
 
 test_that("thePlot2", {
@@ -72,5 +72,5 @@ test_that("thePlot2", {
   newData <- data.frame(ID = rep(10, n), t = theTs, y = rep(NA, n))
   thePreds <- predict(lgcmFit, newData)
   tmp <- plot(thePreds, 10)
-  expect_equal(class(tmp)[1], "gg")
+  expect_s3_class(tmp, "gg")
 })
